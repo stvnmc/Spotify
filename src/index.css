@@ -133,8 +133,9 @@ main {
 
 .navBar {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  height: 60px;
+  height: 40px;
 }
 
 .navBar nav {
@@ -175,7 +176,51 @@ main {
 }
 
 .inputSearch {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 279px;
+  height: 45px;
   position: absolute;
   top: 11px;
-  left: 123px;
+  left: 102px;
+  background-color: #242424;
+  border-radius: 28px;
+  border: 2px solid transparent;
+}
+.inputSearch:hover {
+  border: 2px solid #fff;
+}
+.inputSearch svg {
+  margin: 0 5px 0 11px;
+  font-size: 21px;
+}
+.inputSearch input {
+  border: none;
+  background-color: transparent;
+}
+
+.inputSearch input:focus {
+  outline: none;
+}
+
+/*  */
+.album {
+  display: flex;
+}
+
+.contAlbum {
+  width: 185px;
+  height: 251px;
+  padding: 14px;
+  background-color: #161618;
+}
+
+.contAlbum img {
+  width: 186px;
+}
+
+.dateArtis {
+  display: flex;
+  justify-content: space-around;
 }

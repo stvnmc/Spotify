@@ -5,16 +5,15 @@ import Derecha from "./components/Derecha";
 import NavBar from "./components/NavBar";
 import Artist from "./page/Artist";
 import Login from "./page/Login";
-import Search from "./components/Derecha";
 import { useAuth } from "./context/AuthContext";
 import Finding from "./page/Finding";
 
 const App = () => {
-  const { storedCode } = useAuth();
+  const { spotyCode } = useAuth();
 
   return (
     <BrowserRouter>
-      {storedCode === null ? (
+      {spotyCode === null ? (
         <Login />
       ) : (
         <>
