@@ -19,18 +19,6 @@
   padding: 0;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-}
-
 button {
   border-radius: 30px;
   margin-right: 0.7rem;
@@ -43,14 +31,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
 
 body {
   width: 100vw;
   height: 100vh;
   background-color: #030203;
+  overflow-y: hidden;
 }
 
 .reproduccion {
@@ -160,6 +146,16 @@ main {
   margin-top: 1rem;
   height: 93%;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.search::-webkit-scrollbar {
+  width: 12px;
+}
+
+.search::-webkit-scrollbar-thumb {
+  background-color: #5b5a5b;
+  height: 20px;
 }
 
 .inputSearch {
@@ -192,24 +188,54 @@ main {
 }
 
 /*  */
+.artis,
 .album {
   display: flex;
+  flex-wrap: wrap;
 }
 
+.contArtist,
 .contAlbum {
-  width: 185px;
+  display: flex;
+  flex-direction: column;
+  margin: 0px 21px 24px 0px;
+  border-radius: 10px;
   height: 251px;
   padding: 14px;
   background-color: #161618;
 }
 
-.contAlbum img {
-  width: 186px;
+.contArtist .contImg {
+  margin-bottom: 15px;
+  width: 165px;
+  height: 165px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  overflow: hidden;
 }
 
-.dateArtis {
+.contAlbum .contImg {
+  margin-bottom: 15px;
+  width: 165px;
+  height: 165px;
+  border-radius: 7px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.dateAlbum {
   display: flex;
-  justify-content: space-around;
+  align-items: center;
+}
+
+.ContImgText > h1:nth-child(2) {
+  color: #909191;
+  font-weight: 400;
+  font-size: 0.9rem;
 }
 
 /* ///////////////////////   StartSearch   /////////////////////////// */
@@ -237,6 +263,19 @@ main {
   width: 333px;
   padding: 20px;
   border-radius: 10px;
+}
+
+.dateAlbum h1 {
+  color: #909191;
+  font-weight: 400;
+  font-size: 1rem;
+}
+.dateAlbum div {
+  background-color: #909191;
+  margin: 1px 6px 0px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
 }
 
 .searchMain img {

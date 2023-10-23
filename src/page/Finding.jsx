@@ -1,7 +1,7 @@
 import React from "react";
 import { BiSearch } from "react-icons/bi";
 import { useSearch } from "../context/SearchContext";
-import CartItems from "../components/cartItems";
+import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsTrack from "../components/CartItemsTrack";
 
@@ -22,7 +22,7 @@ const Finding = () => {
           <nav>
             <button>Todo</button>
             <button>Artists</button>
-            <button>Sons</button> 
+            <button>Sons</button>
             <button>Albums</button>
             <button>Playlist</button>
           </nav>
@@ -49,7 +49,7 @@ const Finding = () => {
           </div>
           <div>
             <h1>Artis</h1>
-            <div className="album">
+            <div className="artis">
               {artist &&
                 artist.map((artis, i) => (
                   <CartItemsArtis artis={artis} key={i} />
@@ -60,7 +60,9 @@ const Finding = () => {
             <h1>Album</h1>
             <div className="album">
               {album &&
-                album.map((artis, i) => <CartItems artis={artis} key={i} />)}
+                album.map((artis, i) => (
+                  <CartItemsAlbum artis={artis} key={i} />
+                ))}
             </div>
           </div>
         </>
