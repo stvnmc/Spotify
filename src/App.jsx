@@ -7,6 +7,7 @@ import Artist from "./page/Artist";
 import Login from "./page/Login";
 import { useAuth } from "./context/AuthContext";
 import Finding from "./page/Finding";
+import Footer from "./components/Footer";
 
 const App = () => {
   const { spotyCode } = useAuth();
@@ -26,8 +27,8 @@ const App = () => {
                 <Route path="/artist" element={<Artist />} />
                 <Route path="/search" element={<Finding />} />
                 <Route path="/track" />
-                {/* <Route path="/search" element={<Search />} /> */}
               </Routes>
+              <Footer />
             </main>
           </section>
           <Reproducion />

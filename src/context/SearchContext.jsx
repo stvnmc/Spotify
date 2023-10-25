@@ -16,30 +16,29 @@ export const useSearch = () => {
 
 export const SearchProvider = ({ children }) => {
   const { spotyCode } = useAuth();
-  const [album, setAbum] = useState(null);
-  const [artist, setArtist] = useState(null);
-  const [track, setTrack] = useState(null);
-  const [inSong, setInfoSong] = useState(null);
+  const [album, setAbum] = useState([]);
+  const [artist, setArtist] = useState([]);
+  const [track, setTrack] = useState([]);
+  const [inSong, setInfoSong] = useState([]);
 
-  function saveDataToLocalStorage() {
-    console.log("hola");
-  }
+  function saveDataToLocalStorage() {}
 
   const funcionSearch = async (nameId) => {
     if (nameId) {
-      const resgetAlbum = await getAlbum(spotyCode, nameId);
-      setAbum(resgetAlbum);
-
       const resgetArtist = await getArtist(spotyCode, nameId);
       setArtist(resgetArtist);
+
+      const resgetAlbum = await getAlbum(spotyCode, nameId);
+      setAbum(resgetAlbum);
 
       const resGetTrack = await getTrack(spotyCode, nameId);
       setTrack(resGetTrack);
 
       saveDataToLocalStorage();
     } else {
-      setArtist(null);
-      setAbum(null);
+      setArtist([]);
+      setAbum([]);
+      setTrack([]);
     }
   };
 
@@ -50,7 +49,14 @@ export const SearchProvider = ({ children }) => {
 
   return (
     <SearchContext.Provider
-      value={{ funcionSearch, album, artist, track, infoGetAudio, inSong }}
+      value={{
+        funcionSearch,
+        album,
+        artist,
+        track,
+        infoGetAudio,
+        inSong,
+      }}
     >
       {children}
     </SearchContext.Provider>

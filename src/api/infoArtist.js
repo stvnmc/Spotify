@@ -15,7 +15,6 @@ export const getAlbum = async (accessToken, nameId) => {
     );
     return response.data.albums.items;
   } catch (error) {
-    console.log("ok");
     console.log(error);
   }
 };

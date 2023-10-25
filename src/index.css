@@ -187,9 +187,24 @@ main {
   outline: none;
 }
 
+.menu {
+  display: flex;
+  position: absolute;
+  top: 69px;
+  background-color: #131312;
+  width: 96%;
+  padding: 5px 0 7px 0px;
+}
+
 /*  */
+
+.list > h1:first-child {
+  font-size: 1.5rem;
+}
+
 .artis,
 .album {
+  margin-top: 1.4rem;
   display: flex;
   flex-wrap: wrap;
 }
@@ -200,7 +215,7 @@ main {
   flex-direction: column;
   margin: 0px 21px 24px 0px;
   border-radius: 10px;
-  height: 251px;
+  height: 235px;
   padding: 14px;
   background-color: #161618;
 }
@@ -240,6 +255,7 @@ main {
 
 /* ///////////////////////   StartSearch   /////////////////////////// */
 .StartSearch {
+  margin-top: 2rem;
   display: flex;
   flex-wrap: wrap;
 }
@@ -263,6 +279,10 @@ main {
   width: 333px;
   padding: 20px;
   border-radius: 10px;
+}
+
+.contName h1 {
+  font-size: 1rem;
 }
 
 .dateAlbum h1 {
@@ -327,6 +347,7 @@ main {
 }
 
 .text > h1:nth-child(2) {
-  font-weight: 500;
-  font-size: 1rem;
+  color: #909191;
+  font-weight: 400;
+  font-size: 0.9rem;
 }

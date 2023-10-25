@@ -3,7 +3,9 @@ import { useSearch } from "../context/SearchContext";
 
 const CartItemsTrack = ({ song }) => {
   const { infoGetAudio, inSong } = useSearch();
+
   let ms;
+
   if (inSong) ms = inSong.duration_ms;
 
   const minutes = Math.floor(ms / 60000);

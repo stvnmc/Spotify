@@ -5,10 +5,8 @@ import { VscLibrary } from "react-icons/vsc";
 import { AiFillHeart } from "react-icons/ai";
 import { FiMusic } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import { useSearch } from "../context/SearchContext";
 
 const derecha = () => {
-  const { setIsSearching } = useSearch();
 
   return (
     <header>
