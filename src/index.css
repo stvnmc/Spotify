@@ -1,17 +1,7 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+  color: #fff;
 }
 
 * {
@@ -25,7 +15,7 @@ button {
   border: 1px solid transparent;
   padding: 0.3em 0.9em;
   font-size: 0.9em;
-  font-weight: 500;
+  font-weight: 400;
   font-family: inherit;
   background-color: #1e1f1f;
   cursor: pointer;
@@ -52,14 +42,14 @@ body {
   padding: 0.5rem;
 }
 
-/* Header */
+/* Header esta es la parte derecha de la pagina seria como el header */
 
 header {
 }
 
 .bottomNav,
 .topNav {
-  width: 69px;
+  width: 65px;
   display: flex;
   flex-direction: column;
   background-color: #131312;
@@ -67,31 +57,52 @@ header {
   align-items: center;
 }
 
-/*  tama;o de los icons */
+/*  tama;o de los icons y estilos */
 .navBar nav svg,
 .bottomNav svg,
 .topNav svg {
-  font-size: 29px;
+  font-size: 27px;
+  color: #fff;
 }
 
 .topNav {
-  height: 12vh;
+  height: 6rem;
   margin-bottom: 8px;
   justify-content: space-evenly;
 }
 
 .bottomNav {
   height: 74vh;
+  padding-top: 1rem;
+}
+
+.bottomNav > svg:first-child {
+  margin-bottom: 1rem;
+}
+
+.bottomNav div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  width: 49px;
+  height: 47px;
+  background: linear-gradient(to bottom right, #4910ee, #bbe1df);
+}
+.bottomNav div svg {
+  font-size: 19px;
 }
 
 /* main */
+
 main {
   position: relative;
   width: 85vw;
   background-color: #131312;
   margin: 0 8px;
   border-radius: 8px;
-  padding: 13px;
+  padding: 0 13px;
+  overflow-y: auto;
 }
 
 /* Home */
@@ -102,10 +113,13 @@ main {
 /*  navBar */
 
 .navBar {
+  width: 84%;
+  background-color: #131312;
+  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
+  height: 5rem;
 }
 
 .navBar nav {
@@ -144,9 +158,6 @@ main {
 
 .search {
   margin-top: 1rem;
-  height: 93%;
-  overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .search::-webkit-scrollbar {
@@ -159,14 +170,14 @@ main {
 }
 
 .inputSearch {
+  position: fixed;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   width: 279px;
   height: 45px;
-  position: absolute;
-  top: 11px;
-  left: 102px;
+  top: 1rem;
+  left: 12rem;
   background-color: #242424;
   border-radius: 28px;
   border: 2px solid transparent;
@@ -189,10 +200,10 @@ main {
 
 .menu {
   display: flex;
-  position: absolute;
+  position: fixed;
   top: 69px;
   background-color: #131312;
-  width: 96%;
+  width: 84%;
   padding: 5px 0 7px 0px;
 }
 
@@ -253,9 +264,10 @@ main {
   font-size: 0.9rem;
 }
 
-/* ///////////////////////   StartSearch   /////////////////////////// */
+/* ///////////////////////   StartSearch, search  /////////////////////////// */
+
 .StartSearch {
-  margin-top: 2rem;
+  margin-top: 6rem;
   display: flex;
   flex-wrap: wrap;
 }
@@ -350,4 +362,76 @@ main {
   color: #909191;
   font-weight: 400;
   font-size: 0.9rem;
+}
+
+/*//////////////  footer   /////////////*/
+
+.footer-section {
+  padding: 1rem;
+  margin: 4rem 0;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-column,
+.footer-column-icons,
+.footer-column-icons {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.footer-column div {
+  margin-right: 3rem;
+}
+
+.footer-column div h1,
+.footer-column div ul li {
+  padding-bottom: 1rem;
+}
+
+.footer-column-icons div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin-right: 0.8rem;
+  background-color: #282829;
+}
+.footer-column-icons div svg {
+  font-size: 22px;
+}
+
+.line {
+  margin: 2rem 0;
+  background-color: #252525;
+  width: 100%;
+  height: 1px;
+}
+
+li {
+  list-style: none;
+}
+
+.footer-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-info ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-info ul li {
+  margin: 0rem 10px;
+}
+
+li {
+  color: #989599;
+  font-size: 0.8rem;
 }

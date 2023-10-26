@@ -7,7 +7,6 @@ import { FiMusic } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
 const derecha = () => {
-
   return (
     <header>
       <nav className="topNav">
@@ -20,8 +19,9 @@ const derecha = () => {
       </nav>
       <nav className="bottomNav">
         <VscLibrary />
-        <AiFillHeart />
-        <FiMusic />
+        <div>
+          <AiFillHeart />
+        </div>
       </nav>
     </header>
   );
