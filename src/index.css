@@ -278,7 +278,6 @@ main {
   height: 17rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .contStart > h1:first-child,
@@ -434,4 +433,16 @@ li {
 li {
   color: #989599;
   font-size: 0.8rem;
+}
+
+
+
+
+
+
+
+/*  sectionAlbum */
+
+.sectionAlbum{
+  margin-top: 5rem;
 }

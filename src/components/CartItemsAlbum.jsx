@@ -1,23 +1,23 @@
 import React from "react";
 
-const CartItems = ({ artis }) => {
+const CartItems = ({ album, redirectPage }) => {
   const maxLength = 23;
   return (
-    <div className="contAlbum">
+    <div className="contAlbum" onClick={() => redirectPage("album", album.id)}>
       <div
         className="contImg"
-        style={{ backgroundImage: `url(${artis.images[1].url})` }}
+        style={{ backgroundImage: `url(${album.images[1].url})` }}
       ></div>
       <div className="contName">
         <h1>
-          {artis.name.length > maxLength
-            ? artis.name.slice(0, maxLength - 3) + "..."
-            : artis.name}
+          {album.name.length > maxLength
+            ? album.name.slice(0, maxLength - 3) + "..."
+            : album.name}
         </h1>
         <div className="dateAlbum">
-          <h1>{new Date(artis.release_date).getFullYear()}</h1>
+          <h1>{new Date(album.release_date).getFullYear()}</h1>
           <div></div>
-          <h1>{artis.artists[0].name}</h1>
+          <h1>{album.artists[0].name}</h1>
         </div>
       </div>
     </div>

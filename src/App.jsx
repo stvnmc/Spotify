@@ -8,6 +8,7 @@ import Login from "./page/Login";
 import { useAuth } from "./context/AuthContext";
 import Finding from "./page/Finding";
 import Footer from "./components/Footer";
+import Album from "./page/Album";
 
 const App = () => {
   const { spotyCode } = useAuth();
@@ -24,8 +25,9 @@ const App = () => {
               <NavBar />
               <Routes>
                 <Route path="/" element={<HomePage />} />
-                <Route path="/artist" element={<Artist />} />
+                <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/search" element={<Finding />} />
+                <Route path="/album/:id" element={<Album />} />
                 <Route path="/track" />
               </Routes>
               <Footer />

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { getAlbum, getArtist, getAudio, getTrack } from "../api/infoArtist";
+import { getInfoAlbum, getInfoSearch } from "../api/infoArtist";
 import { useAuth } from "./AuthContext";
 
 export const SearchContext = createContext();
@@ -16,46 +16,47 @@ export const useSearch = () => {
 
 export const SearchProvider = ({ children }) => {
   const { spotyCode } = useAuth();
-  const [album, setAbum] = useState([]);
-  const [artist, setArtist] = useState([]);
-  const [track, setTrack] = useState([]);
-  const [inSong, setInfoSong] = useState([]);
+  // search
+  const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
+  const [tracks, setTracks] = useState([]);
+
+  // album
+  const [infoAlbum, setInfoAlbum] = useState([]);
 
   function saveDataToLocalStorage() {}
 
-  const funcionSearch = async (nameId) => {
-    if (nameId) {
-      const resgetArtist = await getArtist(spotyCode, nameId);
-      setArtist(resgetArtist);
-
-      const resgetAlbum = await getAlbum(spotyCode, nameId);
-      setAbum(resgetAlbum);
-
-      const resGetTrack = await getTrack(spotyCode, nameId);
-      setTrack(resGetTrack);
-
-      saveDataToLocalStorage();
-    } else {
-      setArtist([]);
-      setAbum([]);
-      setTrack([]);
+  async function funcionSearch(value) {
+    try {
+      const res = await getInfoSearch(spotyCode, value);
+      setAlbums(res.albums.items);
+      setArtists(res.artists.items);
+      const limitedTracks = await res.tracks.items.slice(0, 4);
+      setTracks(limitedTracks);
+    } catch (error) {
+      setAlbums([]);
+      setArtists([]);
+      setTracks([]);
     }
-  };
-
-  async function infoGetAudio(nameId) {
-    const resGetSong = await getAudio(spotyCode, nameId);
-    setInfoSong(resGetSong);
   }
+
+  async function infoGetAlbum(id) {
+    const res = await getInfoAlbum(spotyCode, id);
+    setInfoAlbum(res);
+  }
+
+  // esto es la infromacion que voy a pedir  solo esprecifcia mente para album la apgina
 
   return (
     <SearchContext.Provider
       value={{
         funcionSearch,
-        album,
-        artist,
-        track,
-        infoGetAudio,
-        inSong,
+        spotyCode,
+        artists,
+        albums,
+        tracks,
+        infoGetAlbum,
+        infoAlbum
       }}
     >
       {children}

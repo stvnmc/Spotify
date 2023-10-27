@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const getAlbum = async (accessToken, nameId) => {
+export const getInfoSearch = async (accessToken, id) => {
   const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -9,17 +9,18 @@ export const getAlbum = async (accessToken, nameId) => {
   try {
     const response = await axios.get(
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-        nameId
-      )}&type=album&limit=6`,
+        id
+      )}&type=album,artist,track,playlist&limit=8`,
+
       config
     );
-    return response.data.albums.items;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getArtist = async (accessToken, nameId) => {
+export const getInfoAlbum = async (accessToken, id) => {
   const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -27,49 +28,10 @@ export const getArtist = async (accessToken, nameId) => {
   };
   try {
     const response = await axios.get(
-      `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-        nameId
-      )}&type=artist&limit=6`,
+      `https://api.spotify.com/v1/albums/${id}`,
       config
     );
-    return response.data.artists.items;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getTrack = async (accessToken, nameId) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-  try {
-    const response = await axios.get(
-      `https://api.spotify.com/v1/search?q=${encodeURIComponent(
-        nameId
-      )}&type=track&limit=4`,
-      config
-    );
-    return response.data.tracks.items;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const getAudio = async (accessToken, nameId) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-  try {
-    const response = await axios.get(
-      `https://api.spotify.com/v1/audio-features?ids=${nameId}`,
-      config
-    );
-
-    return response.data.audio_features[0];
+    return response.data;
   } catch (error) {
     console.log(error);
   }

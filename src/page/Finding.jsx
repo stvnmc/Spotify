@@ -4,9 +4,16 @@ import { useSearch } from "../context/SearchContext";
 import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsTrack from "../components/CartItemsTrack";
+import { useNavigate } from "react-router-dom";
 
 const Finding = () => {
-  const { funcionSearch, album, artist, track } = useSearch();
+  const { funcionSearch, artists, albums, tracks } = useSearch();
+ 
+  const navigate = useNavigate();
+
+  function redirectPage(site, id) {
+    navigate(`/${site}/${id}`);
+  }
 
   return (
     <section className="search">
@@ -27,12 +34,12 @@ const Finding = () => {
           <button>Playlist</button>
         </nav>
         <div className="StartSearch">
-          {artist.length > 0 ? (
+          {artists.length > 0 ? (
             <div className="contStart">
               <h1>Resultado principal</h1>
               <div className="searchMain">
-                <img src={artist[0].images[2]?.url} alt={artist[0].name} />
-                <h1>{artist[0].name}</h1>
+                <img src={artists[0].images[2]?.url} alt={artists[0].name} />
+                <h1>{artists[0].name}</h1>
                 <div>
                   <h1>Artist</h1>
                 </div>
@@ -41,12 +48,12 @@ const Finding = () => {
           ) : (
             <div></div>
           )}
-          {track.length > 0 ? (
+          {tracks.length > 0 ? (
             <div className="contSongs">
               <h1>Canciones</h1>
               <div className="allSong">
-                {track.map((song, i) => {
-                  return <CartItemsTrack song={song} key={i} />;
+                {tracks.map((track, i) => {
+                  return <CartItemsTrack track={track} key={i} />;
                 })}
               </div>
             </div>
@@ -54,24 +61,32 @@ const Finding = () => {
             <div></div>
           )}
         </div>
-        {artist.length > 0 ? (
+        {artists.length > 0 ? (
           <div className="list">
             <h1>Artis</h1>
             <div className="artis">
-              {artist.map((artis, i) => (
-                <CartItemsArtis artis={artis} key={i} />
+              {artists.map((artist, i) => (
+                <CartItemsArtis
+                  redirectPage={redirectPage}
+                  artist={artist}
+                  key={i}
+                />
               ))}
             </div>
           </div>
         ) : (
           <div></div>
         )}
-        {album.length > 0 ? (
+        {albums.length > 0 ? (
           <div className="list">
             <h1>Album</h1>
             <div className="album">
-              {album.map((artis, i) => (
-                <CartItemsAlbum artis={artis} key={i} />
+              {albums.map((album, i) => (
+                <CartItemsAlbum
+                  redirectPage={redirectPage}
+                  album={album}
+                  key={i}
+                />
               ))}
             </div>
           </div>

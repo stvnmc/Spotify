@@ -1,39 +1,25 @@
-import React, { useEffect } from "react";
-import { useSearch } from "../context/SearchContext";
+import React from "react";
 
-const CartItemsTrack = ({ song }) => {
-  const { infoGetAudio, inSong } = useSearch();
-
-  let ms;
-
-  if (inSong) ms = inSong.duration_ms;
-
-  const minutes = Math.floor(ms / 60000);
-  const seconds = ((ms % 60000) / 1000).toFixed(0);
-
-  useEffect(() => {
-    infoGetAudio(song.id);
-  }, []);
-
+const CartItemsTrack = ({ track }) => {
   return (
     <div className="contSong">
       <div className="contImgText">
-        <img src={song.album.images[2].url} />
+        <img src={track.album.images[2].url} />
         <div className="text">
-          <h1>{song.name}</h1>
-          {song.artists[1] ? (
+          <h1>{track.name}</h1>
+          {track.artists[1] ? (
             <>
               <h1>
-                {song.artists[0].name}, {song.artists[1].name}
+                {track.artists[0].name}, {track.artists[1].name}
               </h1>
             </>
           ) : (
-            <h1>{song.artists[0].name}</h1>
+            <h1>{track.artists[0].name}</h1>
           )}
         </div>
       </div>
       <h1>
-        {minutes}:{seconds}
+        {track.disc_number}:{String(track.duration_ms).slice(0, 2)}
       </h1>
     </div>
   );
