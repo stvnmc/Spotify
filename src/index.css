@@ -97,7 +97,7 @@ header {
 
 main {
   position: relative;
-  width: 85vw;
+  width: 93vw;
   background-color: #131312;
   margin: 0 8px;
   border-radius: 8px;
@@ -239,7 +239,6 @@ main {
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 50%;
-  overflow: hidden;
 }
 
 .contAlbum .contImg {
@@ -435,14 +434,111 @@ li {
   font-size: 0.8rem;
 }
 
+/*///////  Section   Album ///////*/
+/* fisrt part */
 
-
-
-
-
-
-/*  sectionAlbum */
-
-.sectionAlbum{
+.sectionAlbum {
   margin-top: 5rem;
+}
+
+.front-album {
+  display: flex;
+  align-items: flex-end;
+}
+
+.info-album {
+  width: 77vw;
+}
+
+.album-img-main {
+  margin-right: 1rem;
+  width: 177px;
+  height: 175px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
+.info-album > h1:first-child {
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.info-album > h1:nth-child(2) {
+  font-size: 3.2vw;
+  font-weight: 700;
+}
+
+.artis-date-songs {
+  display: flex;
+}
+
+.point {
+  border-radius: 50%;
+  margin: 12px 5px 0px;
+  height: 5px;
+  width: 5px;
+  background-color: #fff;
+}
+.artist-img {
+  margin: 2px 4px;
+  width: 21px;
+  height: 21px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+}
+
+/* secondt part */
+.cont-list-music {
+  padding-top: 1rem;
+}
+
+.play-like-more {
+  display: flex;
+  align-items: center;
+}
+
+.play-music {
+  margin-right: 1.5rem;
+  height: 48px;
+  font-size: 33px;
+  border-radius: 50%;
+  width: 48px;
+  display: flex;
+  background-color: #20d660;
+  color: #070107;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-more {
+}
+.like-more svg {
+  margin-right: 1rem;
+  color: #9da9a6;
+  font-size: 35px;
+}
+
+.list-songs {
+  padding: 1.5rem;
+}
+
+.title-clock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+}
+
+.song {
+  display: flex;
+}
+
+.number-song {
+  margin: 0.7rem;
 }

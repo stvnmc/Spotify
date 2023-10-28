@@ -56,7 +56,7 @@ export const SearchProvider = ({ children }) => {
         albums,
         tracks,
         infoGetAlbum,
-        infoAlbum
+        infoAlbum,
       }}
     >
       {children}
