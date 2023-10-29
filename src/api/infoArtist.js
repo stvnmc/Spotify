@@ -16,7 +16,8 @@ export const getInfoSearch = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error en la solicitud:", error);
+    throw error;
   }
 };
 
@@ -31,10 +32,11 @@ export const getInfoAlbum = async (accessToken, id) => {
       `https://api.spotify.com/v1/albums/${id}`,
       config
     );
-    console.log(response.data)
+    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error en la solicitud:", error);
+    throw error;
   }
 };
 
@@ -51,6 +53,7 @@ export const getInfoArtists = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+    console.error("Error en la solicitud:", error);
+    throw error;
   }
 };

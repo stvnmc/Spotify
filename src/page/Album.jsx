@@ -6,20 +6,21 @@ import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { HiOutlineClock } from "react-icons/hi";
 import Song from "../components/Song";
+import { useTimeAndDate } from "../context/TimeAndDateContext";
 
 const Album = () => {
-  const { infoGetAlbum, infoAlbum, funcionSearch, albums, artists } =
-    useSearch();
+  const { infoGetAlbum, infoAlbum, funcionSearch, artists } = useSearch();
+  const { allDurationSong } = useTimeAndDate();
+
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
+  const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
 
   async function infoGetPageAlbum() {
     try {
-      // Realizar operaciones asíncronas aquí
       await infoGetAlbum(id);
       if (infoAlbum && infoAlbum.artists && infoAlbum.artists.length > 0) {
         await funcionSearch(infoAlbum.artists[0].name);
-        console.log(info);
       }
     } catch (error) {
       console.log(error);
@@ -28,9 +29,21 @@ const Album = () => {
     }
   }
 
+  const calculateTotalDuration = (tracks) => {
+    return tracks.reduce((total, track) => total + track.duration_ms, 0);
+  };
+
   useEffect(() => {
     infoGetPageAlbum();
   }, []);
+
+  useEffect(() => {
+    if (infoAlbum && infoAlbum.tracks) {
+      const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
+      setTotalDurationAlbum(totalDuration);
+      console.log(totalDuration);
+    }
+  }, [infoAlbum]);
 
   return (
     <section className="sectionAlbum">
@@ -60,7 +73,10 @@ const Album = () => {
                 <div className="point"></div>
                 <h1>{infoAlbum.release_date}</h1>
                 <div className="point"></div>
-                <h1>{infoAlbum.tracks.items.length} songs, </h1>
+                <h1>
+                  {infoAlbum.tracks.items.length} songs,{" "}
+                  {allDurationSong(totalDurationAlbum)}
+                </h1>
               </div>
             </div>
           </div>
