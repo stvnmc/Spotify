@@ -1,5 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
-import { getInfoAlbum, getInfoArtists, getInfoSearch } from "../api/infoArtist";
+import {
+  getArtistsRelated,
+  getArtistsTopTracks,
+  getInfoAlbum,
+  getInfoArtist,
+  getInfoArtistsSimilarAlbum,
+  getInfoSearch,
+} from "../api/infoArtist";
 import { useAuth } from "./AuthContext";
 
 export const SearchContext = createContext();
@@ -20,9 +27,12 @@ export const SearchProvider = ({ children }) => {
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
   const [tracks, setTracks] = useState([]);
+  const [artistRelated, setArtistRelated] = useState([]);
 
   // album
   const [infoAlbum, setInfoAlbum] = useState([]);
+
+  const [loading, setLoading] = useState(true);
 
   function saveDataToLocalStorage() {}
 
@@ -46,8 +56,17 @@ export const SearchProvider = ({ children }) => {
   }
 
   async function infoGetArtist(id) {
-    const res = await getInfoArtists(spotyCode, id);
-    setAlbums(res);
+    const resAlbum = await getInfoArtistsSimilarAlbum(spotyCode, id);
+    setAlbums(resAlbum);
+
+    const resArtist = await getInfoArtist(spotyCode, id);
+    setArtists(resArtist);
+
+    const resArtistTopTrack = await getArtistsTopTracks(spotyCode, id);
+    setTracks(resArtistTopTrack);
+
+    const resArtistRelated = await getArtistsRelated(spotyCode, id);
+    setArtistRelated(resArtistRelated);
   }
 
   // esto es la infromacion que voy a pedir  solo esprecifcia mente para album la apgina
@@ -60,9 +79,12 @@ export const SearchProvider = ({ children }) => {
         artists,
         albums,
         tracks,
+        artistRelated,
         infoGetAlbum,
         infoAlbum,
         infoGetArtist,
+        loading,
+        setLoading,
       }}
     >
       {children}

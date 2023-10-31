@@ -29,6 +29,15 @@ body {
   overflow-y: hidden;
 }
 
+/* repeated code */
+
+.adaptable-background {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  object-fit: cover;
+}
+
 .reproduccion {
   width: 97vw;
   height: 10vh;
@@ -437,7 +446,7 @@ li {
   font-size: 0.8rem;
 }
 
-/*///////  Section   Album ///////*/
+/*////////////  Page   Album//////// ///////*/
 /* fisrt part */
 
 .sectionAlbum {
@@ -518,6 +527,7 @@ li {
 }
 
 .like-more {
+  display: flex;
 }
 .like-more svg {
   margin-right: 1rem;
@@ -552,4 +562,14 @@ li {
 
 .number-song {
   margin: 0.7rem;
+}
+
+/*////////////// Page Artis///////////////  */
+
+.contMainArtis {
+  display: flex;
+  height: 18rem;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-end;
 }

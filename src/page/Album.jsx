@@ -6,28 +6,34 @@ import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { HiOutlineClock } from "react-icons/hi";
 import Song from "../components/Song";
+import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 
-import CartItemsAlbum from "../components/CartItemsAlbum";
-
 const Album = () => {
-  const { infoGetAlbum, infoAlbum, infoGetArtist, artists, albums } =
-    useSearch();
+  const {
+    infoGetAlbum,
+    infoAlbum,
+    infoGetArtist,
+    artists,
+    albums,
+    loading,
+    setLoading,
+  } = useSearch();
   const { allDurationSong } = useTimeAndDate();
-
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
 
-  async function infoGetPageAlbum() {
+  const navigate = useNavigate();
+
+  const infoGetPageAlbum = async () => {
     try {
       await infoGetAlbum(id);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const calculateTotalDuration = (tracks) => {
     return tracks.reduce((total, track) => total + track.duration_ms, 0);
@@ -41,18 +47,14 @@ const Album = () => {
     if (infoAlbum && infoAlbum.tracks) {
       const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
       setTotalDurationAlbum(totalDuration);
-    }
-    if (infoAlbum && infoAlbum.artists && infoAlbum.artists.length > 0) {
-      infoGetArtist(infoAlbum.artists[0].id);
+      infoAlbum.artists.length > 0 && infoGetArtist(infoAlbum.artists[0].id);
     }
   }, [infoAlbum]);
 
-  const navigate = useNavigate();
-
-  function redirectPage(site, id) {
+  const redirectPage = (site, id) => {
     navigate(`/${site}/${id}`, { replace: true });
     window.location.reload();
-  }
+  };
 
   return (
     <section className="sectionAlbum">
@@ -63,13 +65,15 @@ const Album = () => {
           <div className="front-album">
             <div
               className="album-img-main"
-              style={{ backgroundImage: `url(${infoAlbum.images[1].url})` }}
+              style={{
+                backgroundImage: `url(${infoAlbum?.images?.[1]?.url || ""})`,
+              }}
             ></div>
             <div className="info-album">
               <h1>Album</h1>
-              <h1>{infoAlbum.name}</h1>
+              <h1>{infoAlbum?.name}</h1>
               <div className="artis-date-songs">
-                {artists && artists[0] && artists[0].images && (
+                {artists?.[0]?.images && (
                   <div
                     className="artist-img"
                     style={{
@@ -77,13 +81,19 @@ const Album = () => {
                     }}
                   ></div>
                 )}
-
-                <h1>{infoAlbum.artists[0].name}</h1>
+                {infoAlbum?.artists?.[0]?.images && (
+                  <div
+                    className="artist-img"
+                    style={{
+                      backgroundImage: `url(${infoAlbum.artists[0].images[0].url})`,
+                    }}
+                  ></div>
+                )}
                 <div className="point"></div>
-                <h1>{infoAlbum.release_date}</h1>
+                <h1>{infoAlbum?.release_date}</h1>
                 <div className="point"></div>
                 <h1>
-                  {infoAlbum.tracks.items.length} songs,{" "}
+                  {infoAlbum?.tracks?.items?.length || 0} songs,{" "}
                   {allDurationSong("infoAlbum", totalDurationAlbum)}
                 </h1>
               </div>
@@ -108,13 +118,17 @@ const Album = () => {
                 <HiOutlineClock />
               </div>
               <div className="line"></div>
-              {infoAlbum.tracks.items.map((track) => {
-                return <Song key={track.id} track={track} />;
-              })}
+              {infoAlbum?.tracks?.items?.map((track) => (
+                <Song key={track.id} track={track} />
+              ))}
               <div>
-                <h1>{}</h1>
-                <h2>{infoAlbum.copyrights[0].text}</h2>
-                <h2>{infoAlbum.copyrights[1].text}</h2>
+                {infoAlbum?.copyrights && (
+                  <>
+                    <h1>{/* Algo aquí, si es necesario */}</h1>
+                    <h2>{infoAlbum?.copyrights?.[0]?.text}</h2>
+                    <h2>{infoAlbum?.copyrights?.[1]?.text}</h2>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -122,7 +136,7 @@ const Album = () => {
             {albums.length > 0 && (
               <div className="moreSimilar">
                 <div className="list">
-                  <h1>More of the {infoAlbum.artists[0].name}</h1>
+                  <h1>More of the {infoAlbum?.artists?.[0]?.name}</h1>
                   <div className="album">
                     {albums.map((album, i) => (
                       <CartItemsAlbum
