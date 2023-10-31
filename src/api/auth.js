@@ -16,8 +16,8 @@ export const autenticate = (spotyCode) => {
   console.log("autenticate");
   try {
     const searchParams = new URLSearchParams({
-      code: spotyCode,
       grant_type: "authorization_code",
+      code: spotyCode,
       redirect_uri: redirectUri,
       client_id: clientId,
       client_secret: clientSecret,
@@ -31,5 +31,27 @@ export const autenticate = (spotyCode) => {
       });
   } catch (err) {
     console.log(err);
+  }
+};
+
+export const refreshToken = async () => {
+  console.log("hi");
+
+  const refreshToken = localStorage.getItem("refresh_token");
+  const params = new URLSearchParams({
+    grant_type: "refresh_token",
+    refresh_token: refreshToken,
+    client_id: clientId,
+  });
+
+  try {
+    const res = await axios.post(
+      "https://accounts.spotify.com/api/token",
+      params
+    );
+    localStorage.setItem("access_token", res.data.access_token);
+    localStorage.setItem("refresh_token", res.data.refresh_token);
+  } catch (error) {
+    console.error("Error refreshing token:", error);
   }
 };

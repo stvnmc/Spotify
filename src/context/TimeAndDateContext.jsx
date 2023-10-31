@@ -13,21 +13,18 @@ export const useTimeAndDate = () => {
 };
 
 export const TimeAndDateProvider = ({ children }) => {
-  function allDurationSong(duration_ms) {
-    const totalSeconds = Math.floor(duration_ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-  }
-
-  function allDurationSong(duration_ms) {
+  function allDurationSong(type, duration_ms) {
     const totalSeconds = Math.floor(duration_ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
     const minutes = Math.floor((totalSeconds % 3600) / 60);
     const seconds = totalSeconds % 60;
 
-    if (hours > 0) {
-      return `${hours}${minutes}sddsd`;
+    if (type === "infoAlbum") {
+      if (hours > 0) {
+        return `${hours} h ${minutes} min`;
+      }
+
+      return `${minutes} min ${seconds} s`;
     }
 
     const formattedMinutes = `${minutes}`.padStart(2, "0");

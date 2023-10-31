@@ -1,5 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { autenticate, redirectToSpotifyAuthorization } from "../api/auth";
+import {
+  autenticate,
+  redirectToSpotifyAuthorization,
+  refreshToken,
+} from "../api/auth";
 
 export const AuthContext = createContext();
 
@@ -24,8 +28,25 @@ export const AuthProvider = ({ children }) => {
     if (!storedCode) getCode();
 
     const accessToken = localStorage.getItem("access_token");
-    if (!accessToken) autenticate(storedCode);
+    if (!accessToken) {
+      try {
+        autenticate(storedCode);
+      } catch (error) {
+        console.error("Error during authentication:", error);
+      }
+    }
     setSpotyCode(accessToken);
+
+    // Refresh token logic
+    const refreshTokenInterval = setInterval(() => {
+      try {
+        refreshToken();
+      } catch (error) {
+        console.error("Error refreshing token:", error);
+      }
+    }, 3600 * 1000); // 3600 seconds (1 hour)
+
+    return () => clearInterval(refreshTokenInterval);
   }, []);
 
   function getCode() {

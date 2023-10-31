@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
+import { useParams } from "react-router-dom";
 
 const Artist = () => {
-  return (
-    <div>Artist</div>
-  )
-}
+  const { id } = useParams();
+  return <div>{id}</div>;
+};
 
-export default Artist
+export default Artist;

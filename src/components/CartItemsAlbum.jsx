@@ -1,7 +1,7 @@
 import React from "react";
 
 const CartItems = ({ album, redirectPage }) => {
-  const maxLength = 23;
+  const maxLength = 20;
   return (
     <div className="contAlbum" onClick={() => redirectPage("album", album.id)}>
       <div

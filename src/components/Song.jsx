@@ -12,7 +12,7 @@ const Song = ({ track }) => {
     <div className="song">
       <div className="song-duration">
         <div className="number-song">
-          <h1>{track.track_number}</h1>
+          <h1> {track.track_number}</h1>
         </div>
         <div>
           <h1>{track.name}</h1>
@@ -25,7 +25,7 @@ const Song = ({ track }) => {
         </div>
       </div>
       <div>
-        <h1>{allDurationSong(track.duration_ms)}</h1>
+        <h1>{allDurationSong("song", track.duration_ms)}</h1>
       </div>
     </div>
   );

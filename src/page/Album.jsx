@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSearch } from "../context/SearchContext";
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
@@ -8,8 +8,11 @@ import { HiOutlineClock } from "react-icons/hi";
 import Song from "../components/Song";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 
+import CartItemsAlbum from "../components/CartItemsAlbum";
+
 const Album = () => {
-  const { infoGetAlbum, infoAlbum, funcionSearch, artists } = useSearch();
+  const { infoGetAlbum, infoAlbum, infoGetArtist, artists, albums } =
+    useSearch();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
@@ -19,9 +22,6 @@ const Album = () => {
   async function infoGetPageAlbum() {
     try {
       await infoGetAlbum(id);
-      if (infoAlbum && infoAlbum.artists && infoAlbum.artists.length > 0) {
-        await funcionSearch(infoAlbum.artists[0].name);
-      }
     } catch (error) {
       console.log(error);
     } finally {
@@ -41,9 +41,18 @@ const Album = () => {
     if (infoAlbum && infoAlbum.tracks) {
       const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
       setTotalDurationAlbum(totalDuration);
-      console.log(totalDuration);
+    }
+    if (infoAlbum && infoAlbum.artists && infoAlbum.artists.length > 0) {
+      infoGetArtist(infoAlbum.artists[0].id);
     }
   }, [infoAlbum]);
+
+  const navigate = useNavigate();
+
+  function redirectPage(site, id) {
+    navigate(`/${site}/${id}`, { replace: true });
+    window.location.reload();
+  }
 
   return (
     <section className="sectionAlbum">
@@ -75,7 +84,7 @@ const Album = () => {
                 <div className="point"></div>
                 <h1>
                   {infoAlbum.tracks.items.length} songs,{" "}
-                  {allDurationSong(totalDurationAlbum)}
+                  {allDurationSong("infoAlbum", totalDurationAlbum)}
                 </h1>
               </div>
             </div>
@@ -102,7 +111,30 @@ const Album = () => {
               {infoAlbum.tracks.items.map((track) => {
                 return <Song key={track.id} track={track} />;
               })}
+              <div>
+                <h1>{}</h1>
+                <h2>{infoAlbum.copyrights[0].text}</h2>
+                <h2>{infoAlbum.copyrights[1].text}</h2>
+              </div>
             </div>
+          </div>
+          <div className="moreSimilar">
+            {albums.length > 0 && (
+              <div className="moreSimilar">
+                <div className="list">
+                  <h1>More of the {infoAlbum.artists[0].name}</h1>
+                  <div className="album">
+                    {albums.map((album, i) => (
+                      <CartItemsAlbum
+                        redirectPage={redirectPage}
+                        album={album}
+                        key={i}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}

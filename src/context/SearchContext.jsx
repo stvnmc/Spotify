@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { getInfoAlbum, getInfoSearch } from "../api/infoArtist";
+import { getInfoAlbum, getInfoArtists, getInfoSearch } from "../api/infoArtist";
 import { useAuth } from "./AuthContext";
 
 export const SearchContext = createContext();
@@ -45,6 +45,11 @@ export const SearchProvider = ({ children }) => {
     setInfoAlbum(res);
   }
 
+  async function infoGetArtist(id) {
+    const res = await getInfoArtists(spotyCode, id);
+    setAlbums(res);
+  }
+
   // esto es la infromacion que voy a pedir  solo esprecifcia mente para album la apgina
 
   return (
@@ -57,6 +62,7 @@ export const SearchProvider = ({ children }) => {
         tracks,
         infoGetAlbum,
         infoAlbum,
+        infoGetArtist,
       }}
     >
       {children}

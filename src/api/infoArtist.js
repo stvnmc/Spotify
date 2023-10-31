@@ -48,10 +48,10 @@ export const getInfoArtists = async (accessToken, id) => {
   };
   try {
     const response = await axios.get(
-      `https://api.spotify.com/v1/artists/${id}`,
+      `https://api.spotify.com/v1/artists/${id}/albums?limit=6`,
       config
     );
-    return response.data;
+    return response.data.items;
   } catch (error) {
     console.error("Error en la solicitud:", error);
     throw error;
