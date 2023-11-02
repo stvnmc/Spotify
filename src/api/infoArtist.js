@@ -108,8 +108,8 @@ export const getArtistsRelated = async (accessToken, id) => {
       `https://api.spotify.com/v1/artists/${id}/related-artists?limit=8`,
       config
     );
-    console.log(response.data.artists);
-    return response.data.artists;
+    console.log(response.data.artists.slice(0, 8));
+    return response.data.artists.slice(0, 8);
   } catch (error) {
     console.error("Error en la solicitud:", error);
     throw error;

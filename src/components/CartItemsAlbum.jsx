@@ -1,6 +1,6 @@
 import React from "react";
 
-const CartItems = ({ album, redirectPage }) => {
+const CartItemsAlbums = ({ album, redirectPage }) => {
   const maxLength = 20;
   return (
     <div className="contAlbum" onClick={() => redirectPage("album", album.id)}>
@@ -24,4 +24,4 @@ const CartItems = ({ album, redirectPage }) => {
   );
 };
 
-export default CartItems;
+export default CartItemsAlbums;

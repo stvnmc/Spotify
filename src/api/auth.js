@@ -11,6 +11,11 @@ export const redirectToSpotifyAuthorization = () => {
   const authorizationUrl = `${spotifyAuthUrl}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${scope}`;
   window.location.href = authorizationUrl;
 };
+// export const redirectToSpotifyAuthorization = () => {
+//   const fullScope = `${scope} offline_access`;
+//   const authorizationUrl = `${spotifyAuthUrl}?client_id=${clientId}&response_type=code&redirect_uri=${redirectUri}&scope=${fullScope}`;
+//   window.location.href = authorizationUrl;
+// };
 
 export const autenticate = (spotyCode) => {
   console.log("autenticate");
@@ -26,6 +31,7 @@ export const autenticate = (spotyCode) => {
     axios
       .post("https://accounts.spotify.com/api/token", searchParams)
       .then((res) => {
+        console.log(res);
         localStorage.setItem("access_token", res.data.access_token);
         localStorage.setItem("refresh_token", res.data.refresh_token);
       });
@@ -34,24 +40,54 @@ export const autenticate = (spotyCode) => {
   }
 };
 
-export const refreshToken = async () => {
-  console.log("hi");
+// export const refreshToken = async () => {
+//   console.log("hi");
 
-  const refreshToken = localStorage.getItem("refresh_token");
-  const params = new URLSearchParams({
-    grant_type: "refresh_token",
-    refresh_token: refreshToken,
-    client_id: clientId,
-  });
+//   const refreshToken = localStorage.getItem("refresh_token");
+//   const params = new URLSearchParams({
+//     grant_type: "refresh_token",
+//     refresh_token: refreshToken,
+//     client_id: clientId,
+//   });
 
-  try {
-    const res = await axios.post(
-      "https://accounts.spotify.com/api/token",
-      params
-    );
-    localStorage.setItem("access_token", res.data.access_token);
-    localStorage.setItem("refresh_token", res.data.refresh_token);
-  } catch (error) {
-    console.error("Error refreshing token:", error);
-  }
-};
+//   try {
+//     const res = await axios.post(
+//       "https://accounts.spotify.com/api/token",
+//       params
+//     );
+//     localStorage.setItem("access_token", res.data.access_token);
+//     localStorage.setItem("refresh_token", res.data.refresh_token);
+//   } catch (error) {
+//     console.error("Error refreshing token:", error);
+//   }
+// };
+
+// export const refreshToken = async () => {
+//   console.log("Refreshing token...");
+
+//   const refreshToken = localStorage.getItem("refresh_token");
+//   console.log(refreshToken);
+
+//   try {
+//     const res = await axios.post(
+//       "https://accounts.spotify.com/api/token",
+//       new URLSearchParams({
+//         grant_type: "refresh_token",
+//         refresh_token: refreshToken,
+//         client_id: clientId,
+//         client_secret: clientSecret,
+//       }),
+//       {
+//         headers: {
+//           "Content-Type": "application/x-www-form-urlencoded",
+//         },
+//       }
+//     );
+//     console.log(res);
+//     localStorage.setItem("access_token", res.data.access_token);
+//     localStorage.setItem("refresh_token", res.data.refresh_token);
+//     console.log("Token refreshed successfully.");
+//   } catch (error) {
+//     console.error("Error refreshing token:", error);
+//   }
+// };

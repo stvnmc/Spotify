@@ -124,7 +124,7 @@ const Album = () => {
               <div>
                 {infoAlbum?.copyrights && (
                   <>
-                    <h1>{/* Algo aquí, si es necesario */}</h1>
+                    <h1>{}</h1>
                     <h2>{infoAlbum?.copyrights?.[0]?.text}</h2>
                     <h2>{infoAlbum?.copyrights?.[1]?.text}</h2>
                   </>

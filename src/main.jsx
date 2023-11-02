@@ -5,12 +5,15 @@ import "./index.css";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { SearchProvider } from "./context/SearchContext.jsx";
 import { TimeAndDateProvider } from "./context/TimeAndDateContext.jsx";
+import { PlayMusicProvider } from "./context/PlayMusicContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <AuthProvider>
     <SearchProvider>
       <TimeAndDateProvider>
-        <App />
+        <PlayMusicProvider>
+          <App />
+        </PlayMusicProvider>
       </TimeAndDateProvider>
     </SearchProvider>
   </AuthProvider>

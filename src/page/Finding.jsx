@@ -8,12 +8,15 @@ import { useNavigate } from "react-router-dom";
 
 const Finding = () => {
   const { funcionSearch, artists, albums, tracks } = useSearch();
- 
   const navigate = useNavigate();
 
-  function redirectPage(site, id) {
+  const redirectPage = (site, id) => {
     navigate(`/${site}/${id}`);
-  }
+  };
+
+  const renderCartItemsTrack = () => {
+    return tracks.map((track, i) => <CartItemsTrack track={track} key={i} />);
+  };
 
   return (
     <section className="search">
@@ -33,35 +36,25 @@ const Finding = () => {
           <button>Albums</button>
           <button>Playlist</button>
         </nav>
-        <div className="StartSearch">
-          {artists.length > 0 ? (
-            <div className="contStart">
-              <h1>Resultado principal</h1>
-              <div className="searchMain">
-                <img src={artists[0].images[2]?.url} alt={artists[0].name} />
-                <h1>{artists[0].name}</h1>
-                <div>
-                  <h1>Artist</h1>
-                </div>
+        {artists.length > 0 && (
+          <div className="contStart">
+            <h1>Resultado principal</h1>
+            <div className="searchMain">
+              <img src={artists[0].images[2]?.url} alt={artists[0].name} />
+              <h1>{artists[0].name}</h1>
+              <div>
+                <h1>Artist</h1>
               </div>
             </div>
-          ) : (
-            <div></div>
-          )}
-          {tracks.length > 0 ? (
-            <div className="contSongs">
-              <h1>Canciones</h1>
-              <div className="allSong">
-                {tracks.map((track, i) => {
-                  return <CartItemsTrack track={track} key={i} />;
-                })}
-              </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </div>
-        {artists.length > 0 ? (
+          </div>
+        )}
+        {tracks.length > 0 && (
+          <div className="contSongs">
+            <h1>Canciones</h1>
+            <div className="allSong">{renderCartItemsTrack()}</div>
+          </div>
+        )}
+        {artists.length > 0 && (
           <div className="list">
             <h1>Artis</h1>
             <div className="artis">
@@ -74,10 +67,8 @@ const Finding = () => {
               ))}
             </div>
           </div>
-        ) : (
-          <div></div>
         )}
-        {albums.length > 0 ? (
+        {albums.length > 0 && (
           <div className="list">
             <h1>Album</h1>
             <div className="album">
@@ -90,8 +81,6 @@ const Finding = () => {
               ))}
             </div>
           </div>
-        ) : (
-          <div></div>
         )}
       </>
     </section>

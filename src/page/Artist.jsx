@@ -1,13 +1,24 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSearch } from "../context/SearchContext";
 import SongArtist from "../components/SongArtist";
 import { BiPlay } from "react-icons/bi";
 import { RiMoreLine } from "react-icons/ri";
+import CartItemsArtis from "../components/CartItemsArtis";
+import CartItemsAlbums from "../components/CartItemsAlbum";
 
 const Artist = () => {
-  const { setLoading, infoGetArtist, artists, loading, tracks, artistRelated } =
-    useSearch();
+  const {
+    setLoading,
+    infoGetArtist,
+    artists,
+    loading,
+    albums,
+    tracks,
+    artistRelated,
+  } = useSearch();
+
+  const navigate = useNavigate();
 
   async function infoGetPageArtist() {
     try {
@@ -24,6 +35,12 @@ const Artist = () => {
   }, []);
 
   const { id } = useParams();
+
+  const redirectPage = (site, id) => {
+    navigate(`/${site}/${id}`, { replace: true });
+    window.location.reload();
+  };
+
   return (
     <>
       {loading ? (
@@ -60,7 +77,32 @@ const Artist = () => {
               </div>
               <div>
                 <h1>Related Artists</h1>
+                <div className="artis">
+                  {artistRelated.map((artist) => {
+                    return (
+                      <CartItemsArtis
+                        key={artist.id}
+                        redirectPage={redirectPage}
+                        artist={artist}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
 
+              <div>
+                <h1>Related Artists</h1>
+                <div className="artis">
+                  {albums.map((album) => {
+                    return (
+                      <CartItemsAlbums
+                        key={album.id}
+                        redirectPage={redirectPage}
+                        album={album}
+                      />
+                    );
+                  })}
+                </div>
               </div>
             </>
           )}

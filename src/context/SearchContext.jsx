@@ -54,7 +54,7 @@ export const SearchProvider = ({ children }) => {
     const res = await getInfoAlbum(spotyCode, id);
     setInfoAlbum(res);
   }
-
+ 
   async function infoGetArtist(id) {
     const resAlbum = await getInfoArtistsSimilarAlbum(spotyCode, id);
     setAlbums(resAlbum);
