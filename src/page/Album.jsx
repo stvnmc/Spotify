@@ -8,6 +8,7 @@ import { HiOutlineClock } from "react-icons/hi";
 import Song from "../components/Song";
 import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
+import { usePlayMusic } from "../context/PlayMusicContext";
 
 const Album = () => {
   const {
@@ -19,6 +20,9 @@ const Album = () => {
     loading,
     setLoading,
   } = useSearch();
+
+  const { functionPlaybackState } = usePlayMusic();
+
   const { allDurationSong } = useTimeAndDate();
   const { id } = useParams();
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
@@ -119,7 +123,12 @@ const Album = () => {
               </div>
               <div className="line"></div>
               {infoAlbum?.tracks?.items?.map((track) => (
-                <Song key={track.id} track={track} />
+                <Song
+                  key={track.id}
+                  track={track}
+                  redirectPage={redirectPage}
+                  functionPlaybackState={functionPlaybackState}
+                />
               ))}
               <div>
                 {infoAlbum?.copyrights && (

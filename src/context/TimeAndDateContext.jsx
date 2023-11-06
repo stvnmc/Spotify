@@ -32,6 +32,8 @@ export const TimeAndDateProvider = ({ children }) => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }
 
+  
+
   return (
     <TimeAndDateContext.Provider value={{ allDurationSong }}>
       {children}

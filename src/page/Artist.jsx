@@ -56,22 +56,24 @@ const Artist = () => {
                 <h1>{artists.name}</h1>
                 <h1>{artists.followers.total} followers</h1>
               </div>
-              <div className="play-like-more">
+              <div className="play-like-more play-follow">
                 <div className="play-music">
                   <BiPlay />
                 </div>
-                <div className="like-more">
-                  <div>
-                    <h1>seguir</h1>
-                  </div>
+                <div className="follow center">
+                  <h1>follow</h1>
+                </div>
+                <div className="more center">
                   <RiMoreLine />
                 </div>
               </div>
-              <div>
+              <div className="popular">
                 <label>Popular</label>
-                <div className="">
-                  {tracks.map((track) => {
-                    return <SongArtist key={track.id} track={track} />;
+                <div className="tracks">
+                  {tracks.map((track, i) => {
+                    return (
+                      <SongArtist key={track.id} track={track} i={i + 1} />
+                    );
                   })}
                 </div>
               </div>

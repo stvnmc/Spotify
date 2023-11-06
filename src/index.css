@@ -30,12 +30,21 @@ body {
 }
 
 /* repeated code */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .adaptable-background {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   object-fit: cover;
+}
+
+.numTracks {
+  width: 51px;
 }
 
 .reproduccion {
@@ -529,6 +538,7 @@ li {
 .like-more {
   display: flex;
 }
+
 .like-more svg {
   margin-right: 1rem;
   color: #9da9a6;
@@ -567,9 +577,77 @@ li {
 /*////////////// Page Artis///////////////  */
 
 .contMainArtis {
+  padding: 1.5rem;
   display: flex;
   height: 18rem;
   align-items: flex-start;
   flex-direction: column;
   justify-content: flex-end;
+}
+
+.contMainArtis :nth-child(1) {
+  margin-bottom: 1rem;
+  font-size: 5rem;
+}
+.contMainArtis :nth-child(2) {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.play-follow {
+  padding: 1.5rem;
+}
+
+.follow {
+  width: 4.3rem;
+  border-radius: 26px;
+  margin-right: 1.7rem;
+  border: 1px solid #62615b;
+  height: 1.8rem;
+}
+
+.follow h1 {
+  font-size: 0.9rem;
+}
+.more svg {
+  font-size: 2rem;
+}
+
+.popular {
+  padding: 1rem 0;
+}
+
+.popular label {
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.tracks {
+  padding: 1.3rem 0;
+}
+
+.track {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoTrack {
+  display: flex;
+}
+
+.trackNumTime h1 {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.contImg {
+  margin-right: 1rem;
+  width: 38px;
+  height: 38px;
+}
+
+.nameTrack h1{
+  font-size: 1rem;
+  font-weight: 400;
 }
