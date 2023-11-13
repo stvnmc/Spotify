@@ -4,6 +4,7 @@ import { useTimeAndDate } from "../context/TimeAndDateContext";
 const SongArtist = ({ track, i }) => {
   const { allDurationSong } = useTimeAndDate();
   console.log(track);
+  
   return (
     <div className="track">
       <div className="infoTrack">

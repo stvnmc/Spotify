@@ -1,12 +1,14 @@
 import React from "react";
+import { useTimeAndDate } from "../context/TimeAndDateContext";
 
 const CartItemsTrack = ({ track }) => {
+  const { textLimit } = useTimeAndDate();
   return (
     <div className="contSong">
       <div className="contImgText">
         <img src={track.album.images[2].url} />
         <div className="text">
-          <h1>{track.name}</h1>
+          <h1>{textLimit("songs", track.name)}</h1>
           {track.artists[1] ? (
             <>
               <h1>

@@ -42,6 +42,9 @@ body {
   background-repeat: no-repeat;
   object-fit: cover;
 }
+.contlist {
+  margin-top: 1rem;
+}
 
 .numTracks {
   width: 51px;
@@ -245,6 +248,7 @@ main {
   margin: 0px 21px 24px 0px;
   border-radius: 10px;
   height: 235px;
+  width: 165px;
   padding: 14px;
   background-color: #161618;
 }
@@ -275,6 +279,9 @@ main {
   align-items: center;
 }
 
+.ContImgText > h1:first-child {
+  font-size: 1rem;
+}
 .ContImgText > h1:nth-child(2) {
   color: #909191;
   font-weight: 400;
@@ -334,8 +341,13 @@ main {
 .searchMain h1 {
   font-size: 2rem;
 }
+.contImaMain {
+  width: 83px;
+  height: 83px;
+  border-radius: 50%;
+}
 
-.searchMain div {
+.contNameMain {
   display: flex;
   width: 72px;
   height: 27px;
@@ -623,7 +635,7 @@ li {
 }
 
 .tracks {
-  padding: 1.3rem 0;
+  padding: 1.3rem 2rem 0 0rem;
 }
 
 .track {
@@ -635,6 +647,9 @@ li {
 .infoTrack {
   display: flex;
 }
+.trackNumTime {
+  width: 40px;
+}
 
 .trackNumTime h1 {
   font-size: 1rem;
@@ -642,12 +657,11 @@ li {
 }
 
 .contImg {
-  margin-right: 1rem;
   width: 38px;
   height: 38px;
 }
 
-.nameTrack h1{
+.nameTrack h1 {
   font-size: 1rem;
   font-weight: 400;
 }

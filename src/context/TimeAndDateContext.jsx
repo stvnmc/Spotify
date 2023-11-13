@@ -32,10 +32,24 @@ export const TimeAndDateProvider = ({ children }) => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }
 
-  
+  function textLimit(type, text) {
+    const maxLength = 17;
+
+    if (type === "songs" && text.length > maxLength) {
+      console.log("okkok");
+      const maxLengthh = 34;
+      return text.slice(0, maxLengthh) + "...";
+    }
+
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+
+    return text;
+  }
 
   return (
-    <TimeAndDateContext.Provider value={{ allDurationSong }}>
+    <TimeAndDateContext.Provider value={{ allDurationSong, textLimit }}>
       {children}
     </TimeAndDateContext.Provider>
   );

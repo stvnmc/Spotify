@@ -7,7 +7,6 @@ import {
   getInfoArtistsSimilarAlbum,
   getInfoSearch,
 } from "../api/infoArtist";
-import { useAuth } from "./AuthContext";
 
 export const SearchContext = createContext();
 
@@ -22,7 +21,6 @@ export const useSearch = () => {
 };
 
 export const SearchProvider = ({ children }) => {
-  const { spotyCode } = useAuth();
   // search
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -31,10 +29,10 @@ export const SearchProvider = ({ children }) => {
 
   // album
   const [infoAlbum, setInfoAlbum] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
-  function saveDataToLocalStorage() {}
+  // access token
+  const spotyCode = localStorage.getItem("access_token");
 
   async function funcionSearch(value) {
     try {
@@ -54,7 +52,7 @@ export const SearchProvider = ({ children }) => {
     const res = await getInfoAlbum(spotyCode, id);
     setInfoAlbum(res);
   }
- 
+
   async function infoGetArtist(id) {
     const resAlbum = await getInfoArtistsSimilarAlbum(spotyCode, id);
     setAlbums(resAlbum);
@@ -68,8 +66,6 @@ export const SearchProvider = ({ children }) => {
     const resArtistRelated = await getArtistsRelated(spotyCode, id);
     setArtistRelated(resArtistRelated);
   }
-
-  // esto es la infromacion que voy a pedir  solo esprecifcia mente para album la apgina
 
   return (
     <SearchContext.Provider

@@ -40,9 +40,12 @@ const Finding = () => {
           <div className="contStart">
             <h1>Resultado principal</h1>
             <div className="searchMain">
-              <img src={artists[0].images[2]?.url} alt={artists[0].name} />
+              <div
+                className="contImaMain adaptable-background"
+                style={{ backgroundImage: `url(${artists[0].images[2]?.url})` }}
+              ></div>
               <h1>{artists[0].name}</h1>
-              <div>
+              <div className="contNameMain">
                 <h1>Artist</h1>
               </div>
             </div>
@@ -55,7 +58,7 @@ const Finding = () => {
           </div>
         )}
         {artists.length > 0 && (
-          <div className="list">
+          <div className="contlist">
             <h1>Artis</h1>
             <div className="artis">
               {artists.map((artist, i) => (
@@ -69,7 +72,7 @@ const Finding = () => {
           </div>
         )}
         {albums.length > 0 && (
-          <div className="list">
+          <div className="contlist">
             <h1>Album</h1>
             <div className="album">
               {albums.map((album, i) => (

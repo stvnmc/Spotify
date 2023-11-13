@@ -5,19 +5,33 @@ import Derecha from "./components/Derecha";
 import NavBar from "./components/NavBar";
 import Artist from "./page/Artist";
 import Login from "./page/Login";
-import { useAuth } from "./context/AuthContext";
 import Finding from "./page/Finding";
 import Footer from "./components/Footer";
 import Album from "./page/Album";
+import { useEffect, useState } from "react";
 
 const App = () => {
-  const { spotyCode } = useAuth();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const spotyCode = urlParams.get("code");
+
+    if (spotyCode) {
+      localStorage.setItem("spotifyCode", spotyCode);
+
+      const newUrl = window.location.pathname + window.location.hash;
+      window.history.replaceState({}, document.title, newUrl);
+    }
+    const storedCode = localStorage.getItem("spotifyCode");
+    if (storedCode) {
+      setLoggedIn(true);
+    }
+  }, []);
 
   return (
     <BrowserRouter>
-      {spotyCode === null ? (
-        <Login />
-      ) : (
+      {loggedIn ? (
         <>
           <section className="UpperPanel">
             <Derecha />
@@ -35,6 +49,8 @@ const App = () => {
           </section>
           <Reproducion />
         </>
+      ) : (
+        <Login />
       )}
     </BrowserRouter>
   );

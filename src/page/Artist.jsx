@@ -77,7 +77,7 @@ const Artist = () => {
                   })}
                 </div>
               </div>
-              <div>
+              <div className="contlist">
                 <h1>Related Artists</h1>
                 <div className="artis">
                   {artistRelated.map((artist) => {
@@ -92,8 +92,8 @@ const Artist = () => {
                 </div>
               </div>
 
-              <div>
-                <h1>Related Artists</h1>
+              <div className="contlist">
+                <h1>Related Albums</h1>
                 <div className="artis">
                   {albums.map((album) => {
                     return (
