@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import { BiPlay } from "react-icons/bi";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 
 const CartItemsAlbums = ({ album, redirectPage }) => {
   const { textLimit } = useTimeAndDate();
-
+  const [hovered, setHovered] = useState(false);
   return (
-    <div className="contAlbum" onClick={() => redirectPage("album", album.id)}>
+    <div
+      className="contAlbum"
+      onClick={() => redirectPage("album", album.id)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
         className="contImg adaptable-background"
         style={{ backgroundImage: `url(${album.images[1].url})` }}
-      ></div>
+      >
+        <div className={`play-music ${hovered ? "on" : "off"}`}>
+          <BiPlay />
+        </div>
+      </div>
       <div className="contName">
         <h1>{textLimit("list", album.name)}</h1>
         <div className="dateAlbum">

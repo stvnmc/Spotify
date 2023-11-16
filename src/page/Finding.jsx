@@ -3,7 +3,7 @@ import { BiSearch } from "react-icons/bi";
 import { useSearch } from "../context/SearchContext";
 import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
-import CartItemsTrack from "../components/CartItemsTrack";
+import SongFinding from "../components/SongFinding";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Finding = () => {
@@ -31,7 +31,9 @@ const Finding = () => {
     });
   };
 
-  const ResultadoPrincipal = ({ artist }) => (
+  // render page
+
+  const MainResult = ({ artist }) => (
     <div className="contStart">
       <h1>Resultado principal</h1>
       <div className="searchMain">
@@ -43,6 +45,39 @@ const Finding = () => {
         <div className="contNameMain">
           <h1>Artist</h1>
         </div>
+      </div>
+    </div>
+  );
+
+  const TracksMain = () => (
+    <div className="contSongs">
+      <h1>Canciones</h1>
+      <div className="allSong">
+        {tracks.map((track, i) => {
+          return <SongFinding track={track} key={i} />;
+        })}
+      </div>
+    </div>
+  );
+
+  const Artists = () => (
+    <div className="contlist">
+      <h1>Artis</h1>
+      <div className="artis">
+        {artists.map((artist, i) => (
+          <CartItemsArtis redirectPage={redirectPage} artist={artist} key={i} />
+        ))}
+      </div>
+    </div>
+  );
+
+  const Albums = () => (
+    <div className="contlist">
+      <h1>Album</h1>
+      <div className="album">
+        {albums.map((album, i) => (
+          <CartItemsAlbum redirectPage={redirectPage} album={album} key={i} />
+        ))}
       </div>
     </div>
   );
@@ -66,46 +101,14 @@ const Finding = () => {
           <button>Albums</button>
           <button>Playlist</button>
         </nav>
-        {artists.length > 0 && <ResultadoPrincipal artist={artists[0]} />}
+        <div className="finding-main">
+          {artists.length > 0 && <MainResult artist={artists[0]} />}
 
-        {tracks.length > 0 && (
-          <div className="contSongs">
-            <h1>Canciones</h1>
-            <div className="allSong">
-              {tracks.map((track, i) => {
-                return <CartItemsTrack track={track} key={i} />;
-              })}
-            </div>
-          </div>
-        )}
-        {artists.length > 0 && (
-          <div className="contlist">
-            <h1>Artis</h1>
-            <div className="artis">
-              {artists.map((artist, i) => (
-                <CartItemsArtis
-                  redirectPage={redirectPage}
-                  artist={artist}
-                  key={i}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-        {albums.length > 0 && (
-          <div className="contlist">
-            <h1>Album</h1>
-            <div className="album">
-              {albums.map((album, i) => (
-                <CartItemsAlbum
-                  redirectPage={redirectPage}
-                  album={album}
-                  key={i}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+          {tracks.length > 0 && <TracksMain />}
+        </div>
+
+        {artists.length > 0 && <Artists />}
+        {albums.length > 0 && <Albums />}
       </>
     </section>
   );
