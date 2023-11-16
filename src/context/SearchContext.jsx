@@ -7,6 +7,7 @@ import {
   getInfoArtistsSimilarAlbum,
   getInfoSearch,
 } from "../api/infoArtist";
+import { useAuth } from "./AuthContext";
 
 export const SearchContext = createContext();
 
@@ -21,6 +22,8 @@ export const useSearch = () => {
 };
 
 export const SearchProvider = ({ children }) => {
+  const { lounge } = useAuth();
+
   // search
   const [artists, setArtists] = useState([]);
   const [albums, setAlbums] = useState([]);
@@ -37,6 +40,9 @@ export const SearchProvider = ({ children }) => {
   async function funcionSearch(value) {
     try {
       const res = await getInfoSearch(spotyCode, value);
+      if (res === "The access token expired") {
+        lounge();
+      }
       setAlbums(res.albums.items);
       setArtists(res.artists.items);
       const limitedTracks = await res.tracks.items.slice(0, 4);
@@ -50,15 +56,19 @@ export const SearchProvider = ({ children }) => {
 
   async function infoGetAlbum(id) {
     const res = await getInfoAlbum(spotyCode, id);
+    if (res === "The access token expired") {
+      lounge();
+    }
     setInfoAlbum(res);
+    console.log(res);
   }
 
   async function infoGetArtist(id) {
-    const resAlbum = await getInfoArtistsSimilarAlbum(spotyCode, id);
-    setAlbums(resAlbum);
-
     const resArtist = await getInfoArtist(spotyCode, id);
     setArtists(resArtist);
+
+    const resAlbum = await getInfoArtistsSimilarAlbum(spotyCode, id);
+    setAlbums(resAlbum);
 
     const resArtistTopTrack = await getArtistsTopTracks(spotyCode, id);
     setTracks(resArtistTopTrack);

@@ -1,4 +1,5 @@
 import React from "react";
+import { BiPlay } from "react-icons/bi";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 
 const CartItemsArtis = ({ artist, redirectPage }) => {
@@ -10,11 +11,15 @@ const CartItemsArtis = ({ artist, redirectPage }) => {
       onClick={() => redirectPage("artist", artist.id)}
     >
       <div
-        className="contImg contImgArtis"
+        className="contImg contImgArtis adaptable-background"
         style={{
           backgroundImage: `url(${artist.images[0]?.url || "URL_POR_DEFECTO"})`,
         }}
-      ></div>
+      >
+        <div className="play-music">
+          <BiPlay />
+        </div>
+      </div>
 
       <div className="ContImgText">
         <h1>{textLimit("albums", artist.name)}</h1>

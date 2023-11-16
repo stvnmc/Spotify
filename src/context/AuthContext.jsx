@@ -17,6 +17,11 @@ export const AuthProvider = ({ children }) => {
     redirectToSpotifyAuthorization();
   }
 
+  function lounge() {
+    localStorage.clear();
+    window.location.reload();
+  }
+
   useEffect(() => {
     const storedCode = localStorage.getItem("spotifyCode");
 
@@ -30,13 +35,12 @@ export const AuthProvider = ({ children }) => {
     }
 
     const refreshTokenInterval = setInterval(() => {
-      localStorage.clear();
-      window.location.reload();
+      lounge();
       return () => clearInterval(refreshTokenInterval);
-    }, 3000 * 1000);
+    }, 1000 * 1000);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ login }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ login, lounge }}>{children}</AuthContext.Provider>
   );
 };

@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BiSearch } from "react-icons/bi";
 import { useSearch } from "../context/SearchContext";
 import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsTrack from "../components/CartItemsTrack";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 const Finding = () => {
   const { funcionSearch, artists, albums, tracks } = useSearch();
@@ -14,9 +14,38 @@ const Finding = () => {
     navigate(`/${site}/${id}`);
   };
 
-  const renderCartItemsTrack = () => {
-    return tracks.map((track, i) => <CartItemsTrack track={track} key={i} />);
+  const [searchParams, setSearchParams] = useSearchParams({
+    q: "",
+  });
+
+  const q = searchParams.get("q");
+
+  useEffect(() => {
+    funcionSearch(q);
+  }, [q]);
+
+  const handleInputChange = (e) => {
+    setSearchParams((prev) => {
+      prev.set("q", e.target.value);
+      return prev;
+    });
   };
+
+  const ResultadoPrincipal = ({ artist }) => (
+    <div className="contStart">
+      <h1>Resultado principal</h1>
+      <div className="searchMain">
+        <div
+          className="contImaMain adaptable-background"
+          style={{ backgroundImage: `url(${artist.images[2]?.url})` }}
+        ></div>
+        <h1>{artist.name}</h1>
+        <div className="contNameMain">
+          <h1>Artist</h1>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className="search">
@@ -24,8 +53,9 @@ const Finding = () => {
         <BiSearch />
         <input
           type="text"
-          placeholder="¿Qué te apetece escuchar?"
-          onChange={(e) => funcionSearch(e.target.value)}
+          placeholder="¿What do you want to hear?"
+          value={q}
+          onChange={handleInputChange}
         />
       </form>
       <>
@@ -36,25 +66,16 @@ const Finding = () => {
           <button>Albums</button>
           <button>Playlist</button>
         </nav>
-        {artists.length > 0 && (
-          <div className="contStart">
-            <h1>Resultado principal</h1>
-            <div className="searchMain">
-              <div
-                className="contImaMain adaptable-background"
-                style={{ backgroundImage: `url(${artists[0].images[2]?.url})` }}
-              ></div>
-              <h1>{artists[0].name}</h1>
-              <div className="contNameMain">
-                <h1>Artist</h1>
-              </div>
-            </div>
-          </div>
-        )}
+        {artists.length > 0 && <ResultadoPrincipal artist={artists[0]} />}
+
         {tracks.length > 0 && (
           <div className="contSongs">
             <h1>Canciones</h1>
-            <div className="allSong">{renderCartItemsTrack()}</div>
+            <div className="allSong">
+              {tracks.map((track, i) => {
+                return <CartItemsTrack track={track} key={i} />;
+              })}
+            </div>
           </div>
         )}
         {artists.length > 0 && (

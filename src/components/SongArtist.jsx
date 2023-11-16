@@ -1,15 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
+import { BiPlay } from "react-icons/bi";
+import { LiaHeart } from "react-icons/lia";
+import { RiMoreLine } from "react-icons/ri";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 
 const SongArtist = ({ track, i }) => {
   const { allDurationSong } = useTimeAndDate();
   console.log(track);
-  
+  const [hovered, setHovered] = useState(false);
+
   return (
-    <div className="track">
+    <div
+      className="track"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div className="infoTrack">
         <div className="trackNumTime center">
-          <h1>{i}</h1>
+          {hovered ? <BiPlay name="tu-icono" /> : i}
         </div>
         <div
           className="contImg adaptable-background"
@@ -19,8 +27,12 @@ const SongArtist = ({ track, i }) => {
           <h1>{track.name}</h1>
         </div>
       </div>
-      <div className="trackNumTime">
-        <h1>{allDurationSong("song", track.duration_ms)}</h1>
+      <div className="track-right">
+        <div className="track-icons">{hovered ? <LiaHeart /> : ""}</div>
+        <div className="trackNumTime">
+          {allDurationSong("song", track.duration_ms)}
+        </div>
+        <div className="track-icons">{hovered ? <RiMoreLine /> : ""}</div>
       </div>
     </div>
   );

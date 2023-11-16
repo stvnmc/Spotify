@@ -8,6 +8,10 @@ import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsAlbums from "../components/CartItemsAlbum";
 
 const Artist = () => {
+  const navigate = useNavigate();
+
+  const { id } = useParams();
+
   const {
     setLoading,
     infoGetArtist,
@@ -18,7 +22,7 @@ const Artist = () => {
     artistRelated,
   } = useSearch();
 
-  const navigate = useNavigate();
+  const { name, images, followers } = artists;
 
   async function infoGetPageArtist() {
     try {
@@ -34,11 +38,56 @@ const Artist = () => {
     infoGetPageArtist();
   }, []);
 
-  const { id } = useParams();
-
   const redirectPage = (site, id) => {
     navigate(`/${site}/${id}`, { replace: true });
     window.location.reload();
+  };
+
+  // render page PopularTracks , RelatedArtists,RelatedAlbums
+
+  const PopularTracks = () => (
+    <div className="popular">
+      <label>Popular</label>
+      <div className="tracks">
+        {tracks.map((track, i) => (
+          <SongArtist key={track.id} track={track} i={i + 1} />
+        ))}
+      </div>
+    </div>
+  );
+
+  const RelatedArtists = () => (
+    <div className="contlist">
+      <h1>Related Artists</h1>
+      <div className="artis">
+        {artistRelated.map((artist) => {
+          return (
+            <CartItemsArtis
+              key={artist.id}
+              redirectPage={redirectPage}
+              artist={artist}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+
+  const RelatedAlbums = () => {
+    <div className="contlist">
+      <h1>Related Albums</h1>
+      <div className="artis">
+        {albums.map((album) => {
+          return (
+            <CartItemsAlbums
+              key={album.id}
+              redirectPage={redirectPage}
+              album={album}
+            />
+          );
+        })}
+      </div>
+    </div>;
   };
 
   return (
@@ -47,14 +96,14 @@ const Artist = () => {
         <p>Cargando...</p>
       ) : (
         <>
-          {artists.name && (
+          {name && (
             <>
               <div
                 className="contMainArtis adaptable-background"
-                style={{ backgroundImage: `url(${artists.images[0].url})` }}
+                style={{ backgroundImage: `url(${images[0].url})` }}
               >
-                <h1>{artists.name}</h1>
-                <h1>{artists.followers.total} followers</h1>
+                <h1>{name}</h1>
+                <h1>{followers.total} followers</h1>
               </div>
               <div className="play-like-more play-follow">
                 <div className="play-music">
@@ -67,45 +116,12 @@ const Artist = () => {
                   <RiMoreLine />
                 </div>
               </div>
-              <div className="popular">
-                <label>Popular</label>
-                <div className="tracks">
-                  {tracks.map((track, i) => {
-                    return (
-                      <SongArtist key={track.id} track={track} i={i + 1} />
-                    );
-                  })}
-                </div>
-              </div>
-              <div className="contlist">
-                <h1>Related Artists</h1>
-                <div className="artis">
-                  {artistRelated.map((artist) => {
-                    return (
-                      <CartItemsArtis
-                        key={artist.id}
-                        redirectPage={redirectPage}
-                        artist={artist}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
 
-              <div className="contlist">
-                <h1>Related Albums</h1>
-                <div className="artis">
-                  {albums.map((album) => {
-                    return (
-                      <CartItemsAlbums
-                        key={album.id}
-                        redirectPage={redirectPage}
-                        album={album}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
+              <PopularTracks />
+
+              <RelatedArtists />
+
+              <RelatedAlbums />
             </>
           )}
         </>

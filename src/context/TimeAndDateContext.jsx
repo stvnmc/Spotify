@@ -36,7 +36,6 @@ export const TimeAndDateProvider = ({ children }) => {
     const maxLength = 17;
 
     if (type === "songs" && text.length > maxLength) {
-      console.log("okkok");
       const maxLengthh = 34;
       return text.slice(0, maxLengthh) + "...";
     }
@@ -49,7 +48,12 @@ export const TimeAndDateProvider = ({ children }) => {
   }
 
   return (
-    <TimeAndDateContext.Provider value={{ allDurationSong, textLimit }}>
+    <TimeAndDateContext.Provider
+      value={{
+        allDurationSong,
+        textLimit,
+      }}
+    >
       {children}
     </TimeAndDateContext.Provider>
   );

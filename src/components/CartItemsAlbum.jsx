@@ -7,7 +7,7 @@ const CartItemsAlbums = ({ album, redirectPage }) => {
   return (
     <div className="contAlbum" onClick={() => redirectPage("album", album.id)}>
       <div
-        className="contImg"
+        className="contImg adaptable-background"
         style={{ backgroundImage: `url(${album.images[1].url})` }}
       ></div>
       <div className="contName">

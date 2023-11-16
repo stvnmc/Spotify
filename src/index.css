@@ -251,15 +251,13 @@ main {
   width: 165px;
   padding: 14px;
   background-color: #161618;
+  cursor: pointer;
 }
 
 .contArtist .contImg {
   margin-bottom: 15px;
   width: 165px;
   height: 165px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   border-radius: 50%;
 }
 
@@ -268,10 +266,6 @@ main {
   width: 165px;
   height: 165px;
   border-radius: 7px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  object-fit: cover;
 }
 
 .dateAlbum {
@@ -320,11 +314,13 @@ main {
   font-size: 1rem;
 }
 
+/* credist de albums and name of the albums */
 .dateAlbum h1 {
   color: #909191;
   font-weight: 400;
   font-size: 1rem;
 }
+
 .dateAlbum div {
   background-color: #909191;
   margin: 1px 6px 0px;
@@ -470,37 +466,21 @@ li {
 /*////////////  Page   Album//////// ///////*/
 /* fisrt part */
 
-.sectionAlbum {
-  margin-top: 5rem;
-}
-
 .front-album {
+  padding: 5rem 1rem 1rem;
   display: flex;
   align-items: flex-end;
 }
 
-.info-album {
-  width: 52vw;
-}
-
 .album-img-main {
   margin-right: 1rem;
-  width: 222px;
+  min-width: 222px;
   height: 211px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  object-fit: cover;
 }
 
 .info-album > h1:first-child {
   font-size: 13px;
   font-weight: 400;
-}
-
-.info-album > h1:nth-child(2) {
-  font-size: 5rem;
-  font-weight: 700;
 }
 
 .artis-date-songs {
@@ -518,15 +498,12 @@ li {
   margin: 2px 4px;
   width: 21px;
   height: 21px;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   border-radius: 50%;
 }
 
 /* secondt part */
 .cont-list-music {
-  padding-top: 1rem;
+  padding: 1rem;
 }
 
 .play-like-more {
@@ -558,14 +535,15 @@ li {
 }
 
 .cont-list-music .line {
-  margin: 0.5rem 0;
+  margin: 0.5rem 0 1.5rem;
 }
 
 .list-songs {
-  padding: 1.5rem;
+  padding: 1.5rem 0;
 }
 
 .title-clock {
+  margin: 0 74px 0 21px;
   display: flex;
   justify-content: space-between;
 }
@@ -576,14 +554,14 @@ li {
 .song-duration {
   display: flex;
 }
-
-.song {
-  display: flex;
-  justify-content: space-between;
+.credits {
+  margin-top: 3rem;
 }
 
-.number-song {
-  margin: 0.7rem;
+.credits h1 {
+  color: #909191;
+  font-weight: 400;
+  font-size: 0.7rem;
 }
 
 /*////////////// Page Artis///////////////  */
@@ -597,10 +575,13 @@ li {
   justify-content: flex-end;
 }
 
-.contMainArtis :nth-child(1) {
+/* titulo de artis and album */
+.contMainArtis :nth-child(1),
+.info-album > h1:nth-child(2) {
   margin-bottom: 1rem;
-  font-size: 5rem;
+  font-size: 4.2vw;
 }
+
 .contMainArtis :nth-child(2) {
   font-weight: 500;
   font-size: 1rem;
@@ -639,7 +620,8 @@ li {
 }
 
 .track {
-  margin-bottom: 1rem;
+  border-radius: 4px;
+  padding: 7px;
   display: flex;
   justify-content: space-between;
 }
@@ -647,21 +629,58 @@ li {
 .infoTrack {
   display: flex;
 }
+
 .trackNumTime {
-  width: 40px;
+  width: 35px;
+  margin-right: 8px;
 }
 
-.trackNumTime h1 {
-  font-size: 1rem;
-  font-weight: 400;
+.trackNumTime svg {
+  font-size: 1.3rem;
 }
 
 .contImg {
+  margin-right: 0.8rem;
   width: 38px;
   height: 38px;
 }
 
-.nameTrack h1 {
+.nameTrack > h1:first-child {
   font-size: 1rem;
   font-weight: 400;
+}
+
+.nameTrack > h1:first-child:hover,
+.track-artist span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.track-right {
+  display: flex;
+  align-items: center;
+}
+
+.track-icons {
+  width: 23px;
+  margin: 4px 1rem 0;
+}
+
+.track-icons svg {
+  font-size: 20px;
+}
+.track-artist h1 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* hover tracks */
+
+.track:hover {
+  background-color: #5a5b5b;
+}
+
+.contAlbum:hover,
+.contArtist:hover {
+  background-color: #2f2f2f;
 }

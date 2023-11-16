@@ -5,7 +5,7 @@ import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { HiOutlineClock } from "react-icons/hi";
-import Song from "../components/Song";
+import SongAlbum from "../components/SongAlbum";
 import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 import { usePlayMusic } from "../context/PlayMusicContext";
@@ -29,6 +29,10 @@ const Album = () => {
 
   const navigate = useNavigate();
 
+  const calculateTotalDuration = (tracks) => {
+    return tracks.reduce((total, track) => total + track.duration_ms, 0);
+  };
+
   const infoGetPageAlbum = async () => {
     try {
       await infoGetAlbum(id);
@@ -39,8 +43,13 @@ const Album = () => {
     }
   };
 
-  const calculateTotalDuration = (tracks) => {
-    return tracks.reduce((total, track) => total + track.duration_ms, 0);
+  const infoGetPageArtist = async () => {
+    if (infoAlbum.tracks) {
+      const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
+      setTotalDurationAlbum(totalDuration);
+
+      infoGetArtist(infoAlbum.artists[0].id);
+    }
   };
 
   useEffect(() => {
@@ -48,11 +57,7 @@ const Album = () => {
   }, []);
 
   useEffect(() => {
-    if (infoAlbum && infoAlbum.tracks) {
-      const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
-      setTotalDurationAlbum(totalDuration);
-      infoAlbum.artists.length > 0 && infoGetArtist(infoAlbum.artists[0].id);
-    }
+    infoGetPageArtist();
   }, [infoAlbum]);
 
   const redirectPage = (site, id) => {
@@ -61,14 +66,21 @@ const Album = () => {
   };
 
   return (
-    <section className="sectionAlbum">
+    <section>
       {loading ? (
         <p>Cargando...</p>
       ) : (
         <>
-          <div className="front-album">
+          <div
+            className="front-album"
+            // style={{
+            //   backgroundColor: `${imgColorExtractor(
+            //     infoAlbum?.images?.[1]?.url
+            //   )}`,
+            // }}
+          >
             <div
-              className="album-img-main"
+              className="album-img-main adaptable-background"
               style={{
                 backgroundImage: `url(${infoAlbum?.images?.[1]?.url || ""})`,
               }}
@@ -77,14 +89,15 @@ const Album = () => {
               <h1>Album</h1>
               <h1>{infoAlbum?.name}</h1>
               <div className="artis-date-songs">
-                {artists?.[0]?.images && (
+                {artists?.images?.[0]?.url && (
                   <div
-                    className="artist-img"
+                    className="artist-img adaptable-background"
                     style={{
-                      backgroundImage: `url(${artists[0].images[0].url})`,
+                      backgroundImage: `url(${artists.images[0].url})`,
                     }}
                   ></div>
                 )}
+
                 {infoAlbum?.artists?.[0]?.images && (
                   <div
                     className="artist-img"
@@ -93,6 +106,7 @@ const Album = () => {
                     }}
                   ></div>
                 )}
+
                 <div className="point"></div>
                 <h1>{infoAlbum?.release_date}</h1>
                 <div className="point"></div>
@@ -116,29 +130,25 @@ const Album = () => {
             <div className="list-songs">
               <div className="title-clock">
                 <div className="title">
-                  <h1>#</h1>
-                  <h1>Title</h1>
+                  <h1># Title</h1>
                 </div>
                 <HiOutlineClock />
               </div>
               <div className="line"></div>
               {infoAlbum?.tracks?.items?.map((track) => (
-                <Song
+                <SongAlbum
                   key={track.id}
                   track={track}
                   redirectPage={redirectPage}
                   functionPlaybackState={functionPlaybackState}
                 />
               ))}
-              <div>
-                {infoAlbum?.copyrights && (
-                  <>
-                    <h1>{}</h1>
-                    <h2>{infoAlbum?.copyrights?.[0]?.text}</h2>
-                    <h2>{infoAlbum?.copyrights?.[1]?.text}</h2>
-                  </>
-                )}
-              </div>
+              {infoAlbum?.copyrights && (
+                <div className="credits">
+                  <h1>{infoAlbum?.copyrights?.[0]?.text}</h1>
+                  <h1>{infoAlbum?.copyrights?.[1]?.text}</h1>
+                </div>
+              )}
             </div>
           </div>
           <div className="moreSimilar">
