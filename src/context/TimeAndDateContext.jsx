@@ -13,6 +13,8 @@ export const useTimeAndDate = () => {
 };
 
 export const TimeAndDateProvider = ({ children }) => {
+  const [scroll, setScroll] = useState(true);
+
   function allDurationSong(type, duration_ms) {
     const totalSeconds = Math.floor(duration_ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -47,11 +49,17 @@ export const TimeAndDateProvider = ({ children }) => {
     return text;
   }
 
+  function ScrollNav() {
+    setScroll(true);
+  }
+
   return (
     <TimeAndDateContext.Provider
       value={{
         allDurationSong,
         textLimit,
+        ScrollNav,
+        scroll,
       }}
     >
       {children}

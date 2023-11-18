@@ -96,34 +96,30 @@ const Artist = () => {
         <p>Cargando...</p>
       ) : (
         <>
-          {name && (
-            <>
-              <div
-                className="contMainArtis adaptable-background"
-                style={{ backgroundImage: `url(${images[0].url})` }}
-              >
-                <h1>{name}</h1>
-                <h1>{followers.total} followers</h1>
-              </div>
-              <div className="play-like-more play-follow">
-                <div className="play-music">
-                  <BiPlay />
-                </div>
-                <div className="follow center">
-                  <h1>follow</h1>
-                </div>
-                <div className="more center">
-                  <RiMoreLine />
-                </div>
-              </div>
+          <div
+            className="contMainArtis adaptable-background"
+            style={{ backgroundImage: `url(${images?.[0].url})` }}
+          >
+            <h1>{name}</h1>
+            <h1>{followers.total} followers</h1>
+          </div>
+          <div className="play-like-more play-follow">
+            <div className="play-music">
+              <BiPlay />
+            </div>
+            <div className="follow center">
+              <h1>follow</h1>
+            </div>
+            <div className="more center">
+              <RiMoreLine />
+            </div>
+          </div>
 
-              <PopularTracks />
+          <PopularTracks />
 
-              <RelatedArtists />
+          <RelatedArtists />
 
-              <RelatedAlbums />
-            </>
-          )}
+          <RelatedAlbums />
         </>
       )}
     </>

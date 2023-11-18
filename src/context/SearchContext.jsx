@@ -60,7 +60,6 @@ export const SearchProvider = ({ children }) => {
       lounge();
     }
     setInfoAlbum(res);
-    console.log(res);
   }
 
   async function infoGetArtist(id) {

@@ -71,7 +71,6 @@ export const getInfoArtist = async (accessToken, id) => {
 
       config
     );
-    // console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error en la solicitud:", error);

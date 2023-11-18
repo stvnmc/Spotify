@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { BiPlay } from "react-icons/bi";
+import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
@@ -24,14 +24,13 @@ const CartItemsTrack = ({ track }) => {
     >
       <div className="contImgText">
         <div
-          className="contImg adaptable-background"
+          className="contImg adaptable-background center"
           style={{ backgroundImage: `url(${track.album.images[2].url})` }}
-        ></div>
-
-        {/* <img src={track.album.images[2].url} /> */}
+        >
+          {hovered ? <BiPlay /> : ""}
+        </div>
         <div className="nameTrack">
           <h1>{textLimit("songs", track.name)}</h1>
-
           <div className="track-artist">
             <h1>
               <span onClick={() => redirectPage("artist", track.artists[0].id)}>

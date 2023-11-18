@@ -1,4 +1,11 @@
 import React, { useEffect } from "react";
+import {
+  CgPlayTrackPrev,
+  CgPlayTrackNext,
+  CgPlayPause,
+  CgPlayButton,
+} from "react-icons/cg";
+
 import { usePlayMusic } from "../context/PlayMusicContext";
 
 const Reproduccion = () => {
@@ -6,14 +13,21 @@ const Reproduccion = () => {
 
   useEffect(() => {}, []);
 
-  // Verifica si playbackState[0] está definido antes de intentar acceder a 'uri'
-  // const trackURI = playbackState[0] ? playbackState[0].uri.split(":")[2] : null;
-
+  const setVolume = (e) => {};
   return (
     <div className="reproduccion">
-      <div></div>
-      <div></div>
-      <div></div>
+      <div>
+        
+      </div>
+      <div>
+        <CgPlayTrackPrev />
+        <CgPlayButton />
+        <CgPlayPause />
+        <CgPlayTrackNext />
+      </div>
+      <div>
+        <input type="range" min={0} max={100} onMouseUp={(e) => setVolume(e)} />
+      </div>
     </div>
   );
 };

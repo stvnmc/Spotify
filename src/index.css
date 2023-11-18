@@ -65,9 +65,6 @@ body {
 
 /* Header esta es la parte derecha de la pagina seria como el header */
 
-header {
-}
-
 .bottomNav,
 .topNav {
   width: 65px;
@@ -135,7 +132,6 @@ main {
 
 .navBar {
   width: 84%;
-  background-color: #131312;
   position: fixed;
   display: flex;
   align-items: center;
@@ -370,7 +366,8 @@ main {
   width: 55vw;
 }
 
-.contImgText .contImg {
+.contImgText .contImg,
+.infoTrack .contImg {
   height: 43px;
   width: 43px;
   margin-right: 14px;
@@ -476,13 +473,9 @@ li {
   font-weight: 400;
 }
 
-.artis-date-songs {
-  display: flex;
-}
-
 .point {
   border-radius: 50%;
-  margin: 12px 5px 0px;
+  margin: 3px 5px 0px;
   height: 5px;
   width: 5px;
   background-color: #fff;
@@ -492,6 +485,22 @@ li {
   width: 21px;
   height: 21px;
   border-radius: 50%;
+}
+
+.artis-date,
+.artis-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.artis-date h1 {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.artis-date > h1:first-child {
+  font-size: 15px;
+  font-weight: 700;
 }
 
 /* secondt part */
@@ -519,6 +528,10 @@ li {
   right: -11px;
   bottom: 5px;
   transition: 0.5s;
+}
+
+.play-like-more .play-music {
+  position: inherit;
 }
 
 .like-more {
@@ -625,6 +638,7 @@ li {
 
 .infoTrack {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .trackNumTime {
@@ -641,13 +655,22 @@ li {
   position: relative;
 }
 
+.contImg svg {
+  font-size: 30px;
+}
+
+.infoTrack .nameTrack {
+  padding: 9px;
+}
+
 .nameTrack > h1:first-child {
   font-size: 1rem;
   font-weight: 400;
 }
 
 .nameTrack > h1:first-child:hover,
-.track-artist span:hover {
+.track-artist span:hover,
+.artis-date > h1:first-child:hover {
   text-decoration: underline;
   cursor: pointer;
 }
