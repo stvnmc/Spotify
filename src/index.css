@@ -50,11 +50,6 @@ body {
   width: 51px;
 }
 
-.reproduccion {
-  width: 97vw;
-  height: 10vh;
-}
-
 /* top part */
 
 .UpperPanel {
@@ -719,3 +714,20 @@ li {
   opacity: 0;
   bottom: 0px;
 }
+
+/*////////////////////////////  reproduction   ///////////////////////// */
+
+.reproduction {
+  padding: 13px;
+  display: flex;
+}
+.info-reproduction .contImg {
+  width: 56px;
+  height: 53px;
+  border-radius: 4px;
+}
+.info-reproduction {
+  display: flex;
+  align-items: center;
+}
+

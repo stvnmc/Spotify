@@ -1,6 +1,6 @@
-import { createContext, useContext, useState } from "react";
-import { useAuth } from "./AuthContext";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useSearch } from "./SearchContext";
+import { getInfoTrack } from "../api/infoArtist";
 
 export const PlayMusicContext = createContext();
 
@@ -15,21 +15,41 @@ export const usePlayMusic = () => {
 };
 
 export const PlayMusicProvider = ({ children }) => {
-  const { spotyCode } = useAuth();
+  const {} = useSearch();
+  const spotyCode = localStorage.getItem("access_token");
+  const idSong = localStorage.getItem("id_song");
 
-  const [playbackState, setPlaybackState] = useState([]);
+  const [idPlayState, setIdPlayState] = useState(null);
 
+  const [playState, setPlayState] = useState(null);
 
-  async function functionPlaybackState(audio) {
-    try {
-      await setPlaybackState(audio);
-    } catch (error) {
-      console.log(error);
+  const saveIdList = (track) => {
+    setIdPlayState(track);
+  };
+
+  const getInfoPlay = async () => {
+    const res = await getInfoTrack(spotyCode, idPlayState);
+    setPlayState(res);
+    console.log(res);
+  };
+
+  useEffect(() => {
+    if (idSong) {
+      setIdPlayState(idSong);
     }
-  }
+  }, []);
+
+  useEffect(() => {
+    if (idPlayState) {
+      localStorage.setItem("id_song", idPlayState);
+    }
+    if (idPlayState !== null) {
+      getInfoPlay();
+    }
+  }, [idPlayState]);
 
   return (
-    <PlayMusicContext.Provider value={{ functionPlaybackState, playbackState }}>
+    <PlayMusicContext.Provider value={{ saveIdList, playState }}>
       {children}
     </PlayMusicContext.Provider>
   );

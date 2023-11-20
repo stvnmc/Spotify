@@ -23,6 +23,24 @@ export const getInfoSearch = async (accessToken, id) => {
   }
 };
 
+export const getInfoTrack = async (accessToken, id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/tracks/${id}`,
+
+      config
+    );
+    return response.data;
+  } catch (error) {
+    return error.response.data.error.message;
+  }
+};
+
 export const getInfoAlbum = async (accessToken, id) => {
   const config = {
     headers: {
@@ -89,7 +107,7 @@ export const getArtistsTopTracks = async (accessToken, id) => {
       `https://api.spotify.com/v1/artists/${id}/top-tracks?market=ES`,
       config
     );
-    console.log(response.data.tracks);
+    // console.log(response.data.tracks);
     return response.data.tracks;
   } catch (error) {
     console.error("Error en la solicitud:", error);
@@ -110,29 +128,7 @@ export const getArtistsRelated = async (accessToken, id) => {
       config
     );
     // console.log(response.data.artists.slice(0, 8));
-    getArtistsRelatedd(accessToken);
     return response.data.artists.slice(0, 8);
-  } catch (error) {
-    console.error("Error en la solicitud:", error);
-    throw error;
-  }
-};
-
-export const getArtistsRelatedd = async (accessToken) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
-
-  try {
-    const ressss = await axios.get(
-      `https://api.spotify.com/v1/me/player/currently-playing`,
-      config
-    );
-    console.log(ressss);
-    // console.log(response.data.artists.slice(0, 8));
-    return ressss;
   } catch (error) {
     console.error("Error en la solicitud:", error);
     throw error;

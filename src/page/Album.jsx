@@ -21,8 +21,7 @@ const Album = () => {
     setLoading,
   } = useSearch();
 
-  const { functionPlaybackState } = usePlayMusic();
-
+  const { saveIdList } = usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
   const { id } = useParams();
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
@@ -55,10 +54,6 @@ const Album = () => {
   useEffect(() => {
     infoGetPageAlbum();
   }, []);
-  
-  useEffect(() => {
-    console.log(window.scrollY);
-  }, []);
 
   useEffect(() => {
     infoGetPageArtist();
@@ -67,6 +62,10 @@ const Album = () => {
   const redirectPage = (site, id) => {
     navigate(`/${site}/${id}`, { replace: true });
     window.location.reload();
+  };
+
+  const playSong = (track) => {
+    saveIdList(track.id);
   };
 
   // content Page Album
@@ -126,7 +125,8 @@ const Album = () => {
             key={track.id}
             track={track}
             redirectPage={redirectPage}
-            functionPlaybackState={functionPlaybackState}
+            playSong={playSong}
+            allDurationSong={allDurationSong}
           />
         ))}
         {infoAlbum?.copyrights && (

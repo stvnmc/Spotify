@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useTimeAndDate } from "../context/TimeAndDateContext";
+
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 
-const Song = ({ track, redirectPage, functionPlaybackState }) => {
-  const { allDurationSong } = useTimeAndDate();
+const Song = ({ track, redirectPage, playSong, allDurationSong }) => {
+  // console.log(track);
   const [hovered, setHovered] = useState(false);
 
   useEffect(() => {
@@ -19,10 +19,7 @@ const Song = ({ track, redirectPage, functionPlaybackState }) => {
       onMouseLeave={() => setHovered(false)}
     >
       <div className="song-duration">
-        <div
-          className="trackNumTime center"
-          onClick={() => functionPlaybackState(track.artists[0].preview_url)}
-        >
+        <div className="trackNumTime center" onClick={() => playSong(track)}>
           {hovered ? <BiPlay name="tu-icono" /> : track.track_number}
         </div>
         <div className="nameTrack">

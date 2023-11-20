@@ -101,7 +101,7 @@ const Artist = () => {
             style={{ backgroundImage: `url(${images?.[0].url})` }}
           >
             <h1>{name}</h1>
-            <h1>{followers.total} followers</h1>
+            <h1>{followers?.total} followers</h1>
           </div>
           <div className="play-like-more play-follow">
             <div className="play-music">
