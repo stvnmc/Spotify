@@ -56,9 +56,6 @@ export const SearchProvider = ({ children }) => {
 
   async function infoGetAlbum(id) {
     const res = await getInfoAlbum(spotyCode, id);
-    if (res === "The access token expired") {
-      lounge();
-    }
     setInfoAlbum(res);
   }
 

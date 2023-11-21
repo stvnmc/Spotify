@@ -6,6 +6,7 @@ import { BiPlay } from "react-icons/bi";
 import { RiMoreLine } from "react-icons/ri";
 import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsAlbums from "../components/CartItemsAlbum";
+import { usePlayMusic } from "../context/PlayMusicContext";
 
 const Artist = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const Artist = () => {
     tracks,
     artistRelated,
   } = useSearch();
+
+  const { saveIdList } = usePlayMusic();
 
   const { name, images, followers } = artists;
 
@@ -50,7 +53,12 @@ const Artist = () => {
       <label>Popular</label>
       <div className="tracks">
         {tracks.map((track, i) => (
-          <SongArtist key={track.id} track={track} i={i + 1} />
+          <SongArtist
+            key={track.id}
+            track={track}
+            saveIdList={saveIdList}
+            i={i + 1}
+          />
         ))}
       </div>
     </div>

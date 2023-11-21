@@ -23,14 +23,16 @@ export const PlayMusicProvider = ({ children }) => {
 
   const [playState, setPlayState] = useState(null);
 
+  const [isPlaying, setIsPlaying] = useState(false);
+
   const saveIdList = (track) => {
     setIdPlayState(track);
+    setIsPlaying(true);
   };
 
   const getInfoPlay = async () => {
     const res = await getInfoTrack(spotyCode, idPlayState);
     setPlayState(res);
-    console.log(res);
   };
 
   useEffect(() => {
@@ -49,7 +51,9 @@ export const PlayMusicProvider = ({ children }) => {
   }, [idPlayState]);
 
   return (
-    <PlayMusicContext.Provider value={{ saveIdList, playState }}>
+    <PlayMusicContext.Provider
+      value={{ saveIdList, playState, isPlaying, setIsPlaying }}
+    >
       {children}
     </PlayMusicContext.Provider>
   );

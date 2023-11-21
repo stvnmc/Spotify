@@ -1,5 +1,16 @@
 import axios from "axios";
 
+function lounge() {
+  localStorage.removeItem("access_token");
+  localStorage.removeItem("spotifyCode");
+  window.location.reload();
+}
+
+// const refreshTokenInterval = setInterval(() => {
+//   lounge();
+//   return () => clearInterval(refreshTokenInterval);
+// }, 1000 * 1000);
+
 export const getInfoSearch = async (accessToken, id) => {
   const config = {
     headers: {
@@ -16,10 +27,10 @@ export const getInfoSearch = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.error(error.response.data.error.message);
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
     return error.response.data.error.message;
-    // return error;
-    // throw error;
   }
 };
 
@@ -37,6 +48,9 @@ export const getInfoTrack = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
     return error.response.data.error.message;
   }
 };
@@ -54,7 +68,9 @@ export const getInfoAlbum = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error en la solicitud:", error);
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
     return error.response.data.error.message;
   }
 };
@@ -72,8 +88,10 @@ export const getInfoArtistsSimilarAlbum = async (accessToken, id) => {
     );
     return response.data.items;
   } catch (error) {
-    console.error("Error en la solicitud:", error);
-    throw error;
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
+    return error.response.data.error.message;
   }
 };
 
@@ -91,8 +109,10 @@ export const getInfoArtist = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.error("Error en la solicitud:", error);
-    throw error;
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
+    return error.response.data.error.message;
   }
 };
 
@@ -110,8 +130,10 @@ export const getArtistsTopTracks = async (accessToken, id) => {
     // console.log(response.data.tracks);
     return response.data.tracks;
   } catch (error) {
-    console.error("Error en la solicitud:", error);
-    throw error;
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
+    return error.response.data.error.message;
   }
 };
 
@@ -130,7 +152,9 @@ export const getArtistsRelated = async (accessToken, id) => {
     // console.log(response.data.artists.slice(0, 8));
     return response.data.artists.slice(0, 8);
   } catch (error) {
-    console.error("Error en la solicitud:", error);
-    throw error;
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
+    return error.response.data.error.message;
   }
 };

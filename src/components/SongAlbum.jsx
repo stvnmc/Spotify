@@ -4,7 +4,7 @@ import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 
-const Song = ({ track, redirectPage, playSong, allDurationSong }) => {
+const Song = ({ track, redirectPage, saveIdList, allDurationSong }) => {
   // console.log(track);
   const [hovered, setHovered] = useState(false);
 
@@ -19,7 +19,7 @@ const Song = ({ track, redirectPage, playSong, allDurationSong }) => {
       onMouseLeave={() => setHovered(false)}
     >
       <div className="song-duration">
-        <div className="trackNumTime center" onClick={() => playSong(track)}>
+        <div className="trackNumTime center" onClick={() => saveIdList(track.id)}>
           {hovered ? <BiPlay name="tu-icono" /> : track.track_number}
         </div>
         <div className="nameTrack">

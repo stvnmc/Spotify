@@ -26,7 +26,7 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: #030203;
-  overflow-y: hidden;
+  overflow: hidden;
 }
 
 /* repeated code */
@@ -718,16 +718,73 @@ li {
 /*////////////////////////////  reproduction   ///////////////////////// */
 
 .reproduction {
-  padding: 13px;
+  padding: 12px;
   display: flex;
+  justify-content: space-between;
 }
 .info-reproduction .contImg {
-  width: 56px;
+  min-width: 56px;
   height: 53px;
   border-radius: 4px;
 }
 .info-reproduction {
+  min-width: 300px;
   display: flex;
   align-items: center;
 }
 
+.player-controls,
+.player-info {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.audio-player {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.reproduction .nameTrack h1 {
+  height: 23px;
+  overflow: hidden;
+}
+.player-controls svg {
+  font-size: 33px;
+}
+
+.player-controls .play {
+  width: 32px;
+  height: 32px;
+  background-color: #fcfdfd;
+  color: #010101;
+  border-radius: 50%;
+  position: relative;
+}
+
+.player-controls .play svg {
+  font-size: 41px;
+  position: absolute;
+  top: -5px;
+  right: -6px;
+}
+.player-controls .play.pause svg {
+  right: -4px;
+}
+
+.player-info input {
+  width: 33vw;
+  height: 6px;
+  margin: 0px 6px;
+}
+
+.player-info span {
+  font-weight: 400;
+  font-size: 11px;
+  color: #878786;
+}
+
+.volume {
+  width: 28vw;
+}

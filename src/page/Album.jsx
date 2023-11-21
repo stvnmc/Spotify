@@ -64,10 +64,6 @@ const Album = () => {
     window.location.reload();
   };
 
-  const playSong = (track) => {
-    saveIdList(track.id);
-  };
-
   // content Page Album
 
   const AlbumInfo = () => {
@@ -125,7 +121,7 @@ const Album = () => {
             key={track.id}
             track={track}
             redirectPage={redirectPage}
-            playSong={playSong}
+            saveIdList={saveIdList}
             allDurationSong={allDurationSong}
           />
         ))}
