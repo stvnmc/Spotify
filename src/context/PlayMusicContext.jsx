@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSearch } from "./SearchContext";
-import { getInfoTrack } from "../api/infoArtist";
+import { getInfoAlbum, getInfoTrack } from "../api/infoArtist";
 
 export const PlayMusicContext = createContext();
 
@@ -23,16 +23,67 @@ export const PlayMusicProvider = ({ children }) => {
 
   const [playState, setPlayState] = useState(null);
 
+  const [playListState, setPlayListState] = useState({
+    id: null,
+    tracksId: null,
+  });
+
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const saveIdList = (track) => {
-    setIdPlayState(track);
+  const saveIdList = (trackId) => {
     setIsPlaying(true);
+    if (trackId === idPlayState) return getInfoPlay();
+    setIdPlayState(trackId);
   };
 
   const getInfoPlay = async () => {
     const res = await getInfoTrack(spotyCode, idPlayState);
     setPlayState(res);
+    if (res.album?.id !== playListState.id) {
+      getInfoListPlay(res.album?.id);
+    }
+  };
+
+  const getInfoListPlay = async (id) => {
+    const res = await getInfoAlbum(spotyCode, id);
+
+    setPlayListState((prevState) => ({
+      ...prevState,
+      id: res.id,
+      tracksId: res.tracks?.items.map((track) => track.id),
+    }));
+  };
+
+  const changePlayState = (action) => {
+    const position = playListState.tracksId.indexOf(idPlayState);
+    const numList = playListState.tracksId.length;
+
+    const actions = {
+      next: () => {
+        setIdPlayState(playListState.tracksId[(position + 1) % numList]);
+      },
+      back: () => {
+        setIdPlayState(
+          playListState.tracksId[(position - 1 + numList) % numList]
+        );
+      },
+    };
+
+    const selectedAction = actions[action];
+    if (selectedAction) {
+      selectedAction();
+    }
+  };
+
+  const playAlbum = (id) => {
+    if (idPlayState === id) {
+      saveIdList(id);
+    }
+    if (id === "pause") {
+      console.log("ok")
+      return setIsPlaying(false);
+    }
+    setIsPlaying(!isPlaying);
   };
 
   useEffect(() => {
@@ -52,7 +103,15 @@ export const PlayMusicProvider = ({ children }) => {
 
   return (
     <PlayMusicContext.Provider
-      value={{ saveIdList, playState, isPlaying, setIsPlaying }}
+      value={{
+        saveIdList,
+        playState,
+        isPlaying,
+        setIsPlaying,
+        changePlayState,
+        playAlbum,
+        idPlayState,
+      }}
     >
       {children}
     </PlayMusicContext.Provider>

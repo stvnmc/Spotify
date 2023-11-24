@@ -9,6 +9,7 @@ import SongAlbum from "../components/SongAlbum";
 import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 import { usePlayMusic } from "../context/PlayMusicContext";
+import { CgPlayPause } from "react-icons/cg";
 
 const Album = () => {
   const {
@@ -21,10 +22,14 @@ const Album = () => {
     setLoading,
   } = useSearch();
 
-  const { saveIdList } = usePlayMusic();
+  const { saveIdList, isPlaying, setIsPlaying, playAlbum, idPlayState } =
+    usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
+
   const { id } = useParams();
+
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
+  const [isPlayingAlbum, setIsPlayingAlbum] = useState(true);
 
   const navigate = useNavigate();
 
@@ -50,6 +55,10 @@ const Album = () => {
       infoGetArtist(infoAlbum.artists[0].id);
     }
   };
+
+  useEffect(() => {
+    setIsPlayingAlbum(!isPlayingAlbum);
+  }, [isPlaying]);
 
   useEffect(() => {
     infoGetPageAlbum();
@@ -123,14 +132,17 @@ const Album = () => {
             redirectPage={redirectPage}
             saveIdList={saveIdList}
             allDurationSong={allDurationSong}
+            idPlayState={idPlayState}
+            isPlaying={isPlaying}
+            playAlbum={playAlbum}
           />
         ))}
-        {infoAlbum?.copyrights && (
-          <div className="credits">
-            <h1>{infoAlbum?.copyrights?.[0]?.text}</h1>
-            <h1>{infoAlbum?.copyrights?.[1]?.text}</h1>
-          </div>
-        )}
+
+        <div className="credits">
+          {infoAlbum?.copyrights.map((copyright, index) => (
+            <h1 key={index}>{copyright.text}</h1>
+          ))}
+        </div>
       </div>
     );
   };
@@ -168,7 +180,15 @@ const Album = () => {
           <div className="cont-list-music">
             <div className="play-like-more">
               <div className="play-music">
-                <BiPlay />
+                {isPlayingAlbum ? (
+                  <CgPlayPause
+                    onClick={() => playAlbum(infoAlbum.tracks.items[0].id)}
+                  />
+                ) : (
+                  <BiPlay
+                    onClick={() => playAlbum(infoAlbum.tracks.items[0].id)}
+                  />
+                )}
               </div>
               <div className="like-more">
                 <LiaHeart />

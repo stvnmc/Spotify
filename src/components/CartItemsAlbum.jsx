@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import { BiPlay } from "react-icons/bi";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
+import { usePlayMusic } from "../context/PlayMusicContext";
 
 const CartItemsAlbums = ({ album, redirectPage }) => {
+  const { playAlbum } = usePlayMusic();
   const { textLimit } = useTimeAndDate();
   const [hovered, setHovered] = useState(false);
+  
   return (
     <div
       className="contAlbum"
@@ -17,7 +20,7 @@ const CartItemsAlbums = ({ album, redirectPage }) => {
         style={{ backgroundImage: `url(${album.images[1].url})` }}
       >
         <div className={`play-music ${hovered ? "on" : "off"}`}>
-          <BiPlay />
+          <BiPlay onClick={() => playAlbum()}/>
         </div>
       </div>
       <div className="contName">

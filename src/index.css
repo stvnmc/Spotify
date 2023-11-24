@@ -509,6 +509,7 @@ li {
 }
 
 .play-music {
+  cursor: pointer;
   margin-right: 1rem;
   height: 48px;
   font-size: 33px;
@@ -629,6 +630,10 @@ li {
   padding: 7px;
   display: flex;
   justify-content: space-between;
+}
+
+.track.hover .song-duration {
+  color: #20d660;
 }
 
 .infoTrack {
@@ -757,6 +762,7 @@ li {
 .player-controls .play {
   width: 32px;
   height: 32px;
+  margin: 0px 13px;
   background-color: #fcfdfd;
   color: #010101;
   border-radius: 50%;
@@ -801,7 +807,6 @@ li {
 .player-info input {
   -webkit-appearance: none;
   border-radius: 5px;
-  transition: 0.4s;
 }
 
 .player-info:hover input[type="range"]::-webkit-slider-thumb,
@@ -811,7 +816,6 @@ li {
   height: 12px;
   border-radius: 50%;
   background: #fefffe;
-
 }
 
 .player-info input[type="range"]::-webkit-slider-thumb,
@@ -821,4 +825,22 @@ li {
   height: 12px;
   border-radius: 50%;
   background: transparent;
+}
+
+/* animation bars */
+.cont-bars {
+  display: flex;
+  margin-bottom: 8px;
+  width: 12px;
+  height: 20px;
+  justify-content: space-evenly;
+  align-items: flex-end;
+}
+
+.bar {
+  content: "";
+  height: 30px;
+  width: 2px;
+  background-color: #20d660;
+  transition: 0.2s;
 }

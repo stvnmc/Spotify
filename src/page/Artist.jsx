@@ -113,7 +113,7 @@ const Artist = () => {
           </div>
           <div className="play-like-more play-follow">
             <div className="play-music">
-              <BiPlay />
+              <BiPlay  />
             </div>
             <div className="follow center">
               <h1>follow</h1>

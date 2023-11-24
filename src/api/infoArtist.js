@@ -6,11 +6,6 @@ function lounge() {
   window.location.reload();
 }
 
-// const refreshTokenInterval = setInterval(() => {
-//   lounge();
-//   return () => clearInterval(refreshTokenInterval);
-// }, 1000 * 1000);
-
 export const getInfoSearch = async (accessToken, id) => {
   const config = {
     headers: {

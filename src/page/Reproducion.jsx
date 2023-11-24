@@ -19,10 +19,11 @@ import LoginPlayState from "../components/LoginPlayState";
 import { useEffect } from "react";
 
 const Reproduccion = () => {
-  const { playState, isPlaying, setIsPlaying } = usePlayMusic();
+  const { playState, isPlaying, setIsPlaying, changePlayState } =
+    usePlayMusic();
 
   const [currentTime, setCurrentTime] = useState(0);
-  const [volume, setVolume] = useState(20);
+  const [volume, setVolume] = useState(3);
 
   const [hoveredVolumen, setHoveredVolumen] = useState(false);
   const [hovered, setHovered] = useState(false);
@@ -44,9 +45,19 @@ const Reproduccion = () => {
     }
   }, [playState]);
 
+  useEffect(() => {
+    if (isPlaying) {
+      audioRef.current?.play();
+    }else{
+      audioRef.current?.pause();
+
+    }
+  }, [isPlaying]);
+
   const handleVolumeChange = (e) => {
     setVolume(e.target.value);
   };
+
   const handleTrackChange = (e) => {
     setCurrentTime(e.target.value);
 
@@ -95,7 +106,7 @@ const Reproduccion = () => {
           <h1>{playState.name}</h1>
           <div className="track-artist">
             <h1>
-              {playState.artists.map((artist, index) => (
+              {playState.artists?.map((artist, index) => (
                 <span
                   key={artist.id}
                   onClick={() => redirectPage("artist", artist.id)}
@@ -117,17 +128,17 @@ const Reproduccion = () => {
           src={playState.preview_url}
           controls={false}
           onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
-          onEnded={() => setIsPlaying(false)}
+          onEnded={() => changePlayState("next")}
         ></audio>
         <div className="player-controls">
-          <CgPlayTrackPrev />
+          <CgPlayTrackPrev onClick={() => changePlayState("back")} />
           <div
             onClick={() => playPauseHandler()}
             className={`play ${isPlaying ? "pause" : ""}`}
           >
             {isPlaying ? <CgPlayPause /> : <CgPlayButton />}
           </div>
-          <CgPlayTrackNext />
+          <CgPlayTrackNext onClick={() => changePlayState("next")} />
         </div>
         <div
           className="player-info"
