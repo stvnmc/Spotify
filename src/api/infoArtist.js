@@ -22,6 +22,7 @@ export const getInfoSearch = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
+    console.log(error)
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -43,7 +44,8 @@ export const getInfoTrack = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    if (error.response.data.error.message === "The access token expired") {
+    console.log(error)
+    if (error.response.data.error?.message === "The access token expired") {
       lounge();
     }
     return error.response.data.error.message;

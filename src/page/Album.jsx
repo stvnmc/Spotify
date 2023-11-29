@@ -22,8 +22,7 @@ const Album = () => {
     setLoading,
   } = useSearch();
 
-  const { saveIdList, isPlaying, setIsPlaying, playAlbum, idPlayState } =
-    usePlayMusic();
+  const { saveIdList, isPlaying, playAlbum, idPlayState } = usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
@@ -139,7 +138,7 @@ const Album = () => {
         ))}
 
         <div className="credits">
-          {infoAlbum?.copyrights.map((copyright, index) => (
+          {infoAlbum?.copyrights?.map((copyright, index) => (
             <h1 key={index}>{copyright.text}</h1>
           ))}
         </div>
@@ -181,12 +180,12 @@ const Album = () => {
             <div className="play-like-more">
               <div className="play-music">
                 {isPlayingAlbum ? (
-                  <CgPlayPause
-                    onClick={() => playAlbum(infoAlbum.tracks.items[0].id)}
-                  />
+                  <CgPlayPause onClick={() => playAlbum("albums", "pausa")} />
                 ) : (
                   <BiPlay
-                    onClick={() => playAlbum(infoAlbum.tracks.items[0].id)}
+                    onClick={() =>
+                      playAlbum("albums", infoAlbum.tracks.items[0].id)
+                    }
                   />
                 )}
               </div>

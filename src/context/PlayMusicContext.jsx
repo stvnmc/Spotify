@@ -1,6 +1,11 @@
 import { createContext, useContext, useEffect, useState } from "react";
+
+import {
+  getArtistsTopTracks,
+  getInfoAlbum,
+  getInfoTrack,
+} from "../api/infoArtist";
 import { useSearch } from "./SearchContext";
-import { getInfoAlbum, getInfoTrack } from "../api/infoArtist";
 
 export const PlayMusicContext = createContext();
 
@@ -15,89 +20,100 @@ export const usePlayMusic = () => {
 };
 
 export const PlayMusicProvider = ({ children }) => {
-  const {} = useSearch();
   const spotyCode = localStorage.getItem("access_token");
-  const idSong = localStorage.getItem("id_song");
 
   const [idPlayState, setIdPlayState] = useState(null);
 
   const [playState, setPlayState] = useState(null);
 
   const [playListState, setPlayListState] = useState({
+    nameList: null,
     id: null,
     tracksId: null,
   });
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const saveIdList = (trackId) => {
+  const saveIdList = (nameAction, trackId) => {
+    setPlayListState((prevState) => ({
+      ...prevState,
+      nameList: nameAction,
+    }));
     setIsPlaying(true);
-    if (trackId === idPlayState) return getInfoPlay();
+    if (trackId === idPlayState) return getInfoPlay(nameAction);
     setIdPlayState(trackId);
   };
 
-  const getInfoPlay = async () => {
-    const res = await getInfoTrack(spotyCode, idPlayState);
-    setPlayState(res);
-    if (res.album?.id !== playListState.id) {
-      getInfoListPlay(res.album?.id);
-    }
-  };
-
-  const getInfoListPlay = async (id) => {
-    const res = await getInfoAlbum(spotyCode, id);
-
+  const getInfoPlay = async (nameAction) => {
     setPlayListState((prevState) => ({
       ...prevState,
-      id: res.id,
-      tracksId: res.tracks?.items.map((track) => track.id),
+      nameList: nameAction,
     }));
+
+    const res = await getInfoTrack(spotyCode, idPlayState);
+    setPlayState(res);
+
+    // new
+
+    const index = res.artists.findIndex(
+      (artist) => artist.id === playListState.id
+    );
+    const resTopTracks = await getArtistsTopTracks(
+      spotyCode,
+      res.artists[index === -1 ? 0 : index]?.id
+    );
+    const res2 = await getInfoAlbum(spotyCode, res.album.id);
+
+    const newPlaylistInfo = {
+      nameList: playListState.nameList,
+      id: playListState.nameList === "albums" ? res2.id : res.artists[0]?.id,
+      tracksId:
+        playListState.nameList === "albums"
+          ? res2.tracks?.items.map((track) => track.id)
+          : resTopTracks.map((track) => track.id),
+    };
+    setPlayListState(newPlaylistInfo);
+    const newPlaylistInfoJSON = JSON.stringify(newPlaylistInfo);
+    localStorage.setItem("id_list_songs", newPlaylistInfoJSON);
   };
 
   const changePlayState = (action) => {
     const position = playListState.tracksId.indexOf(idPlayState);
     const numList = playListState.tracksId.length;
 
-    const actions = {
-      next: () => {
-        setIdPlayState(playListState.tracksId[(position + 1) % numList]);
-      },
-      back: () => {
-        setIdPlayState(
-          playListState.tracksId[(position - 1 + numList) % numList]
-        );
-      },
-    };
+    const newPosition =
+      action === "next"
+        ? (position + 1) % numList
+        : (position - 1 + numList) % numList;
 
-    const selectedAction = actions[action];
-    if (selectedAction) {
-      selectedAction();
-    }
+    console.log(playListState.tracksId);
+    setIdPlayState(playListState.tracksId[newPosition]);
   };
 
-  const playAlbum = (id) => {
-    if (idPlayState === id) {
-      saveIdList(id);
+  const playAlbum = (nameAction, id) => {
+    if (idPlayState === id || idPlayState === null) {
+      saveIdList(nameAction, id);
+    } else if (id === "pause") {
+      setIsPlaying(false);
+    } else {
+      setIsPlaying(!isPlaying);
     }
-    if (id === "pause") {
-      console.log("ok")
-      return setIsPlaying(false);
-    }
-    setIsPlaying(!isPlaying);
   };
 
   useEffect(() => {
-    if (idSong) {
-      setIdPlayState(idSong);
-    }
+    const idSong = localStorage.getItem("id_song");
+    const idListSong = localStorage.getItem("id_list_songs");
+    const newPlaylistInfoJSON = JSON.parse(idListSong);
+
+    if (idSong) setIdPlayState(idSong);
+
+    if (idListSong) setPlayListState(newPlaylistInfoJSON);
   }, []);
 
   useEffect(() => {
     if (idPlayState) {
       localStorage.setItem("id_song", idPlayState);
-    }
-    if (idPlayState !== null) {
-      getInfoPlay();
+      getInfoPlay(playListState.nameList);
     }
   }, [idPlayState]);
 

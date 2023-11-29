@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSearch } from "../context/SearchContext";
 import SongArtist from "../components/SongArtist";
@@ -7,6 +7,7 @@ import { RiMoreLine } from "react-icons/ri";
 import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsAlbums from "../components/CartItemsAlbum";
 import { usePlayMusic } from "../context/PlayMusicContext";
+import { CgPlayPause } from "react-icons/cg";
 
 const Artist = () => {
   const navigate = useNavigate();
@@ -23,9 +24,11 @@ const Artist = () => {
     artistRelated,
   } = useSearch();
 
-  const { saveIdList } = usePlayMusic();
+  const { saveIdList, playAlbum } = usePlayMusic();
 
   const { name, images, followers } = artists;
+
+  const [isPlayingAlbum, setIsPlayingAlbum] = useState(false);
 
   async function infoGetPageArtist() {
     try {
@@ -113,7 +116,11 @@ const Artist = () => {
           </div>
           <div className="play-like-more play-follow">
             <div className="play-music">
-              <BiPlay  />
+              {isPlayingAlbum ? (
+                <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
+              ) : (
+                <BiPlay onClick={() => playAlbum("artist", tracks[0].id)} />
+              )}
             </div>
             <div className="follow center">
               <h1>follow</h1>

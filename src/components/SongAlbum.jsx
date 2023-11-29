@@ -46,7 +46,7 @@ const Song = ({
       <div className="song-duration">
         <div
           className="trackNumTime center"
-          onClick={() => saveIdList(track.id)}
+          onClick={() => saveIdList("albums",track.id)}
         >
           {renderContent()}
         </div>

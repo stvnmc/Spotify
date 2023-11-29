@@ -9,6 +9,10 @@ const SongArtist = ({ track, i, saveIdList }) => {
 
   const [hovered, setHovered] = useState(false);
 
+  // const idList = track.artists
+  //   .filter((artist) => artist.id === id)
+  //   .map((artist) => track.id);
+
   return (
     <div
       className="track"
@@ -18,7 +22,7 @@ const SongArtist = ({ track, i, saveIdList }) => {
       <div className="infoTrack">
         <div
           className="trackNumTime center"
-          onClick={() => saveIdList(track.id)}
+          onClick={() => saveIdList("artist", track.id)}
         >
           {hovered ? <BiPlay name="tu-icono" /> : i}
         </div>
