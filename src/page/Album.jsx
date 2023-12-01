@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSearch } from "../context/SearchContext";
+import { getInfoAlbum } from "../api/infoArtist";
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
@@ -10,25 +10,20 @@ import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
+import { useSearch } from "../context/SearchContext";
 
 const Album = () => {
-  const {
-    infoGetAlbum,
-    infoAlbum,
-    infoGetArtist,
-    artists,
-    albums,
-    loading,
-    setLoading,
-  } = useSearch();
-
-  const { saveIdList, isPlaying, playAlbum, idPlayState } = usePlayMusic();
+  const { spotyCode, infoGetArtist, artists, albums } = useSearch();
+  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
+    usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
 
+  const [loading, setLoading] = useState(true);
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
-  const [isPlayingAlbum, setIsPlayingAlbum] = useState(true);
+  const [isPlayingAlbum, setIsPlayingAlbum] = useState(false);
+  const [albuminfoPage, setAlbuminfoPage] = useState(null);
 
   const navigate = useNavigate();
 
@@ -38,7 +33,9 @@ const Album = () => {
 
   const infoGetPageAlbum = async () => {
     try {
-      await infoGetAlbum(id);
+      setLoading(true);
+      const res = await getInfoAlbum(spotyCode, id);
+      setAlbuminfoPage(res);
     } catch (error) {
       console.error(error);
     } finally {
@@ -47,29 +44,47 @@ const Album = () => {
   };
 
   const infoGetPageArtist = async () => {
-    if (infoAlbum.tracks) {
-      const totalDuration = calculateTotalDuration(infoAlbum.tracks.items);
+    if (albuminfoPage?.tracks) {
+      const totalDuration = calculateTotalDuration(albuminfoPage.tracks.items);
       setTotalDurationAlbum(totalDuration);
 
-      infoGetArtist(infoAlbum.artists[0].id);
+      infoGetArtist(albuminfoPage.artists[0].id);
     }
   };
 
   useEffect(() => {
-    setIsPlayingAlbum(!isPlayingAlbum);
-  }, [isPlaying]);
+    if (id !== playListState.id) {
+      setIsPlayingAlbum(true);
+    }
+    if (id === playListState.id) {
+      setIsPlayingAlbum(false);
+      if(isPlaying){
+        setIsPlayingAlbum(true);
+      }
+    }
+    
+  }, [albuminfoPage]);
 
   useEffect(() => {
     infoGetPageAlbum();
-  }, []);
+  }, [id]);
+
 
   useEffect(() => {
-    infoGetPageArtist();
-  }, [infoAlbum]);
+    if (albuminfoPage) {
+      infoGetPageArtist();
+    }
+  }, [albuminfoPage]);
 
-  const redirectPage = (site, id) => {
-    navigate(`/${site}/${id}`, { replace: true });
-    window.location.reload();
+  const redirectPage = async (site, id) => {
+    try {
+      await setAlbuminfoPage(null);
+      navigate(`/${site}/${id}`, { replace: true });
+      await infoGetPageAlbum();
+      await infoGetPageArtist();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // content Page Album
@@ -80,12 +95,12 @@ const Album = () => {
         <div
           className="album-img-main adaptable-background"
           style={{
-            backgroundImage: `url(${infoAlbum?.images?.[1]?.url || ""})`,
+            backgroundImage: `url(${albuminfoPage?.images?.[1]?.url || ""})`,
           }}
         ></div>
         <div className="info-album">
           <h1>Album</h1>
-          <h1>{infoAlbum?.name}</h1>
+          <h1>{albuminfoPage?.name}</h1>
           <div className="artis-date-songs">
             <div className="artis-info">
               <div
@@ -100,10 +115,10 @@ const Album = () => {
                 </h1>
 
                 <div className="point"></div>
-                <h1>{infoAlbum?.release_date}</h1>
+                <h1>{albuminfoPage?.release_date}</h1>
                 <div className="point"></div>
                 <h1>
-                  {infoAlbum?.tracks?.items?.length || 0} songs,{" "}
+                  {albuminfoPage?.tracks?.items?.length || 0} songs,{" "}
                   {allDurationSong("infoAlbum", totalDurationAlbum)}
                 </h1>
               </div>
@@ -124,7 +139,7 @@ const Album = () => {
           <HiOutlineClock />
         </div>
         <div className="line"></div>
-        {infoAlbum?.tracks?.items?.map((track) => (
+        {albuminfoPage?.tracks?.items?.map((track) => (
           <SongAlbum
             key={track.id}
             track={track}
@@ -138,7 +153,7 @@ const Album = () => {
         ))}
 
         <div className="credits">
-          {infoAlbum?.copyrights?.map((copyright, index) => (
+          {albuminfoPage?.copyrights?.map((copyright, index) => (
             <h1 key={index}>{copyright.text}</h1>
           ))}
         </div>
@@ -152,7 +167,7 @@ const Album = () => {
         {albums.length > 0 && (
           <div className="moreSimilar">
             <div className="list">
-              <h1>More of the {infoAlbum?.artists?.[0]?.name}</h1>
+              <h1>More of the {albuminfoPage?.artists?.[0]?.name}</h1>
               <div className="album">
                 {albums.map((album, i) => (
                   <CartItemsAlbum
@@ -180,13 +195,13 @@ const Album = () => {
             <div className="play-like-more">
               <div className="play-music">
                 {isPlayingAlbum ? (
-                  <CgPlayPause onClick={() => playAlbum("albums", "pausa")} />
-                ) : (
                   <BiPlay
                     onClick={() =>
-                      playAlbum("albums", infoAlbum.tracks.items[0].id)
+                      playAlbum("albums", albuminfoPage.tracks.items[0].id)
                     }
                   />
+                ) : (
+                  <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
                 )}
               </div>
               <div className="like-more">

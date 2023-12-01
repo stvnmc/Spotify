@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { LiaHeart } from "react-icons/lia";
 import {
   CgPlayTrackPrev,
@@ -6,17 +6,14 @@ import {
   CgPlayPause,
   CgPlayButton,
 } from "react-icons/cg";
-
 import {
   BsVolumeMuteFill,
   BsFillVolumeDownFill,
   BsFillVolumeUpFill,
   BsFillVolumeOffFill,
 } from "react-icons/bs";
-
 import { usePlayMusic } from "../context/PlayMusicContext";
 import LoginPlayState from "../components/LoginPlayState";
-import { useEffect } from "react";
 
 const Reproduccion = () => {
   const { playState, isPlaying, setIsPlaying, changePlayState } =
@@ -24,57 +21,49 @@ const Reproduccion = () => {
 
   const [currentTime, setCurrentTime] = useState(0);
   const [volume, setVolume] = useState(3);
-
   const [hoveredVolumen, setHoveredVolumen] = useState(false);
   const [hovered, setHovered] = useState(false);
-
   const audioRef = useRef(null);
 
   const playPauseHandler = () => {
-    if (isPlaying) {
-      audioRef.current.pause();
-    } else {
-      audioRef.current.play();
+    if (audioRef.current) {
+      if (isPlaying) {
+        console.log("play")
+        audioRef.current.play();
+      } else {
+        console.log("pause")
+        audioRef.current.pause();
+      }
+      setIsPlaying(!isPlaying);
     }
-    setIsPlaying(!isPlaying);
   };
-
   useEffect(() => {
-    if (isPlaying) {
-      audioRef.current.play();
-    }
+    playPauseHandler();
   }, [playState]);
 
-  useEffect(() => {
-    if (isPlaying) {
-      audioRef.current?.play();
-    }else{
-      audioRef.current?.pause();
-
-    }
-  }, [isPlaying]);
-
-  const handleVolumeChange = (e) => {
-    setVolume(e.target.value);
-  };
-
-  const handleTrackChange = (e) => {
-    setCurrentTime(e.target.value);
-
-    audioRef.current.currentTime = e.target.value;
-  };
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
     }
-  }, [volume]);
+  }, [volume, audioRef.current]);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume / 100;
     }
   }, [audioRef.current]);
+
+  const handleVolumeChange = (e) => {
+    setVolume(e.target.value);
+  };
+
+  const handleTrackChange = (e) => {
+    if (audioRef.current) {
+      setCurrentTime(e.target.value);
+      audioRef.current.currentTime = e.target.value;
+    }
+  };
 
   const IconVolume = () => {
     const volumeRanges = [
@@ -136,7 +125,7 @@ const Reproduccion = () => {
             onClick={() => playPauseHandler()}
             className={`play ${isPlaying ? "pause" : ""}`}
           >
-            {isPlaying ? <CgPlayPause /> : <CgPlayButton />}
+            {isPlaying ? <CgPlayButton /> : <CgPlayPause />}
           </div>
           <CgPlayTrackNext onClick={() => changePlayState("next")} />
         </div>

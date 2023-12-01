@@ -31,7 +31,7 @@ const Song = ({
         <BiPlay name="tu-icono" />
       );
     } else if (track.id === idPlayState) {
-      return isTrackPlaying ? <BarsPlaySong /> : track.track_number;
+      return isTrackPlaying ? track.track_number : <BarsPlaySong />;
     }
 
     return track.track_number;
@@ -46,7 +46,7 @@ const Song = ({
       <div className="song-duration">
         <div
           className="trackNumTime center"
-          onClick={() => saveIdList("albums",track.id)}
+          onClick={() => saveIdList("albums", track.id)}
         >
           {renderContent()}
         </div>
