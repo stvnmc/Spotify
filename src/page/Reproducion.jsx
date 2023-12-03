@@ -28,19 +28,30 @@ const Reproduccion = () => {
   const playPauseHandler = () => {
     if (audioRef.current) {
       if (isPlaying) {
-        console.log("play")
-        audioRef.current.play();
-      } else {
-        console.log("pause")
         audioRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        console.log("hola");
+        audioRef.current.play();
+        setIsPlaying(true);
       }
-      setIsPlaying(!isPlaying);
     }
   };
   useEffect(() => {
     playPauseHandler();
   }, [playState]);
 
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying !== null) {
+        if (isPlaying) {
+          audioRef.current.play();
+        } else {
+          audioRef.current.pause();
+        }
+      }
+    }
+  }, [isPlaying]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -125,7 +136,7 @@ const Reproduccion = () => {
             onClick={() => playPauseHandler()}
             className={`play ${isPlaying ? "pause" : ""}`}
           >
-            {isPlaying ? <CgPlayButton /> : <CgPlayPause />}
+            {isPlaying ? <CgPlayPause /> : <CgPlayButton />}
           </div>
           <CgPlayTrackNext onClick={() => changePlayState("next")} />
         </div>

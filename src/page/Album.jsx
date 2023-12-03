@@ -14,8 +14,14 @@ import { useSearch } from "../context/SearchContext";
 
 const Album = () => {
   const { spotyCode, infoGetArtist, artists, albums } = useSearch();
-  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
-    usePlayMusic();
+  const {
+    saveIdList,
+    isPlaying,
+    playAlbum,
+    idPlayState,
+    playListState,
+    playState,
+  } = usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
@@ -53,22 +59,29 @@ const Album = () => {
   };
 
   useEffect(() => {
+    console.log("cambia valore");
     if (id !== playListState.id) {
-      setIsPlayingAlbum(true);
-    }
-    if (id === playListState.id) {
+      console.log("no es igual");
       setIsPlayingAlbum(false);
-      if(isPlaying){
-        setIsPlayingAlbum(true);
+      if (isPlaying) {
+        console.log("se re produce");
+        setIsPlayingAlbum(false);
+      }
+      return;
+    }
+
+    if (id === playListState.id) {
+      console.log("es igual ");
+      setIsPlayingAlbum(true);
+      if (!isPlaying) {
+        setIsPlayingAlbum(false);
       }
     }
-    
-  }, [albuminfoPage]);
+  }, [albuminfoPage, isPlaying, playState]);
 
   useEffect(() => {
     infoGetPageAlbum();
   }, [id]);
-
 
   useEffect(() => {
     if (albuminfoPage) {
@@ -194,7 +207,7 @@ const Album = () => {
           <div className="cont-list-music">
             <div className="play-like-more">
               <div className="play-music">
-                {isPlayingAlbum ? (
+                {!isPlayingAlbum ? (
                   <BiPlay
                     onClick={() =>
                       playAlbum("albums", albuminfoPage.tracks.items[0].id)

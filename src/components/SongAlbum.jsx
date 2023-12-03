@@ -21,14 +21,17 @@ const Song = ({
     allDurationSong(track.duration_ms);
   }, []);
 
-  const isTrackPlaying = track.id === idPlayState && isPlaying;
+  const isTrackPlaying = track.id === idPlayState && !isPlaying;
 
   const renderContent = () => {
     if (hovered) {
       return isTrackPlaying ? (
-        <CgPlayPause onClick={() => playAlbum("pause")} />
+        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
       ) : (
-        <BiPlay name="tu-icono" />
+        <BiPlay
+          name="tu-icono"
+          onClick={() => saveIdList("albums", track.id)}
+        />
       );
     } else if (track.id === idPlayState) {
       return isTrackPlaying ? track.track_number : <BarsPlaySong />;
@@ -44,12 +47,7 @@ const Song = ({
       onMouseLeave={() => setHovered(false)}
     >
       <div className="song-duration">
-        <div
-          className="trackNumTime center"
-          onClick={() => saveIdList("albums", track.id)}
-        >
-          {renderContent()}
-        </div>
+        <div className="trackNumTime center">{renderContent()}</div>
         <div className="nameTrack">
           <h1>{track.name}</h1>
           <div className="track-artist">

@@ -29,25 +29,28 @@ export const PlayMusicProvider = ({ children }) => {
     id: null,
     tracksId: null,
   });
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(null);
 
   const saveIdList = (nameAction, trackId) => {
+    console.log("saveIdList");
+
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
     }));
-    setIsPlaying(true);
-    if (trackId === idPlayState) return getInfoPlay(nameAction);
+    if (trackId === idPlayState) return getInfoPlay();
+    setIsPlaying(false);
+    console.log("isplay false");
     setIdPlayState(trackId);
   };
 
   const getInfoPlay = async () => {
-    const res = await getInfoTrack(spotyCode, idPlayState);
-    if (playState === null) {
-      setPlayState(res);
-    }
+    console.log("getInfoPlay");
+    setIsPlaying(false);
 
-    if (res.id !== playState.id) {
+    const res = await getInfoTrack(spotyCode, idPlayState);
+
+    if (playState === null || res.id !== playState.id) {
       setPlayState(res);
     }
 
@@ -84,7 +87,6 @@ export const PlayMusicProvider = ({ children }) => {
 
     if (playListState.nameList === "artist") {
       if (res.artists[index]?.id !== playListState.id) {
-        console.log("ok");
         const newPlaylistInfo = {
           nameList: playListState.nameList,
           id:
@@ -105,6 +107,7 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const changePlayState = (action) => {
+    console.log("changePlayState");
     const position = playListState.tracksId.indexOf(idPlayState);
     const numList = playListState.tracksId.length;
 
@@ -113,25 +116,33 @@ export const PlayMusicProvider = ({ children }) => {
         ? (position + 1) % numList
         : (position - 1 + numList) % numList;
 
-    setIsPlaying(true);
     setIdPlayState(playListState.tracksId[newPosition]);
   };
 
   const playAlbum = (nameAction, id) => {
+    console.log("playAlbum");
     console.log(id);
-    if (id === "pause") return setIsPlaying(false);
-
+    if (id === "pause") {
+      console.log("ok");
+      return setIsPlaying(false);
+    }
     if (idPlayState === id || idPlayState === null) {
       console.log("1");
       saveIdList(nameAction, id);
+      setIsPlaying(!isPlaying);
     } else {
       console.log("2");
+
       const idExists = playListState.tracksId.includes(id);
-      if (!idExists) return saveIdList(nameAction, id);
+      if (!idExists) {
+        console.log("okkk");
+        setIsPlaying(true);
+        saveIdList(nameAction, id);
+        return;
+      }
       console.log("4");
       setIsPlaying(!isPlaying);
     }
-    console.log("final");
   };
 
   useEffect(() => {
@@ -139,9 +150,8 @@ export const PlayMusicProvider = ({ children }) => {
     const idListSong = localStorage.getItem("id_list_songs");
     const newPlaylistInfoJSON = JSON.parse(idListSong);
 
-    if (idSong) {
-      setIdPlayState(idSong);
-    }
+    if (idSong) setIdPlayState(idSong);
+
     if (idListSong) setPlayListState(newPlaylistInfoJSON);
   }, []);
 
@@ -152,9 +162,7 @@ export const PlayMusicProvider = ({ children }) => {
     }
   }, [idPlayState]);
 
-  useEffect(() => {
-    console.log("seutilizo");
-  }, [isPlaying]);
+  useEffect(() => {}, [isPlaying]);
 
   return (
     <PlayMusicContext.Provider
@@ -167,6 +175,7 @@ export const PlayMusicProvider = ({ children }) => {
         playAlbum,
         idPlayState,
         playListState,
+        getInfoPlay,
       }}
     >
       {children}
