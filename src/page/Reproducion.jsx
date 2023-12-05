@@ -25,18 +25,13 @@ const Reproduccion = () => {
   const [hovered, setHovered] = useState(false);
   const audioRef = useRef(null);
 
+  const { name, album, artists, preview_url } = playState || {};
+
   const playPauseHandler = () => {
-    if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        console.log("hola");
-        audioRef.current.play();
-        setIsPlaying(true);
-      }
-    }
+    if (isPlaying) return setIsPlaying(false);
+    setIsPlaying(true);
   };
+
   useEffect(() => {
     playPauseHandler();
   }, [playState]);
@@ -98,12 +93,12 @@ const Reproduccion = () => {
         <div
           className="contImg adaptable-background"
           style={{
-            backgroundImage: `url(${playState?.album?.images?.[1].url})`,
+            backgroundImage: `url(${album?.images?.[1].url})`,
           }}
         ></div>
 
         <div className="nameTrack">
-          <h1>{playState.name}</h1>
+          <h1>{name}</h1>
           <div className="track-artist">
             <h1>
               {playState.artists?.map((artist, index) => (
@@ -112,7 +107,7 @@ const Reproduccion = () => {
                   onClick={() => redirectPage("artist", artist.id)}
                 >
                   {artist.name}
-                  {index < playState.artists.length - 1 && ", "}
+                  {index < artists.length - 1 && ", "}
                 </span>
               ))}
             </h1>
@@ -125,7 +120,7 @@ const Reproduccion = () => {
       <div className="audio-player">
         <audio
           ref={audioRef}
-          src={playState.preview_url}
+          src={preview_url}
           controls={false}
           onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
           onEnded={() => changePlayState("next")}

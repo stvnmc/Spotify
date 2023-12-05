@@ -11,17 +11,12 @@ import { useTimeAndDate } from "../context/TimeAndDateContext";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
 import { useSearch } from "../context/SearchContext";
+import ColorThief from "colorthief";
 
 const Album = () => {
   const { spotyCode, infoGetArtist, artists, albums } = useSearch();
-  const {
-    saveIdList,
-    isPlaying,
-    playAlbum,
-    idPlayState,
-    playListState,
-    playState,
-  } = usePlayMusic();
+  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
+    usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
@@ -59,35 +54,21 @@ const Album = () => {
   };
 
   useEffect(() => {
-    console.log("cambia valore");
-    if (id !== playListState.id) {
-      console.log("no es igual");
-      setIsPlayingAlbum(false);
-      if (isPlaying) {
-        console.log("se re produce");
-        setIsPlayingAlbum(false);
-      }
-      return;
-    }
+    if (albuminfoPage) infoGetPageArtist();
+
+    if (id !== playListState.id) return setIsPlayingAlbum(false);
 
     if (id === playListState.id) {
-      console.log("es igual ");
       setIsPlayingAlbum(true);
       if (!isPlaying) {
         setIsPlayingAlbum(false);
       }
     }
-  }, [albuminfoPage, isPlaying, playState]);
+  }, [albuminfoPage, isPlaying]);
 
   useEffect(() => {
     infoGetPageAlbum();
   }, [id]);
-
-  useEffect(() => {
-    if (albuminfoPage) {
-      infoGetPageArtist();
-    }
-  }, [albuminfoPage]);
 
   const redirectPage = async (site, id) => {
     try {
@@ -100,11 +81,55 @@ const Album = () => {
     }
   };
 
+  // color
+  const imageUrl = albuminfoPage?.images?.[1]?.url;
+  const [backgroundColor, setBackgroundColor] = useState("rgba(0, 0, 0, 1)");
+  const [backgroudGrandient, setBackgroudGrandient] =
+    useState("rgba(0, 0, 0, 1)");
+
+  useEffect(() => {
+    const coloImg = async () => {
+      if (imageUrl) {
+        try {
+          const imgBlob = await loadImageAsBlob(imageUrl);
+          const img = new Image();
+          img.src = URL.createObjectURL(imgBlob);
+
+          img.addEventListener("load", () => {
+            const colorThief = new ColorThief();
+            const color = colorThief.getColor(img);
+
+            const rgbaColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
+            const rgbaGrand = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 90%)`;
+
+            setBackgroundColor(rgbaColor);
+            setBackgroudGrandient(rgbaGrand);
+          });
+        } catch (error) {
+          console.error("Error al cargar la imagen", error);
+        }
+      }
+    };
+
+    coloImg();
+  }, [imageUrl]);
+
+  const loadImageAsBlob = async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+  };
+
   // content Page Album
 
   const AlbumInfo = () => {
     return (
-      <div className="front-album">
+      <div
+        className="front-album"
+        style={{
+          backgroundColor,
+        }}
+      >
         <div
           className="album-img-main adaptable-background"
           style={{
@@ -205,6 +230,12 @@ const Album = () => {
         <>
           <AlbumInfo />
           <div className="cont-list-music">
+            <div
+              className="gradient"
+              style={{
+                background: `linear-gradient(to bottom,${backgroudGrandient},rgba(19, 19, 18) )`,
+              }}
+            ></div>
             <div className="play-like-more">
               <div className="play-music">
                 {!isPlayingAlbum ? (

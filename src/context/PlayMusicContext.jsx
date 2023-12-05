@@ -47,6 +47,7 @@ export const PlayMusicProvider = ({ children }) => {
   const getInfoPlay = async () => {
     console.log("getInfoPlay");
     setIsPlaying(false);
+    
 
     const res = await getInfoTrack(spotyCode, idPlayState);
 

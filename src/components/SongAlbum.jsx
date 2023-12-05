@@ -21,7 +21,7 @@ const Song = ({
     allDurationSong(track.duration_ms);
   }, []);
 
-  const isTrackPlaying = track.id === idPlayState && !isPlaying;
+  const isTrackPlaying = track.id === idPlayState && isPlaying;
 
   const renderContent = () => {
     if (hovered) {
@@ -34,7 +34,7 @@ const Song = ({
         />
       );
     } else if (track.id === idPlayState) {
-      return isTrackPlaying ? track.track_number : <BarsPlaySong />;
+      return !isTrackPlaying ? track.track_number : <BarsPlaySong />;
     }
 
     return track.track_number;
