@@ -23,16 +23,17 @@ export const PlayMusicProvider = ({ children }) => {
   const spotyCode = localStorage.getItem("access_token");
 
   const [idPlayState, setIdPlayState] = useState(null);
+  const [idplayListState, setIdplayListState] = useState(null);
   const [playState, setPlayState] = useState(null);
   const [playListState, setPlayListState] = useState({
     nameList: null,
-    id: null,
     tracksId: null,
   });
   const [isPlaying, setIsPlaying] = useState(null);
 
   const saveIdList = (nameAction, trackId) => {
     console.log("saveIdList");
+    console.log(trackId);
 
     setPlayListState((prevState) => ({
       ...prevState,
@@ -46,8 +47,8 @@ export const PlayMusicProvider = ({ children }) => {
 
   const getInfoPlay = async () => {
     console.log("getInfoPlay");
+    console.log(idPlayState);
     setIsPlaying(false);
-    
 
     const res = await getInfoTrack(spotyCode, idPlayState);
 
@@ -55,9 +56,11 @@ export const PlayMusicProvider = ({ children }) => {
       setPlayState(res);
     }
 
-    const index = res.artists?.findIndex(
-      (artist) => artist.id === playListState.id
-    );
+    const index = res.artists?.findIndex((artist) => {
+      artist.id === playListState.id;
+      console.log(playListState.id);
+      console.log(artist);
+    });
 
     const resTopTracks = await getArtistsTopTracks(
       spotyCode,
@@ -69,15 +72,12 @@ export const PlayMusicProvider = ({ children }) => {
     if (playListState.nameList === "albums") {
       if (res2.id !== playListState.id) {
         const newPlaylistInfo = {
+          ...playListState,
           nameList: playListState.nameList,
-          id:
-            playListState.nameList === "albums"
-              ? res2.id
-              : res.artists[index]?.id,
+          id: idplayListState,
           tracksId:
-            playListState.nameList === "albums"
-              ? res2.tracks?.items.map((track) => track.id)
-              : resTopTracks.map((track) => track.id),
+            playListState.nameList ===
+            res2.tracks?.items.map((track) => track.id),
         };
 
         setPlayListState(newPlaylistInfo);
@@ -87,19 +87,16 @@ export const PlayMusicProvider = ({ children }) => {
     }
 
     if (playListState.nameList === "artist") {
-      if (res.artists[index]?.id !== playListState.id) {
+      console.log(index);
+      if (res.artists[index === -1 ? 0 : index]?.id !== playListState.id) {
         const newPlaylistInfo = {
           nameList: playListState.nameList,
-          id:
-            playListState.nameList === "albums"
-              ? res2.id
-              : res.artists[index]?.id,
+          id: idplayListState,
           tracksId:
             playListState.nameList === "albums"
               ? res2.tracks?.items.map((track) => track.id)
               : resTopTracks.map((track) => track.id),
         };
-
         setPlayListState(newPlaylistInfo);
         const newPlaylistInfoJSON = JSON.stringify(newPlaylistInfo);
         localStorage.setItem("id_list_songs", newPlaylistInfoJSON);
@@ -161,7 +158,7 @@ export const PlayMusicProvider = ({ children }) => {
       localStorage.setItem("id_song", idPlayState);
       getInfoPlay();
     }
-  }, [idPlayState]);
+  }, [idPlayState, idplayListState]);
 
   useEffect(() => {}, [isPlaying]);
 
@@ -177,6 +174,7 @@ export const PlayMusicProvider = ({ children }) => {
         idPlayState,
         playListState,
         getInfoPlay,
+        setIdplayListState,
       }}
     >
       {children}

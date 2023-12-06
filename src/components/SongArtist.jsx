@@ -3,19 +3,36 @@ import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
+import BarsPlaySong from "./animation/BarsPlaySong";
+import { CgPlayPause } from "react-icons/cg";
 
-const SongArtist = ({ track, i, saveIdList }) => {
+const SongArtist = ({ track, i, saveIdList, idPlayState, isPlaying,playAlbum }) => {
   const { allDurationSong } = useTimeAndDate();
 
   const [hovered, setHovered] = useState(false);
 
-  // const idList = track.artists
-  //   .filter((artist) => artist.id === id)
-  //   .map((artist) => track.id);
+  const isTrackPlaying = track.id === idPlayState && isPlaying;
+
+  const renderContent = () => {
+    if (hovered) {
+      return isTrackPlaying ? (
+        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
+      ) : (
+        <BiPlay
+          name="tu-icono"
+          onClick={() => saveIdList("albums", track.id)}
+        />
+      );
+    } else if (track.id === idPlayState) {
+      return !isTrackPlaying ? track.track_number : <BarsPlaySong />;
+    }
+
+    return i;
+  };
 
   return (
     <div
-      className="track"
+      className={`track ${track.id === idPlayState ? "hover" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -24,7 +41,7 @@ const SongArtist = ({ track, i, saveIdList }) => {
           className="trackNumTime center"
           onClick={() => saveIdList("artist", track.id)}
         >
-          {hovered ? <BiPlay name="tu-icono" /> : i}
+          {renderContent()}
         </div>
         <div
           className="contImg adaptable-background"

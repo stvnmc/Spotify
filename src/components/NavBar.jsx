@@ -1,7 +1,8 @@
 import React from "react";
 import { GoBell, GoChevronLeft, GoChevronRight } from "react-icons/go";
-import { BsArrowDownCircle, BsPerson } from "react-icons/bs";
+import { BsPerson } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { FaGithub } from "react-icons/fa";
 const NavBar = () => {
   const navigate = useNavigate();
 
@@ -25,9 +26,8 @@ const NavBar = () => {
       </nav>
 
       <div className="app-bar">
-        <div className="app-bar-item">
-          <BsArrowDownCircle />
-          <h1>instalar app</h1>
+        <div className="iconsC">
+          <FaGithub />
         </div>
         <div className="iconsC">
           <GoBell />

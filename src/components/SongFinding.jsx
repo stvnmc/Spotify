@@ -3,9 +3,11 @@ import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { RiMoreLine } from "react-icons/ri";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
+import BarsPlaySong from "./animation/BarsPlaySong";
 import { useNavigate } from "react-router-dom";
+import { CgPlayPause } from "react-icons/cg";
 
-const CartItemsTrack = ({ track }) => {
+const CartItemsTrack = ({ track, saveIdList, idPlayState, isPlaying,playAlbum }) => {
   const { textLimit } = useTimeAndDate();
 
   const navigate = useNavigate();
@@ -16,9 +18,29 @@ const CartItemsTrack = ({ track }) => {
   };
 
   const [hovered, setHovered] = useState(false);
+
+  const isTrackPlaying = track.id === idPlayState && isPlaying;
+
+  const renderContent = () => {
+    if (hovered) {
+      return isTrackPlaying ? (
+        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
+      ) : (
+        <BiPlay
+          name="tu-icono"
+          onClick={() => saveIdList("albums", track.id)}
+        />
+      );
+    } else if (track.id === idPlayState) {
+      return !isTrackPlaying ? "" : <BarsPlaySong />;
+    }
+
+    return;
+  };
+
   return (
     <div
-      className="track"
+      className={`track ${track.id === idPlayState ? "hover" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -27,7 +49,7 @@ const CartItemsTrack = ({ track }) => {
           className="contImg adaptable-background center"
           style={{ backgroundImage: `url(${track.album.images[2].url})` }}
         >
-          {hovered ? <BiPlay /> : ""}
+          {renderContent()}
         </div>
         <div className="nameTrack">
           <h1>{textLimit("songs", track.name)}</h1>

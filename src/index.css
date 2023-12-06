@@ -9,19 +9,6 @@
   padding: 0;
 }
 
-button {
-  border-radius: 30px;
-  margin-right: 0.7rem;
-  border: 1px solid transparent;
-  padding: 0.3em 0.9em;
-  font-size: 0.9em;
-  font-weight: 400;
-  font-family: inherit;
-  background-color: #1e1f1f;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-
 body {
   width: 100vw;
   height: 100vh;
@@ -41,9 +28,6 @@ body {
   background-position: center;
   background-repeat: no-repeat;
   object-fit: cover;
-}
-.contlist {
-  margin-top: 1rem;
 }
 
 .numTracks {
@@ -158,60 +142,42 @@ main:hover::-webkit-scrollbar-thumb {
 
 .navBar nav {
   display: flex;
-  width: 65px;
-  justify-content: space-between;
 }
 
 .app-bar {
-  width: 196px;
-  height: 40px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
-
-.app-bar-item {
-  display: flex;
-  align-items: center;
-  width: 123px;
-  justify-content: space-between;
-  background-color: #070708;
-  border-radius: 24px;
+.app-bar .iconsC svg {
+  font-size: 24px;
 }
 
 /* iconos circlu */
 .iconsC {
-  text-align: center;
-  background-color: #070708;
-  width: 29px;
-  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #070708a8;
+  width: 32px;
+  height: 32px;
   border-radius: 24px;
+  margin-right: 0.6rem;
 }
 
 /*  search */
 
 .search {
-  margin-top: 8rem;
-}
-
-.search::-webkit-scrollbar {
-  width: 12px;
-}
-
-.search::-webkit-scrollbar-thumb {
-  background-color: #5b5a5b;
-  height: 20px;
+  padding: 1rem;
 }
 
 .inputSearch {
-  position: fixed;
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   width: 279px;
   height: 45px;
-  top: 1rem;
-  left: 12rem;
+  top: -8px;
+  left: 7rem;
   background-color: #242424;
   border-radius: 28px;
   border: 2px solid transparent;
@@ -230,15 +196,6 @@ main:hover::-webkit-scrollbar-thumb {
 
 .inputSearch input:focus {
   outline: none;
-}
-
-.menu {
-  display: flex;
-  position: fixed;
-  top: 69px;
-  background-color: #131312;
-  width: 84%;
-  padding: 5px 0 7px 0px;
 }
 
 /*  */
@@ -301,6 +258,7 @@ main:hover::-webkit-scrollbar-thumb {
   display: flex;
   flex-wrap: wrap;
 }
+
 .StartSearch {
   margin-top: 6rem;
   display: flex;
@@ -316,6 +274,7 @@ main:hover::-webkit-scrollbar-thumb {
 
 .contStart {
   margin-right: 2rem;
+  position: relative;
 }
 
 .contStart > h1:first-child,
@@ -332,10 +291,18 @@ main:hover::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
+.searchMain:hover {
+  background-color: #313131;
+}
+
 .contName h1 {
   font-size: 1rem;
 }
 
+.searchMain .play-music {
+  bottom: 25px;
+  right: 6px;
+}
 /* credist de albums and name of the albums */
 .dateAlbum h1 {
   color: #909191;
@@ -351,14 +318,10 @@ main:hover::-webkit-scrollbar-thumb {
   border-radius: 50%;
 }
 
-.searchMain img {
-  border-radius: 80px;
-  width: 93px;
-}
-
 .searchMain h1 {
   font-size: 2rem;
 }
+
 .contImaMain {
   width: 83px;
   height: 83px;
@@ -366,6 +329,7 @@ main:hover::-webkit-scrollbar-thumb {
 }
 
 .contNameMain {
+  margin-top: 1rem;
   display: flex;
   width: 72px;
   height: 27px;
@@ -601,6 +565,10 @@ li {
   font-size: 0.7rem;
 }
 
+.moreSimilar {
+  padding: 1rem;
+}
+
 /*////////////// Page Artis///////////////  */
 
 .contMainArtis {
@@ -643,8 +611,9 @@ li {
   font-size: 2rem;
 }
 
-.popular {
-  padding: 1rem 0;
+.popular,
+.contlist {
+  padding: 1rem;
 }
 
 .popular label {
@@ -663,7 +632,9 @@ li {
   justify-content: space-between;
 }
 
-.track.hover .song-duration {
+.track.hover .song-duration,
+.track.hover .contImgText,
+.track.hover .infoTrack {
   color: #20d660;
 }
 

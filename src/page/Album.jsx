@@ -100,7 +100,7 @@ const Album = () => {
             const color = colorThief.getColor(img);
 
             const rgbaColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
-            const rgbaGrand = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 90%)`;
+            const rgbaGrand = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 70%)`;
 
             setBackgroundColor(rgbaColor);
             setBackgroudGrandient(rgbaGrand);
@@ -201,7 +201,7 @@ const Album = () => {
 
   const AlbumsSimilar = () => {
     return (
-      <div className="moreSimilar">
+      <>
         {albums.length > 0 && (
           <div className="moreSimilar">
             <div className="list">
@@ -218,7 +218,7 @@ const Album = () => {
             </div>
           </div>
         )}
-      </div>
+      </>
     );
   };
 

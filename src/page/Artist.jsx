@@ -8,46 +8,72 @@ import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsAlbums from "../components/CartItemsAlbum";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
+import {
+  getArtistsRelated,
+  getArtistsTopTracks,
+  getInfoAlbum,
+  getInfoArtist,
+} from "../api/infoArtist";
 
 const Artist = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const {
-    setLoading,
-    infoGetArtist,
-    artists,
-    loading,
-    albums,
-    tracks,
-    artistRelated,
-  } = useSearch();
+  const { spotyCode, artists, tracks } = useSearch();
 
-  const { saveIdList, playAlbum } = usePlayMusic();
+  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
+    usePlayMusic();
 
-  const { name, images, followers } = artists;
+  const [isPlayingArtist, setIsPlayingArtist] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [artistInfoPage, setArtistInfoPage] = useState(null);
+  const [topTracks, setTopTracks] = useState(null);
+  const [artistRelated, setArtistRelated] = useState(null);
+  const [albums, setAlbums] = useState(null);
 
-  const [isPlayingAlbum, setIsPlayingAlbum] = useState(false);
-
-  async function infoGetPageArtist() {
+  const infoGetPageArtist = async () => {
     try {
-      await infoGetArtist(id);
+      setLoading(true);
+      const res = await getInfoArtist(spotyCode, id);
+      setArtistInfoPage(res);
+      const resTopTracks = await getArtistsTopTracks(spotyCode, id);
+      setTopTracks(resTopTracks);
+      const resArtistRelated = await getArtistsRelated(spotyCode, id);
+      setArtistRelated(resArtistRelated);
+      
+      console.log(res);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     infoGetPageArtist();
-  }, []);
+  }, [id]);
 
-  const redirectPage = (site, id) => {
-    navigate(`/${site}/${id}`, { replace: true });
-    window.location.reload();
+  const redirectPage = async (site, id) => {
+    try {
+      await infoGetPageArtist(null);
+      navigate(`/${site}/${id}`, { replace: true });
+      await infoGetPageArtist();
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  useEffect(() => {
+    if (id !== playListState.id) return setIsPlayingArtist(false);
+
+    if (id === playListState.id) {
+      setIsPlayingArtist(true);
+      if (!isPlaying) {
+        setIsPlayingArtist(false);
+      }
+    }
+  }, [artists, isPlaying]);
 
   // render page PopularTracks , RelatedArtists,RelatedAlbums
 
@@ -55,11 +81,13 @@ const Artist = () => {
     <div className="popular">
       <label>Popular</label>
       <div className="tracks">
-        {tracks.map((track, i) => (
+        {topTracks.map((track, i) => (
           <SongArtist
             key={track.id}
             track={track}
             saveIdList={saveIdList}
+            isPlaying={isPlaying}
+            idPlayState={idPlayState}
             i={i + 1}
           />
         ))}
@@ -84,22 +112,22 @@ const Artist = () => {
     </div>
   );
 
-  const RelatedAlbums = () => {
-    <div className="contlist">
-      <h1>Related Albums</h1>
-      <div className="artis">
-        {albums.map((album) => {
-          return (
-            <CartItemsAlbums
-              key={album.id}
-              redirectPage={redirectPage}
-              album={album}
-            />
-          );
-        })}
-      </div>
-    </div>;
-  };
+  // const RelatedAlbums = () => {
+  //   <div className="contlist">
+  //     <h1>Related Albums</h1>
+  //     <div className="artis">
+  //       {albums.map((album) => {
+  //         return (
+  //           <CartItemsAlbums
+  //             key={album.id}
+  //             redirectPage={redirectPage}
+  //             album={album}
+  //           />
+  //         );
+  //       })}
+  //     </div>
+  //   </div>;
+  // };
 
   return (
     <>
@@ -109,17 +137,17 @@ const Artist = () => {
         <>
           <div
             className="contMainArtis adaptable-background"
-            style={{ backgroundImage: `url(${images?.[0].url})` }}
+            style={{ backgroundImage: `url(${artistInfoPage?.images[0].url})` }}
           >
-            <h1>{name}</h1>
-            <h1>{followers?.total} followers</h1>
+            <h1>{artistInfoPage?.name}</h1>
+            <h1>{artistInfoPage?.followers?.total} followers</h1>
           </div>
           <div className="play-like-more play-follow">
             <div className="play-music">
-              {isPlayingAlbum ? (
-                <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
-              ) : (
+              {!isPlayingArtist ? (
                 <BiPlay onClick={() => playAlbum("artist", tracks[0].id)} />
+              ) : (
+                <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
               )}
             </div>
             <div className="follow center">
@@ -134,7 +162,7 @@ const Artist = () => {
 
           <RelatedArtists />
 
-          <RelatedAlbums />
+          {/* <RelatedAlbums /> */}
         </>
       )}
     </>

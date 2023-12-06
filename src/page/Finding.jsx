@@ -1,14 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BiSearch } from "react-icons/bi";
+import { BiPlay } from "react-icons/bi";
 import { useSearch } from "../context/SearchContext";
 import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
 import SongFinding from "../components/SongFinding";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { usePlayMusic } from "../context/PlayMusicContext";
 
 const Finding = () => {
   const { funcionSearch, artists, albums, tracks } = useSearch();
+  const { saveIdList, idPlayState, isPlaying, playAlbum } = usePlayMusic();
   const navigate = useNavigate();
+
+  const [hovered, setHovered] = useState(false);
 
   const redirectPage = (site, id) => {
     navigate(`/${site}/${id}`);
@@ -36,7 +41,12 @@ const Finding = () => {
   const MainResult = ({ artist }) => (
     <div className="contStart">
       <h1>Resultado principal</h1>
-      <div className="searchMain">
+      <div
+        className="searchMain"
+        onClick={() => redirectPage("artist", artist.id)}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
         <div
           className="contImaMain adaptable-background"
           style={{ backgroundImage: `url(${artist.images[2]?.url})` }}
@@ -44,6 +54,9 @@ const Finding = () => {
         <h1>{artist.name}</h1>
         <div className="contNameMain">
           <h1>Artist</h1>
+        </div>
+        <div className={`play-music ${hovered ? "on" : "off"}`}>
+          <BiPlay />
         </div>
       </div>
     </div>
@@ -54,7 +67,16 @@ const Finding = () => {
       <h1>Canciones</h1>
       <div className="allSong">
         {tracks.map((track, i) => {
-          return <SongFinding track={track} key={i} />;
+          return (
+            <SongFinding
+              track={track}
+              key={i}
+              saveIdList={saveIdList}
+              idPlayState={idPlayState}
+              isPlaying={isPlaying}
+              playAlbum={playAlbum}
+            />
+          );
         })}
       </div>
     </div>
@@ -94,13 +116,6 @@ const Finding = () => {
         />
       </form>
       <>
-        <nav className="menu">
-          <button>Todo</button>
-          <button>Artists</button>
-          <button>Sons</button>
-          <button>Albums</button>
-          <button>Playlist</button>
-        </nav>
         <div className="finding-main">
           {artists.length > 0 && <MainResult artist={artists[0]} />}
 
