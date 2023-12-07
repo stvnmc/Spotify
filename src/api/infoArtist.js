@@ -22,7 +22,7 @@ export const getInfoSearch = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -44,7 +44,7 @@ export const getInfoTrack = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
+    console.log(error);
     if (error.response.data.error?.message === "The access token expired") {
       lounge();
     }
@@ -148,6 +148,28 @@ export const getArtistsRelated = async (accessToken, id) => {
     );
     // console.log(response.data.artists.slice(0, 8));
     return response.data.artists.slice(0, 8);
+  } catch (error) {
+    if (error.response.data.error.message === "The access token expired") {
+      lounge();
+    }
+    return error.response.data.error.message;
+  }
+};
+
+export const getArtistsAlbums = async (accessToken, id) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  try {
+    const response = await axios.get(
+      `https://api.spotify.com/v1/artists/${id}/albums`,
+      config
+    );
+
+    return response.data.items.slice(0, 8);
   } catch (error) {
     if (error.response.data.error.message === "The access token expired") {
       lounge();

@@ -32,80 +32,79 @@ export const PlayMusicProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(null);
 
   const saveIdList = (nameAction, trackId) => {
-    console.log("saveIdList");
-    console.log(trackId);
-
+    console.log("saveIDLis");
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
     }));
     if (trackId === idPlayState) return getInfoPlay();
     setIsPlaying(false);
-    console.log("isplay false");
     setIdPlayState(trackId);
   };
 
   const getInfoPlay = async () => {
-    console.log("getInfoPlay");
-    console.log(idPlayState);
-    setIsPlaying(false);
-
     const res = await getInfoTrack(spotyCode, idPlayState);
+    const res2 = await getInfoAlbum(spotyCode, res.album.id);
 
     if (playState === null || res.id !== playState.id) {
       setPlayState(res);
     }
 
-    const index = res.artists?.findIndex((artist) => {
-      artist.id === playListState.id;
-      console.log(playListState.id);
-      console.log(artist);
-    });
+    if (playListState.nameList === "albums" && res2.id !== playListState.id) {
+      const newPlaylistInfo = {
+        ...playListState,
+        nameList: playListState.nameList,
+        id: idplayListState,
+        tracksId: res2.tracks?.items.map((track) => track.id),
+      };
 
-    const resTopTracks = await getArtistsTopTracks(
-      spotyCode,
-      res.artists[index === -1 ? 0 : index]?.id
-    );
-
-    const res2 = await getInfoAlbum(spotyCode, res.album.id);
-
-    if (playListState.nameList === "albums") {
-      if (res2.id !== playListState.id) {
-        const newPlaylistInfo = {
-          ...playListState,
-          nameList: playListState.nameList,
-          id: idplayListState,
-          tracksId:
-            playListState.nameList ===
-            res2.tracks?.items.map((track) => track.id),
-        };
-
-        setPlayListState(newPlaylistInfo);
-        const newPlaylistInfoJSON = JSON.stringify(newPlaylistInfo);
-        localStorage.setItem("id_list_songs", newPlaylistInfoJSON);
-      }
+      updatePlaylistInfo(newPlaylistInfo);
+      return;
     }
 
     if (playListState.nameList === "artist") {
-      console.log(index);
-      if (res.artists[index === -1 ? 0 : index]?.id !== playListState.id) {
-        const newPlaylistInfo = {
-          nameList: playListState.nameList,
-          id: idplayListState,
-          tracksId:
-            playListState.nameList === "albums"
-              ? res2.tracks?.items.map((track) => track.id)
-              : resTopTracks.map((track) => track.id),
-        };
-        setPlayListState(newPlaylistInfo);
-        const newPlaylistInfoJSON = JSON.stringify(newPlaylistInfo);
-        localStorage.setItem("id_list_songs", newPlaylistInfoJSON);
+      const index = res.artists?.findIndex(
+        (artist) => artist.id === idplayListState
+      );
+
+      if (index !== -1) {
+        const resTopTracks = await getArtistsTopTracks(
+          spotyCode,
+          res.artists[index === -1 ? 0 : index]?.id
+        );
+
+        const equal = resTopTracks.some(
+          (elemento, i) => elemento.id === playListState.tracksId[i]
+        );
+
+        if (
+          !equal &&
+          res.artists[index === -1 ? 0 : index]?.id !== playListState.id
+        ) {
+          const newPlaylistInfo = {
+            nameList: playListState.nameList,
+            id: idplayListState,
+            tracksId:
+              playListState.nameList === "albums"
+                ? res2.tracks?.items.map((track) => track.id)
+                : resTopTracks.map((track) => track.id),
+          };
+
+          updatePlaylistInfo(newPlaylistInfo);
+        }
       }
     }
   };
 
+  const updatePlaylistInfo = (newInfo) => {
+    setPlayListState(newInfo);
+    const newPlaylistInfoJSON = JSON.stringify(newInfo);
+    localStorage.setItem("id_list_songs", newPlaylistInfoJSON);
+  };
+
   const changePlayState = (action) => {
     console.log("changePlayState");
+    setIsPlaying(false);
     const position = playListState.tracksId.indexOf(idPlayState);
     const numList = playListState.tracksId.length;
 
@@ -159,8 +158,6 @@ export const PlayMusicProvider = ({ children }) => {
       getInfoPlay();
     }
   }, [idPlayState, idplayListState]);
-
-  useEffect(() => {}, [isPlaying]);
 
   return (
     <PlayMusicContext.Provider

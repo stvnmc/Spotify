@@ -15,8 +15,14 @@ import ColorThief from "colorthief";
 
 const Album = () => {
   const { spotyCode, infoGetArtist, artists, albums } = useSearch();
-  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
-    usePlayMusic();
+  const {
+    saveIdList,
+    isPlaying,
+    playAlbum,
+    idPlayState,
+    playListState,
+    setIdplayListState,
+  } = usePlayMusic();
   const { allDurationSong } = useTimeAndDate();
 
   const { id } = useParams();
@@ -68,6 +74,7 @@ const Album = () => {
 
   useEffect(() => {
     infoGetPageAlbum();
+    setIdplayListState(id);
   }, [id]);
 
   const redirectPage = async (site, id) => {

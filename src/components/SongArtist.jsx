@@ -24,7 +24,7 @@ const SongArtist = ({ track, i, saveIdList, idPlayState, isPlaying,playAlbum }) 
         />
       );
     } else if (track.id === idPlayState) {
-      return !isTrackPlaying ? track.track_number : <BarsPlaySong />;
+      return !isTrackPlaying ? i : <BarsPlaySong />;
     }
 
     return i;

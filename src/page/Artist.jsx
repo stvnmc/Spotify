@@ -9,9 +9,9 @@ import CartItemsAlbums from "../components/CartItemsAlbum";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
 import {
+  getArtistsAlbums,
   getArtistsRelated,
   getArtistsTopTracks,
-  getInfoAlbum,
   getInfoArtist,
 } from "../api/infoArtist";
 
@@ -22,8 +22,14 @@ const Artist = () => {
 
   const { spotyCode, artists, tracks } = useSearch();
 
-  const { saveIdList, isPlaying, playAlbum, idPlayState, playListState } =
-    usePlayMusic();
+  const {
+    saveIdList,
+    isPlaying,
+    playAlbum,
+    idPlayState,
+    playListState,
+    setIdplayListState,
+  } = usePlayMusic();
 
   const [isPlayingArtist, setIsPlayingArtist] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -41,8 +47,8 @@ const Artist = () => {
       setTopTracks(resTopTracks);
       const resArtistRelated = await getArtistsRelated(spotyCode, id);
       setArtistRelated(resArtistRelated);
-      
-      console.log(res);
+      const resArtistAlbums = await getArtistsAlbums(spotyCode, id);
+      setAlbums(resArtistAlbums);
     } catch (error) {
       console.error(error);
     } finally {
@@ -52,6 +58,7 @@ const Artist = () => {
 
   useEffect(() => {
     infoGetPageArtist();
+    setIdplayListState(id);
   }, [id]);
 
   const redirectPage = async (site, id) => {
@@ -112,22 +119,24 @@ const Artist = () => {
     </div>
   );
 
-  // const RelatedAlbums = () => {
-  //   <div className="contlist">
-  //     <h1>Related Albums</h1>
-  //     <div className="artis">
-  //       {albums.map((album) => {
-  //         return (
-  //           <CartItemsAlbums
-  //             key={album.id}
-  //             redirectPage={redirectPage}
-  //             album={album}
-  //           />
-  //         );
-  //       })}
-  //     </div>
-  //   </div>;
-  // };
+  const RelatedAlbums = () => {
+    return (
+      <div className="contlist">
+        <h1>Related Albums</h1>
+        <div className="artis">
+          {albums.map((album) => {
+            return (
+              <CartItemsAlbums
+                key={album.id}
+                redirectPage={redirectPage}
+                album={album}
+              />
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
@@ -160,9 +169,9 @@ const Artist = () => {
 
           <PopularTracks />
 
-          <RelatedArtists />
+          <RelatedAlbums />
 
-          {/* <RelatedAlbums /> */}
+          <RelatedArtists />
         </>
       )}
     </>
