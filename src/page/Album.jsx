@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { getInfoAlbum } from "../api/infoArtist";
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
+import { FaHeart } from "react-icons/fa";
 import { RiMoreLine } from "react-icons/ri";
 import { HiOutlineClock } from "react-icons/hi";
 import SongAlbum from "../components/SongAlbum";
@@ -12,6 +13,7 @@ import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
 import { useSearch } from "../context/SearchContext";
 import ColorThief from "colorthief";
+import { useSerLibrary } from "../context/UserLibraryContext";
 
 const Album = () => {
   const { spotyCode, infoGetArtist, artists, albums } = useSearch();
@@ -23,7 +25,11 @@ const Album = () => {
     playListState,
     setIdplayListState,
   } = usePlayMusic();
+
   const { allDurationSong } = useTimeAndDate();
+
+  const { saveUserLibrary, tracksUserLibrary, deleteUserLibrary } =
+    useSerLibrary();
 
   const { id } = useParams();
 
@@ -31,6 +37,8 @@ const Album = () => {
   const [totalDurationAlbum, setTotalDurationAlbum] = useState(0);
   const [isPlayingAlbum, setIsPlayingAlbum] = useState(false);
   const [albuminfoPage, setAlbuminfoPage] = useState(null);
+
+  const [heart, setHiaHeart] = useState(false);
 
   const navigate = useNavigate();
 
@@ -75,6 +83,7 @@ const Album = () => {
   useEffect(() => {
     infoGetPageAlbum();
     setIdplayListState(id);
+    chanceSaveList();
   }, [id]);
 
   const redirectPage = async (site, id) => {
@@ -126,6 +135,19 @@ const Album = () => {
     const blob = await response.blob();
     return blob;
   };
+
+  // save list user
+  const chanceSaveList = () => {
+    const equal = tracksUserLibrary.albumsArtistIds.some(
+      (elemento) => elemento.id === id
+    );
+
+    setHiaHeart(equal);
+  };
+
+  useEffect(() => {
+    chanceSaveList();
+  }, [tracksUserLibrary]);
 
   // content Page Album
 
@@ -256,7 +278,16 @@ const Album = () => {
                 )}
               </div>
               <div className="like-more">
-                <LiaHeart />
+                {heart ? (
+                  <FaHeart
+                    className="save"
+                    onClick={() => deleteUserLibrary(id, "albumArtist")}
+                  />
+                ) : (
+                  <LiaHeart
+                    onClick={() => saveUserLibrary(id, "albumArtist")}
+                  />
+                )}
                 <RiMoreLine />
               </div>
             </div>

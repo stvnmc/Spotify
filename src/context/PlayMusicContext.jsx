@@ -33,6 +33,7 @@ export const PlayMusicProvider = ({ children }) => {
 
   const saveIdList = (nameAction, trackId) => {
     console.log("saveIDLis");
+    console.log(nameAction);
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
@@ -43,8 +44,10 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const getInfoPlay = async () => {
+    console.log("getINfo");
+
     const res = await getInfoTrack(spotyCode, idPlayState);
-    const res2 = await getInfoAlbum(spotyCode, res.album.id);
+    const res2 = await getInfoAlbum(spotyCode, res?.album?.id);
 
     if (playState === null || res.id !== playState.id) {
       setPlayState(res);
@@ -77,17 +80,13 @@ export const PlayMusicProvider = ({ children }) => {
           (elemento, i) => elemento.id === playListState.tracksId[i]
         );
 
-        if (
-          !equal &&
-          res.artists[index === -1 ? 0 : index]?.id !== playListState.id
-        ) {
+        if (!equal && res.artists[index]?.id !== playListState.id) {
+          console.log("entros");
+          console.log(idplayListState);
           const newPlaylistInfo = {
             nameList: playListState.nameList,
             id: idplayListState,
-            tracksId:
-              playListState.nameList === "albums"
-                ? res2.tracks?.items.map((track) => track.id)
-                : resTopTracks.map((track) => track.id),
+            tracksId: resTopTracks.map((track) => track.id),
           };
 
           updatePlaylistInfo(newPlaylistInfo);
@@ -118,26 +117,22 @@ export const PlayMusicProvider = ({ children }) => {
 
   const playAlbum = (nameAction, id) => {
     console.log("playAlbum");
-    console.log(id);
     if (id === "pause") {
-      console.log("ok");
       return setIsPlaying(false);
     }
     if (idPlayState === id || idPlayState === null) {
-      console.log("1");
       saveIdList(nameAction, id);
       setIsPlaying(!isPlaying);
     } else {
-      console.log("2");
-
-      const idExists = playListState.tracksId.includes(id);
+      const idExists = playListState.tracksId?.includes(id);
       if (!idExists) {
-        console.log("okkk");
         setIsPlaying(true);
         saveIdList(nameAction, id);
         return;
       }
-      console.log("4");
+      if (idplayListState !== playListState.id) {
+        saveIdList(nameAction, id);
+      }
       setIsPlaying(!isPlaying);
     }
   };

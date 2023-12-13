@@ -14,9 +14,10 @@ import {
 } from "react-icons/bs";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import LoginPlayState from "../components/LoginPlayState";
+import { useNavigate } from "react-router-dom";
 
 const Reproduccion = () => {
-  const { playState, isPlaying, setIsPlaying, changePlayState } =
+  const { playState, isPlaying, setIsPlaying, changePlayState, getInfoPlay } =
     usePlayMusic();
 
   const [currentTime, setCurrentTime] = useState(0);
@@ -27,6 +28,12 @@ const Reproduccion = () => {
 
   const { name, album, artists, preview_url } = playState || {};
 
+  const navigate = useNavigate();
+
+  const redirectPage = async (site, id) => {
+    navigate(`/${site}/${id}`, { replace: true });
+  };
+
   const playPauseHandler = () => {
     if (isPlaying) return setIsPlaying(false);
     setIsPlaying(true);
@@ -34,6 +41,7 @@ const Reproduccion = () => {
 
   useEffect(() => {
     playPauseHandler();
+    getInfoPlay();
   }, [playState]);
 
   useEffect(() => {
@@ -71,11 +79,29 @@ const Reproduccion = () => {
     }
   };
 
+  function onAndOff() {
+    if (volume > 0) setVolume(0);
+
+    if (volume === 0) setVolume(10);
+  }
+
   const IconVolume = () => {
     const volumeRanges = [
-      { min: 1, max: 20, icon: <BsFillVolumeOffFill /> },
-      { min: 21, max: 50, icon: <BsFillVolumeDownFill /> },
-      { min: 51, max: 100, icon: <BsFillVolumeUpFill /> },
+      {
+        min: 1,
+        max: 20,
+        icon: <BsFillVolumeOffFill />,
+      },
+      {
+        min: 21,
+        max: 50,
+        icon: <BsFillVolumeDownFill />,
+      },
+      {
+        min: 51,
+        max: 100,
+        icon: <BsFillVolumeUpFill />,
+      },
     ];
 
     const matchingRange = volumeRanges.find(
@@ -163,7 +189,9 @@ const Reproduccion = () => {
         onMouseEnter={() => setHoveredVolumen(true)}
         onMouseLeave={() => setHoveredVolumen(false)}
       >
-        <IconVolume />
+        <div className="iconsVolumen" onClick={() => onAndOff()}>
+          <IconVolume />
+        </div>
         <input
           style={{
             background: `linear-gradient(90deg, ${

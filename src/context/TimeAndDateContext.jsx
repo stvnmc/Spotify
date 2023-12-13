@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import ColorThief from "colorthief";
 
 export const TimeAndDateContext = createContext();
 
@@ -53,6 +54,48 @@ export const TimeAndDateProvider = ({ children }) => {
     setScroll(true);
   }
 
+  // color
+
+  const [imageUrl, setImageUrl] = useState(null);
+
+  // const imageUrl = artistInfoPage?.images[0].url;
+  const [backgroundColor, setBackgroundColor] = useState("rgba(0, 0, 0, 1)");
+  const [backgroudGrandient, setBackgroudGrandient] =
+    useState("rgba(0, 0, 0, 1)");
+
+  useEffect(() => {
+    const coloImg = async () => {
+      if (imageUrl) {
+        try {
+          const imgBlob = await loadImageAsBlob(imageUrl);
+          const img = new Image();
+          img.src = URL.createObjectURL(imgBlob);
+
+          img.addEventListener("load", () => {
+            const colorThief = new ColorThief();
+            const color = colorThief.getColor(img);
+
+            const rgbaColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
+            const rgbaGrand = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 70%)`;
+
+            setBackgroundColor(rgbaColor);
+            setBackgroudGrandient(rgbaGrand);
+          });
+        } catch (error) {
+          console.error("Error al cargar la imagen", error);
+        }
+      }
+    };
+
+    coloImg();
+  }, [imageUrl]);
+
+  const loadImageAsBlob = async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+  };
+
   return (
     <TimeAndDateContext.Provider
       value={{
@@ -60,6 +103,9 @@ export const TimeAndDateProvider = ({ children }) => {
         textLimit,
         ScrollNav,
         scroll,
+        backgroundColor,
+        backgroudGrandient,
+        setImageUrl
       }}
     >
       {children}

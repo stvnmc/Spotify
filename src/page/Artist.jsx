@@ -8,19 +8,21 @@ import CartItemsArtis from "../components/CartItemsArtis";
 import CartItemsAlbums from "../components/CartItemsAlbum";
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { CgPlayPause } from "react-icons/cg";
+import ColorThief from "colorthief";
 import {
   getArtistsAlbums,
   getArtistsRelated,
   getArtistsTopTracks,
   getInfoArtist,
 } from "../api/infoArtist";
+import { useSerLibrary } from "../context/UserLibraryContext";
 
 const Artist = () => {
   const navigate = useNavigate();
 
   const { id } = useParams();
 
-  const { spotyCode, artists, tracks } = useSearch();
+  const { spotyCode } = useSearch();
 
   const {
     saveIdList,
@@ -37,6 +39,24 @@ const Artist = () => {
   const [topTracks, setTopTracks] = useState(null);
   const [artistRelated, setArtistRelated] = useState(null);
   const [albums, setAlbums] = useState(null);
+
+  // save list user
+  const { saveUserLibrary, tracksUserLibrary, deleteUserLibrary } =
+    useSerLibrary();
+
+  const [follow, setFollow] = useState(false);
+
+  const chanceSaveList = () => {
+    const equal = tracksUserLibrary.albumsArtistIds.some(
+      (elemento) => elemento.id === id
+    );
+
+    setFollow(equal);
+  };
+
+  useEffect(() => {
+    chanceSaveList();
+  }, [tracksUserLibrary]);
 
   const infoGetPageArtist = async () => {
     try {
@@ -59,6 +79,7 @@ const Artist = () => {
   useEffect(() => {
     infoGetPageArtist();
     setIdplayListState(id);
+    chanceSaveList();
   }, [id]);
 
   const redirectPage = async (site, id) => {
@@ -80,7 +101,46 @@ const Artist = () => {
         setIsPlayingArtist(false);
       }
     }
-  }, [artists, isPlaying]);
+  }, [artistInfoPage, isPlaying]);
+
+  // color
+  const imageUrl = artistInfoPage?.images?.[0]?.url;
+  const [backgroundColor, setBackgroundColor] = useState("rgba(0, 0, 0, 1)");
+  const [backgroudGrandient, setBackgroudGrandient] =
+    useState("rgba(0, 0, 0, 1)");
+
+  useEffect(() => {
+    const coloImg = async () => {
+      if (imageUrl) {
+        try {
+          const imgBlob = await loadImageAsBlob(imageUrl);
+          const img = new Image();
+          img.src = URL.createObjectURL(imgBlob);
+
+          img.addEventListener("load", () => {
+            const colorThief = new ColorThief();
+            const color = colorThief.getColor(img);
+
+            const rgbaColor = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 1)`;
+            const rgbaGrand = `rgba(${color[0]}, ${color[1]}, ${color[2]}, 70%)`;
+
+            setBackgroundColor(rgbaColor);
+            setBackgroudGrandient(rgbaGrand);
+          });
+        } catch (error) {
+          console.error("Error al cargar la imagen", error);
+        }
+      }
+    };
+
+    coloImg();
+  }, [imageUrl]);
+
+  const loadImageAsBlob = async (url) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    return blob;
+  };
 
   // render page PopularTracks , RelatedArtists,RelatedAlbums
 
@@ -145,23 +205,59 @@ const Artist = () => {
       ) : (
         <>
           <div
-            className="contMainArtis adaptable-background"
-            style={{ backgroundImage: `url(${artistInfoPage?.images[0].url})` }}
+            className="contMainArtis"
+            style={{
+              backgroundColor,
+            }}
           >
-            <h1>{artistInfoPage?.name}</h1>
-            <h1>{artistInfoPage?.followers?.total} followers</h1>
+            <div
+              className="adaptable-background img"
+              style={{
+                backgroundImage: `url(${artistInfoPage?.images[0].url})`,
+              }}
+            ></div>
+            <div className="infoArtistName">
+              <h1>{artistInfoPage?.name}</h1>
+              <h1>
+                {artistInfoPage?.followers?.total.toLocaleString()} Followers
+              </h1>
+
+              <h1>
+                <span>Genres : </span>
+                {artistInfoPage.genres.join(", ")}
+              </h1>
+            </div>
           </div>
+
           <div className="play-like-more play-follow">
+            <div
+              className="gradient"
+              style={{
+                background: `linear-gradient(to bottom,${backgroudGrandient},rgba(19, 19, 18) )`,
+              }}
+            ></div>
             <div className="play-music">
               {!isPlayingArtist ? (
-                <BiPlay onClick={() => playAlbum("artist", tracks[0].id)} />
+                <BiPlay onClick={() => playAlbum("artist", topTracks[0].id)} />
               ) : (
                 <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
               )}
             </div>
-            <div className="follow center">
-              <h1>follow</h1>
-            </div>
+            {follow ? (
+              <div
+                className="follow center"
+                onClick={() => deleteUserLibrary(id, "albumArtist")}
+              >
+                <h1>following</h1>
+              </div>
+            ) : (
+              <div
+                className="follow center"
+                onClick={() => saveUserLibrary(id, "albumArtist")}
+              >
+                <h1>follow</h1>
+              </div>
+            )}
             <div className="more center">
               <RiMoreLine />
             </div>

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
+import { FaHeart } from "react-icons/fa";
 import { RiMoreLine } from "react-icons/ri";
 import BarsPlaySong from "./animation/BarsPlaySong";
 import { CgPlayPause } from "react-icons/cg";
+import { useSerLibrary } from "../context/UserLibraryContext";
 
 const Song = ({
   track,
@@ -15,7 +17,19 @@ const Song = ({
   isPlaying,
   playAlbum,
 }) => {
+  const { saveUserLibrary, tracksUserLibrary, deleteUserLibrary } =
+    useSerLibrary();
+
   const [hovered, setHovered] = useState(false);
+  const [heart, setHiaHeart] = useState(false);
+
+  useEffect(() => {
+    const equal = tracksUserLibrary.tracksIds.some(
+      (elemento) => elemento.id === track.id
+    );
+
+    setHiaHeart(equal);
+  }, [tracksUserLibrary]);
 
   useEffect(() => {
     allDurationSong(track.duration_ms);
@@ -45,6 +59,7 @@ const Song = ({
       className={`track ${track.id === idPlayState ? "hover" : ""}`}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onDoubleClick={() => saveIdList("albums", track.id)}
     >
       <div className="song-duration">
         <div className="trackNumTime center">{renderContent()}</div>
@@ -67,7 +82,18 @@ const Song = ({
         </div>
       </div>
       <div className="track-right">
-        <div className="track-icons">{hovered ? <LiaHeart /> : ""}</div>
+        <div className="track-icons">
+          {heart ? (
+            <FaHeart
+              className="save"
+              onClick={() => deleteUserLibrary(track.id, "song")}
+            />
+          ) : hovered ? (
+            <LiaHeart onClick={() => saveUserLibrary(track.id, "song")} />
+          ) : (
+            ""
+          )}
+        </div>
         <div className="trackNumTime">
           {allDurationSong("song", track.duration_ms)}
         </div>

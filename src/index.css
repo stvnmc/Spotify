@@ -10,12 +10,15 @@
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
   background-color: #030203;
   overflow: hidden;
 }
 
+/* icons color  */
+
+.save {
+  color: #26de5e;
+}
 /* repeated code */
 .center {
   display: flex;
@@ -37,56 +40,69 @@ body {
 /* top part */
 
 .UpperPanel {
-  height: 90vh;
+  height: 91vh;
   display: flex;
   padding: 0.5rem;
 }
 
 /* Header esta es la parte derecha de la pagina seria como el header */
 
-.bottomNav,
+.bottom-nav,
 .topNav {
-  width: 65px;
-  display: flex;
-  flex-direction: column;
   background-color: #131312;
   border-radius: 8px;
-  align-items: center;
 }
 
 /*  tama;o de los icons y estilos */
 .navBar nav svg,
-.bottomNav svg,
+.bottom-nav svg,
 .topNav svg {
   font-size: 27px;
   color: #fff;
 }
 
 .topNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   height: 6rem;
   margin-bottom: 8px;
   justify-content: space-evenly;
 }
 
-.bottomNav {
-  height: 74vh;
-  padding-top: 1rem;
+.bottom-nav {
+  height: 90%;
+  padding: 10px;
 }
 
-.bottomNav > svg:first-child {
-  margin-bottom: 1rem;
+.bottom-nav div {
+  width: 46px;
+  height: 46px;
+  margin-top: 0.8rem;
+  cursor: pointer;
 }
 
-.bottomNav div {
+.bottom-nav > svg:first-child {
+  margin-top: 0.7rem;
+  margin-left: 11px;
+}
+
+.bottom-nav .saveListalbum,
+.saveList {
+  border-radius: 4px;
+}
+
+.bottom-nav .saveListartist {
+  border-radius: 50%;
+}
+
+.saveList {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  width: 49px;
-  height: 47px;
   background: linear-gradient(to bottom right, #4910ee, #bbe1df);
 }
-.bottomNav div svg {
+.saveList svg {
   font-size: 19px;
 }
 
@@ -126,6 +142,7 @@ main:hover::-webkit-scrollbar-thumb {
 /* Home */
 
 .home {
+  margin-top: 4rem;
 }
 
 /*  navBar */
@@ -524,7 +541,7 @@ li {
 
 .like-more svg {
   margin-right: 1rem;
-  color: #9da9a6;
+
   font-size: 35px;
 }
 .cont-list-music .line {
@@ -572,34 +589,63 @@ li {
 /*////////////// Page Artis///////////////  */
 
 .contMainArtis {
-  padding: 1.5rem;
-  display: flex;
+  padding: 0.8rem;
   height: 18rem;
-  align-items: flex-start;
+  display: flex;
+  align-items: flex-end;
+}
+.img {
+  margin-left: 0.3rem;
+  width: 250px;
+  height: 250px;
+  border-radius: 1%;
+  box-shadow: 0px 0px 34px -7px rgba(0, 0, 0, 0.75);
+}
+
+.contMainArtis div {
+  display: flex;
   flex-direction: column;
   justify-content: flex-end;
 }
 
+.infoArtistName {
+  margin-left: 2vw;
+}
+
 /* titulo de artis and album */
-.contMainArtis :nth-child(1),
+.infoArtistName > h1:nth-child(1) {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-size: 4.5vw;
+}
+
+.infoArtistName > h1:nth-child(2) {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 400;
+  margin: 0.5rem 1rem;
+  font-size: 1.8vw;
+}
+.infoArtistName > h1:nth-child(3) {
+  width: 100%;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  font-weight: 400;
+  font-size: 13px;
+  margin: 0.3rem 1.9rem;
+}
+
 .info-album > h1:nth-child(2) {
   margin-bottom: 1rem;
   font-size: 4.2vw;
 }
 
-.contMainArtis :nth-child(2) {
-  font-weight: 500;
-  font-size: 1rem;
-}
-
 .play-follow {
   padding: 1.5rem;
+  position: relative;
 }
 
 .follow {
   width: 4.3rem;
   border-radius: 26px;
-  margin-right: 1.7rem;
+  margin: 0 1.7rem;
   border: 1px solid #62615b;
   height: 1.8rem;
 }
@@ -613,7 +659,7 @@ li {
 
 .popular,
 .contlist {
-  padding: 2rem 1rem;
+  padding: 2rem;
 }
 
 .popular label {
@@ -688,7 +734,7 @@ li {
 }
 
 .track-icons svg {
-  font-size: 20px;
+  font-size: 18px;
 }
 .track-artist h1 {
   color: #acadac;
@@ -726,8 +772,13 @@ li {
 
 .reproduction {
   padding: 12px;
+  width: 98vw;
   display: flex;
   justify-content: space-between;
+  position: fixed;
+  bottom: 0;
+  background-color: #030203;
+  z-index: 1;
 }
 .info-reproduction .contImg {
   min-width: 56px;
@@ -799,10 +850,17 @@ li {
   justify-content: flex-end;
   align-items: center;
 }
+
+.iconsVolumen {
+  margin: 5px;
+  display: flex;
+  align-items: center;
+}
+
 .volume input {
   width: 97px;
   height: 5px;
-  margin: 0 8px;
+  margin: 0px 23px 0 8px;
 }
 
 .volume input,
