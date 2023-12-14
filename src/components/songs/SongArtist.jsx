@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-
 import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { FaHeart } from "react-icons/fa";
 import { RiMoreLine } from "react-icons/ri";
-import BarsPlaySong from "./animation/BarsPlaySong";
+import { useTimeAndDate } from "../../context/TimeAndDateContext";
+import BarsPlaySong from "../animation/BarsPlaySong";
 import { CgPlayPause } from "react-icons/cg";
-import { useSerLibrary } from "../context/UserLibraryContext";
+import { useSerLibrary } from "../../context/UserLibraryContext";
 
-const Song = ({
+const SongArtist = ({
   track,
-  redirectPage,
+  i,
   saveIdList,
-  allDurationSong,
   idPlayState,
   isPlaying,
   playAlbum,
 }) => {
+  const { allDurationSong } = useTimeAndDate();
   const { saveUserLibrary, tracksUserLibrary, deleteUserLibrary } =
     useSerLibrary();
 
@@ -31,27 +31,23 @@ const Song = ({
     setHiaHeart(equal);
   }, [tracksUserLibrary]);
 
-  useEffect(() => {
-    allDurationSong(track.duration_ms);
-  }, []);
-
   const isTrackPlaying = track.id === idPlayState && isPlaying;
 
   const renderContent = () => {
     if (hovered) {
       return isTrackPlaying ? (
-        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
+        <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
       ) : (
         <BiPlay
           name="tu-icono"
-          onClick={() => saveIdList("albums", track.id)}
+          onClick={() => saveIdList("artist", track.id)}
         />
       );
     } else if (track.id === idPlayState) {
-      return !isTrackPlaying ? track.track_number : <BarsPlaySong />;
+      return !isTrackPlaying ? i : <BarsPlaySong />;
     }
 
-    return track.track_number;
+    return i;
   };
 
   return (
@@ -61,24 +57,19 @@ const Song = ({
       onMouseLeave={() => setHovered(false)}
       onDoubleClick={() => saveIdList("albums", track.id)}
     >
-      <div className="song-duration">
-        <div className="trackNumTime center">{renderContent()}</div>
+      <div className="infoTrack">
+        <div
+          className="trackNumTime center"
+          onClick={() => saveIdList("artist", track.id)}
+        >
+          {renderContent()}
+        </div>
+        <div
+          className="contImg adaptable-background"
+          style={{ backgroundImage: `url(${track.album.images[2].url})` }}
+        ></div>
         <div className="nameTrack">
           <h1>{track.name}</h1>
-          <div className="track-artist">
-            <h1>
-              <span onClick={() => redirectPage("artist", track.artists[0].id)}>
-                {track.artists[0].name}
-              </span>
-              {track.artists[1] && (
-                <span
-                  onClick={() => redirectPage("artist", track.artists[1].id)}
-                >
-                  {`, ${track.artists[1].name}`}
-                </span>
-              )}
-            </h1>
-          </div>
         </div>
       </div>
       <div className="track-right">
@@ -103,4 +94,4 @@ const Song = ({
   );
 };
 
-export default Song;
+export default SongArtist;

@@ -6,7 +6,7 @@ import { LiaHeart } from "react-icons/lia";
 import { FaHeart } from "react-icons/fa";
 import { RiMoreLine } from "react-icons/ri";
 import { HiOutlineClock } from "react-icons/hi";
-import SongAlbum from "../components/SongAlbum";
+import SongAlbum from "../components/songs/SongAlbum";
 import CartItemsAlbum from "../components/CartItemsAlbum";
 import { useTimeAndDate } from "../context/TimeAndDateContext";
 import { usePlayMusic } from "../context/PlayMusicContext";

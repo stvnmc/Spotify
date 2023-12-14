@@ -4,7 +4,7 @@ import { BiPlay } from "react-icons/bi";
 import { useSearch } from "../context/SearchContext";
 import CartItemsAlbum from "../components/cartItemsAlbum";
 import CartItemsArtis from "../components/CartItemsArtis";
-import SongFinding from "../components/SongFinding";
+import SongFinding from "../components/songs/SongFinding";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { usePlayMusic } from "../context/PlayMusicContext";
 

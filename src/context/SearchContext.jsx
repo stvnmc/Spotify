@@ -6,6 +6,7 @@ import {
   getInfoArtist,
   getInfoArtistsSimilarAlbum,
   getInfoSearch,
+  getInfoTrack,
 } from "../api/infoArtist";
 import { useAuth } from "./AuthContext";
 
@@ -34,6 +35,8 @@ export const SearchProvider = ({ children }) => {
   const [infoAlbum, setInfoAlbum] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // page collection
+  const [songsCollection, setSongsCollection] = useState([]);
   // access token
   const spotyCode = localStorage.getItem("access_token");
 
@@ -73,6 +76,16 @@ export const SearchProvider = ({ children }) => {
     setArtistRelated(resArtistRelated);
   }
 
+  async function infoPageColletion(id) {
+    try {
+      const res = await getInfoTrack(spotyCode, id);
+      setSongsCollection((prevState) => [...prevState, res]);
+      return res;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <SearchContext.Provider
       value={{
@@ -87,6 +100,9 @@ export const SearchProvider = ({ children }) => {
         infoGetArtist,
         loading,
         setLoading,
+        infoPageColletion,
+        songsCollection,
+        setSongsCollection
       }}
     >
       {children}

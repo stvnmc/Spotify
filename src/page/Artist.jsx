@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSearch } from "../context/SearchContext";
-import SongArtist from "../components/SongArtist";
+import SongArtist from "../components/songs/SongArtist";
 import { BiPlay } from "react-icons/bi";
 import { RiMoreLine } from "react-icons/ri";
 import CartItemsArtis from "../components/CartItemsArtis";

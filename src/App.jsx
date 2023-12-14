@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./page/HomePage";
 import Reproducion from "./page/Reproducion";
-import Derecha from "./components/Derecha";
+import RigthtPanel from "./components/RigthtPanel";
 import NavBar from "./components/NavBar";
 import Artist from "./page/Artist";
 import Login from "./page/Login";
@@ -9,6 +9,7 @@ import Finding from "./page/Finding";
 import Footer from "./components/Footer";
 import Album from "./page/Album";
 import { useEffect, useState } from "react";
+import Collection from "./page/Collection";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,7 +35,7 @@ const App = () => {
       {loggedIn ? (
         <>
           <section className="UpperPanel">
-            <Derecha />
+            <RigthtPanel />
             <main>
               <NavBar />
               <Routes>
@@ -42,7 +43,7 @@ const App = () => {
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/search" element={<Finding />} />
                 <Route path="/album/:id" element={<Album />} />
-                <Route path="/track" />
+                <Route path="/collection" element={<Collection />} />
               </Routes>
               <Footer />
             </main>

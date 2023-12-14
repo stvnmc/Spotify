@@ -9,7 +9,7 @@ import { useSerLibrary } from "../context/UserLibraryContext";
 import { getInfoAlbum, getInfoArtist } from "../api/infoArtist";
 import { useSearch } from "../context/SearchContext";
 
-const derecha = () => {
+const RigthtPanel = () => {
   const { spotyCode } = useSearch();
   const { tracksUserLibrary } = useSerLibrary();
 
@@ -23,7 +23,10 @@ const derecha = () => {
     SaveList();
   }, [albumsArtistIds]);
 
+  useEffect(() => {}, []);
+
   async function SaveList() {
+    console.log("saveList");
     const filteredInfoSaveList = infoSaveList.filter(
       (item) => !albumsArtistIds?.some((album) => album.id === item.id)
     );
@@ -34,7 +37,6 @@ const derecha = () => {
 
     for (const item of albumsArtistIds) {
       if (!infoSaveList.some((res) => res.id === item.id)) {
-        console.log("no es igual");
         try {
           const result = await Promise.race([
             getInfoAlbum(spotyCode, item.id),
@@ -71,9 +73,11 @@ const derecha = () => {
       <nav className="bottom-nav">
         <VscLibrary />
 
-        <div className="saveList">
-          <AiFillHeart />
-        </div>
+        <Link to="/collection">
+          <div className="saveList">
+            <AiFillHeart />
+          </div>
+        </Link>
         {infoSaveList.map((item) => {
           return (
             <div
@@ -91,4 +95,4 @@ const derecha = () => {
   );
 };
 
-export default derecha;
+export default RigthtPanel;

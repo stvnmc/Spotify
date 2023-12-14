@@ -106,6 +106,10 @@ body {
   font-size: 19px;
 }
 
+.front-collection .saveList svg {
+  font-size: 73px;
+}
+
 /* main */
 
 main {
@@ -454,20 +458,23 @@ li {
 /*////////////  Page   Album//////// ///////*/
 /* fisrt part */
 
-.front-album {
+.front-album,
+.front-collection {
   padding: 5rem 1rem 1rem;
   display: flex;
   align-items: flex-end;
 }
 
-.album-img-main {
+.album-img-main,
+.collection-img-main {
   margin-right: 1rem;
   min-width: 222px;
   height: 211px;
   box-shadow: 0px 0px 34px -7px rgba(0, 0, 0, 0.75);
 }
 
-.info-album > h1:first-child {
+.info-album > h1:first-child,
+.info-collection > h1:first-child {
   font-size: 13px;
   font-weight: 400;
 }
@@ -487,17 +494,20 @@ li {
 }
 
 .artis-date,
-.artis-info {
+.artis-info,
+.collection-artis-date {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
 }
-.artis-date h1 {
+.artis-date h1,
+.collection-artis-date h1 {
   font-size: 13px;
   font-weight: 500;
 }
 
-.artis-date > h1:first-child {
+.artis-date > h1:first-child,
+.collection-artis-date > h1:first-child {
   font-size: 15px;
   font-weight: 700;
 }
@@ -560,14 +570,20 @@ li {
   padding: 1.5rem 0;
 }
 
-.title-clock {
+.title-albumN-clock {
   margin: 0 74px 0 21px;
   display: flex;
   justify-content: space-between;
 }
 
-.title {
+.title,
+.albumN {
   display: flex;
+}
+
+.title {
+  width: 62px;
+  justify-content: space-between;
 }
 .song-duration {
   display: flex;
@@ -632,7 +648,8 @@ li {
   margin: 0.3rem 1.9rem;
 }
 
-.info-album > h1:nth-child(2) {
+.info-album > h1:nth-child(2),
+.info-collection > h1:nth-child(2) {
   margin-bottom: 1rem;
   font-size: 4.2vw;
 }
@@ -643,14 +660,14 @@ li {
 }
 
 .follow {
-  width: 4.3rem;
   border-radius: 26px;
   margin: 0 1.7rem;
-  border: 1px solid #62615b;
-  height: 1.8rem;
+  border: 1px solid #90908f;
+  cursor: pointer;
 }
 
 .follow h1 {
+  padding: 5px 13px;
   font-size: 0.9rem;
 }
 .more svg {
@@ -766,6 +783,12 @@ li {
 .play-music.off {
   opacity: 0;
   bottom: 0px;
+}
+
+/* collection page */
+.ImgColletion {
+  width: 40px;
+  height: 40px;
 }
 
 /*////////////////////////////  reproduction   ///////////////////////// */

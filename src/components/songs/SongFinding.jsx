@@ -3,11 +3,11 @@ import { BiPlay } from "react-icons/bi";
 import { LiaHeart } from "react-icons/lia";
 import { FaHeart } from "react-icons/fa";
 import { RiMoreLine } from "react-icons/ri";
-import { useTimeAndDate } from "../context/TimeAndDateContext";
-import BarsPlaySong from "./animation/BarsPlaySong";
+import { useTimeAndDate } from "../../context/TimeAndDateContext";
+import BarsPlaySong from "../animation/BarsPlaySong";
 import { useNavigate } from "react-router-dom";
 import { CgPlayPause } from "react-icons/cg";
-import { useSerLibrary } from "../context/UserLibraryContext";
+import { useSerLibrary } from "../../context/UserLibraryContext";
 
 const CartItemsTrack = ({
   track,
