@@ -88,7 +88,8 @@ body {
 }
 
 .bottom-nav .saveListalbum,
-.saveList {
+.saveList,
+.trackCollection .ImgColletion {
   border-radius: 4px;
 }
 
@@ -786,9 +787,80 @@ li {
 }
 
 /* collection page */
+.collectionTitle {
+  justify-content: normal;
+}
+
+.collectionTitle .title {
+  width: 25.5vw;
+
+  justify-content: normal;
+}
+.collectionTitle .title h1 {
+  margin: 0 0.4rem;
+}
+.collectionTitle .title h1,
+.collectionTitle .albumN h1,
+.collectionTitle .Date h1 {
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+.collectionTitle .albumN {
+  width: 22vw;
+}
+.collectionTitle .Date {
+  width: 27vw;
+}
+
+.collection {
+  margin: 0 74px 0 21px;
+  justify-content: normal;
+}
+
+.trackCollection {
+  align-items: center;
+  width: 25vw;
+}
+
+.trackCollection > h1:first-child,
+.trackCollection .ImgColletion {
+  margin-right: 10px;
+}
+
+.number {
+  color: #a7a7a7;
+  width: 16px;
+  margin-right: 0.4rem;
+}
+.number h1 {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.collectionNameArtists > h1:first-child {
+  font-size: 1rem;
+  font-weight: 400;
+}
+.collectionNameArtists > h1:nth-child(2) {
+  color: #a7a7a7;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
 .ImgColletion {
   width: 40px;
   height: 40px;
+}
+
+.nameAlbum {
+  width: 22vw;
+}
+.timeAgo {
+  width: 27vw;
+}
+.timeAgo h1 {
+  font-weight: 400;
+  font-size: 0.875rem;
 }
 
 /*////////////////////////////  reproduction   ///////////////////////// */

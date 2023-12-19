@@ -40,7 +40,7 @@ const Collection = () => {
   const Tracks = () => {
     return (
       <div className="list-songs">
-        <div className="title-albumN-clock">
+        <div className="title-albumN-clock collectionTitle">
           <div className="title">
             <h1> #</h1>
             <h1> Title</h1>
