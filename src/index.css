@@ -789,6 +789,7 @@ li {
 /* collection page */
 .collectionTitle {
   justify-content: normal;
+  align-items: center;
 }
 
 .collectionTitle .title {
@@ -796,7 +797,8 @@ li {
 
   justify-content: normal;
 }
-.collectionTitle .title h1 {
+.collectionTitle .title h1,
+.collectionTitle svg {
   margin: 0 0.4rem;
 }
 .collectionTitle .title h1,
@@ -810,17 +812,17 @@ li {
   width: 22vw;
 }
 .collectionTitle .Date {
-  width: 27vw;
+  width: 30vw;
 }
 
 .collection {
-  margin: 0 74px 0 21px;
+  margin: 0 74px 0 7px;
   justify-content: normal;
 }
 
 .trackCollection {
   align-items: center;
-  width: 25vw;
+  width: 25.5vw;
 }
 
 .trackCollection > h1:first-child,
@@ -829,13 +831,19 @@ li {
 }
 
 .number {
+  width: 32px;
+  height: 34px;
   color: #a7a7a7;
-  width: 16px;
+
   margin-right: 0.4rem;
 }
-.number h1 {
+.number {
   font-size: 1rem;
   font-weight: 400;
+}
+.number svg {
+  font-size: 1.5rem;
+  color: #fff;
 }
 .collectionNameArtists > h1:first-child {
   font-size: 1rem;

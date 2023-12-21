@@ -8,10 +8,12 @@ import { useSerLibrary } from "../context/UserLibraryContext";
 import SongCollection from "../components/songs/SongCollection";
 import { useSearch } from "../context/SearchContext";
 import Login from "./Login";
+import { usePlayMusic } from "../context/PlayMusicContext";
 
 const Collection = () => {
   const { tracksUserLibrary } = useSerLibrary();
   const { tracksIds } = tracksUserLibrary;
+  const { idPlayState, isPlaying, saveIdList } = usePlayMusic();
 
   const { infoPageColletion, loading, songsCollection, setSongsCollection } =
     useSearch();
@@ -61,6 +63,9 @@ const Collection = () => {
               key={song.id}
               i={i + 1}
               tracksIds={tracksIds[i]}
+              idPlayState={idPlayState}
+              isPlaying={isPlaying}
+              saveIdList={saveIdList}
             />
           );
         })}
@@ -96,28 +101,6 @@ const Collection = () => {
         <div className="play-like-more">
           <div className="play-music">
             <BiPlay />
-            {/* {!isPlayingAlbum ? (
-                  <BiPlay
-                    onClick={() =>
-                      playAlbum("albums", albuminfoPage.tracks.items[0].id)
-                    }
-                  />
-                ) : (
-                  <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
-                )}
-              </div>
-              <div className="like-more">
-                {heart ? (
-                  <FaHeart
-                    className="save"
-                    onClick={() => deleteUserLibrary(id, "albumArtist")}
-                  />
-                ) : (
-                  <LiaHeart
-                    onClick={() => saveUserLibrary(id, "albumArtist")}
-                  />
-                )}
-                <RiMoreLine /> */}
           </div>
         </div>
         <Tracks />
