@@ -586,6 +586,12 @@ li {
   width: 62px;
   justify-content: space-between;
 }
+
+.title-clock {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1rem;
+}
 .song-duration {
   display: flex;
 }
@@ -855,14 +861,30 @@ li {
   font-weight: 400;
 }
 
+.collectionNameArtists {
+  overflow: hidden;
+  width: 16vw;
+  white-space: nowrap;
+}
+
 .ImgColletion {
   width: 40px;
   height: 40px;
 }
 
 .nameAlbum {
+  margin-right: 8px;
+  overflow: hidden;
+  white-space: nowrap;
   width: 22vw;
 }
+.nameAlbum:hover,
+.collectionNameArtists > h1:nth-child(2) span:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #fcfdfd;
+}
+
 .timeAgo {
   width: 27vw;
 }

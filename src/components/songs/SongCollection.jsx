@@ -18,6 +18,8 @@ function SongCollection({
   idPlayState,
   isPlaying,
   saveIdList,
+  playAlbum,
+  redirectPage,
 }) {
   const { allDurationSong } = useTimeAndDate();
   const [hovered, setHovered] = useState(false);
@@ -39,15 +41,18 @@ function SongCollection({
   const renderContent = () => {
     if (hovered) {
       return isTrackPlaying ? (
-        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
+        <CgPlayPause onClick={() => playAlbum("collection", "pause")} />
       ) : (
-        <BiPlay name="tu-icono" onClick={() => saveIdList("albums", song.id)} />
+        <BiPlay
+          name="tu-icono"
+          onClick={() => saveIdList("collection", song.id)}
+        />
       );
     } else if (song.id === idPlayState) {
       return !isTrackPlaying ? song.track_number : <BarsPlaySong />;
     }
 
-    return  i;
+    return i;
   };
 
   return (
@@ -67,11 +72,24 @@ function SongCollection({
         ></div>
         <div className="collectionNameArtists">
           <h1>{song.name}</h1>
-
-          <h1>{song.artists.map((artist) => artist.name).join(", ")}</h1>
+          <h1>
+            {song.artists.map((artist, index) => (
+              <span key={artist.id}>
+                <span onClick={() => redirectPage("artist", artist.id)}>
+                  {artist.name}
+                </span>
+                {index < song.artists.length - 1 && ", "}
+              </span>
+            ))}
+          </h1>
         </div>
       </div>
-      <div className="nameAlbum">{song.album.name}</div>
+      <div
+        className="nameAlbum"
+        onClick={() => redirectPage("album", song?.album?.id)}
+      >
+        {song.album.name}
+      </div>
       <div className="timeAgo">
         <h1>{timeAgo(tracksIds?.dateAdded)}</h1>
       </div>

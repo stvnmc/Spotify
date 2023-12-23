@@ -34,6 +34,7 @@ export const PlayMusicProvider = ({ children }) => {
   const saveIdList = (nameAction, trackId) => {
     console.log("saveIDLis");
     console.log(nameAction);
+    console.log(trackId);
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
@@ -45,6 +46,7 @@ export const PlayMusicProvider = ({ children }) => {
 
   const getInfoPlay = async () => {
     console.log("getINfo");
+    console.log(playListState);
 
     const res = await getInfoTrack(spotyCode, idPlayState);
     const res2 = await getInfoAlbum(spotyCode, res?.album?.id);
@@ -93,6 +95,10 @@ export const PlayMusicProvider = ({ children }) => {
         }
       }
     }
+
+    if(playListState.nameList === "collection"){
+      console.log("okokoko")
+    }
   };
 
   const updatePlaylistInfo = (newInfo) => {
@@ -117,6 +123,8 @@ export const PlayMusicProvider = ({ children }) => {
 
   const playAlbum = (nameAction, id) => {
     console.log("playAlbum");
+    console.log(nameAction);
+    console.log(id);
     if (id === "pause") {
       return setIsPlaying(false);
     }

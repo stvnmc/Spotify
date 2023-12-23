@@ -67,16 +67,14 @@ const Song = ({
           <h1>{track.name}</h1>
           <div className="track-artist">
             <h1>
-              <span onClick={() => redirectPage("artist", track.artists[0].id)}>
-                {track.artists[0].name}
-              </span>
-              {track.artists[1] && (
-                <span
-                  onClick={() => redirectPage("artist", track.artists[1].id)}
-                >
-                  {`, ${track.artists[1].name}`}
+              {track.artists.map((artist, index) => (
+                <span key={artist.id}>
+                  <span onClick={() => redirectPage("artist", artist.id)}>
+                    {artist.name}
+                  </span>
+                  {index < track.artists.length - 1 && ", "}
                 </span>
-              )}
+              ))}
             </h1>
           </div>
         </div>

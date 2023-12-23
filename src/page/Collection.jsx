@@ -9,17 +9,19 @@ import SongCollection from "../components/songs/SongCollection";
 import { useSearch } from "../context/SearchContext";
 import Login from "./Login";
 import { usePlayMusic } from "../context/PlayMusicContext";
+import { useNavigate } from "react-router-dom";
 
 const Collection = () => {
   const { tracksUserLibrary } = useSerLibrary();
   const { tracksIds } = tracksUserLibrary;
-  const { idPlayState, isPlaying, saveIdList } = usePlayMusic();
+  const { idPlayState, isPlaying, saveIdList, playAlbum } = usePlayMusic();
 
   const { infoPageColletion, loading, songsCollection, setSongsCollection } =
     useSearch();
 
+  const navigate = useNavigate();
+
   const collectionSongs = async () => {
-    console.log("collectionSongs");
     const filteredSongsCollection = songsCollection.filter(
       (item) => !tracksIds?.some((album) => album.id === item.id)
     );
@@ -33,6 +35,10 @@ const Collection = () => {
         infoPageColletion(songs.id);
       }
     }
+  };
+
+  const redirectPage = async (site, id) => {
+    navigate(`/${site}/${id}`, { replace: true });
   };
 
   useEffect(() => {
@@ -59,6 +65,7 @@ const Collection = () => {
         {songsCollection.map((song, i) => {
           return (
             <SongCollection
+              redirectPage={redirectPage}
               song={song}
               key={song.id}
               i={i + 1}
@@ -66,6 +73,7 @@ const Collection = () => {
               idPlayState={idPlayState}
               isPlaying={isPlaying}
               saveIdList={saveIdList}
+              playAlbum={playAlbum}
             />
           );
         })}
@@ -100,7 +108,9 @@ const Collection = () => {
         ></div>
         <div className="play-like-more">
           <div className="play-music">
-            <BiPlay />
+            <BiPlay
+              onClick={() => playAlbum("collection", songsCollection[0].id)}
+            />
           </div>
         </div>
         <Tracks />
