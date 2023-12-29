@@ -4,6 +4,7 @@ import {
   getInfoAlbum,
   getInfoTrack,
 } from "../api/infoArtist";
+import { useSerLibrary } from "./UserLibraryContext";
 
 export const PlayMusicContext = createContext();
 
@@ -31,10 +32,10 @@ export const PlayMusicProvider = ({ children }) => {
   });
   const [isPlaying, setIsPlaying] = useState(null);
 
+  const { tracksUserLibrary } = useSerLibrary();
+
   const saveIdList = (nameAction, trackId) => {
     console.log("saveIDLis");
-    console.log(nameAction);
-    console.log(trackId);
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
@@ -46,7 +47,6 @@ export const PlayMusicProvider = ({ children }) => {
 
   const getInfoPlay = async () => {
     console.log("getINfo");
-    console.log(playListState);
 
     const res = await getInfoTrack(spotyCode, idPlayState);
     const res2 = await getInfoAlbum(spotyCode, res?.album?.id);
@@ -68,23 +68,29 @@ export const PlayMusicProvider = ({ children }) => {
     }
 
     if (playListState.nameList === "artist") {
+      console.log("entreooooo");
       const index = res.artists?.findIndex(
         (artist) => artist.id === idplayListState
       );
+      console.log(index);
 
       if (index !== -1) {
+        console.log(index);
         const resTopTracks = await getArtistsTopTracks(
           spotyCode,
           res.artists[index === -1 ? 0 : index]?.id
         );
+        console.log(playListState.track);
 
-        const equal = resTopTracks.some(
-          (elemento, i) => elemento.id === playListState.tracksId[i]
+        const equal = resTopTracks.every(
+          (elemento, i) =>
+            playListState.tracksId && elemento.id === playListState.tracksId[i]
         );
 
+        console.log(index);
+        console.log("comooo");
+
         if (!equal && res.artists[index]?.id !== playListState.id) {
-          console.log("entros");
-          console.log(idplayListState);
           const newPlaylistInfo = {
             nameList: playListState.nameList,
             id: idplayListState,
@@ -96,8 +102,16 @@ export const PlayMusicProvider = ({ children }) => {
       }
     }
 
-    if(playListState.nameList === "collection"){
-      console.log("okokoko")
+    if (playListState.nameList === "collection") {
+      console.log("entros");
+
+      const newPlaylistInfo = {
+        nameList: playListState.nameList,
+        id: idplayListState,
+        tracksId: tracksUserLibrary.tracksIds.map((track) => track.id),
+      };
+
+      updatePlaylistInfo(newPlaylistInfo);
     }
   };
 
@@ -112,6 +126,7 @@ export const PlayMusicProvider = ({ children }) => {
     setIsPlaying(false);
     const position = playListState.tracksId.indexOf(idPlayState);
     const numList = playListState.tracksId.length;
+    console.log(position);
 
     const newPosition =
       action === "next"
@@ -122,13 +137,14 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const playAlbum = (nameAction, id) => {
-    console.log("playAlbum");
+    console.log("playAbum");
     console.log(nameAction);
-    console.log(id);
+    console.log(idPlayState);
     if (id === "pause") {
       return setIsPlaying(false);
     }
     if (idPlayState === id || idPlayState === null) {
+      console.log("son iguales ");
       saveIdList(nameAction, id);
       setIsPlaying(!isPlaying);
     } else {
@@ -141,6 +157,9 @@ export const PlayMusicProvider = ({ children }) => {
       if (idplayListState !== playListState.id) {
         saveIdList(nameAction, id);
       }
+      if (playListState.nameList !== nameAction) {
+        saveIdList(nameAction, id);
+      }
       setIsPlaying(!isPlaying);
     }
   };
@@ -151,6 +170,7 @@ export const PlayMusicProvider = ({ children }) => {
     const newPlaylistInfoJSON = JSON.parse(idListSong);
 
     if (idSong) setIdPlayState(idSong);
+    console.log("se ejecuto el inicio de todo");
 
     if (idListSong) setPlayListState(newPlaylistInfoJSON);
   }, []);
@@ -181,3 +201,9 @@ export const PlayMusicProvider = ({ children }) => {
     </PlayMusicContext.Provider>
   );
 };
+
+
+
+
+
+// lo sieguente es arrgelar la lefrt right y mejorar el coolectiong 

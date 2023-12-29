@@ -12,8 +12,6 @@ export const useSerLibrary = () => {
 };
 
 export const UserLibraryProvider = ({ children }) => {
-  // const [tracksUserLibrary, setTracksUserLibrary] = useState(null);
-
   const [tracksUserLibrary, setTracksUserLibrary] = useState({
     tracksIds: [],
     albumsArtistIds: [],
@@ -25,14 +23,11 @@ export const UserLibraryProvider = ({ children }) => {
       id,
       dateAdded: currentDate,
     };
-
+  
     setTracksUserLibrary((prevState) => {
       let updatedState;
-
-      if (
-        type === "song" &&
-        !prevState.tracksIds.some((item) => item.id === id)
-      ) {
+  
+      if (type === "song" && !prevState.tracksIds.some((item) => item.id === id)) {
         updatedState = {
           ...prevState,
           tracksIds: [...prevState.tracksIds, newItem],
@@ -46,25 +41,20 @@ export const UserLibraryProvider = ({ children }) => {
           albumsArtistIds: [...prevState.albumsArtistIds, newItem],
         };
       } else {
-        // Si no hay cambios, retornar el estado actual sin cambios
         return prevState;
       }
-
-      // Guardar en localStorage
+  
       saveListUser(updatedState);
-
-      return updatedState;
+  
+      return { ...prevState, ...updatedState };
     });
   };
-
+  
   const deleteUserLibrary = (id, type) => {
     setTracksUserLibrary((prevState) => {
       let updatedState;
-
-      if (
-        type === "song" &&
-        prevState.tracksIds.some((item) => item.id === id)
-      ) {
+  
+      if (type === "song" && prevState.tracksIds.some((item) => item.id === id)) {
         updatedState = {
           ...prevState,
           tracksIds: [
@@ -84,16 +74,21 @@ export const UserLibraryProvider = ({ children }) => {
           ],
         };
       } else {
-        // Si no hay cambios, retornar el estado actual sin cambios
         return prevState;
       }
-
-      // Guardar en localStorage
+  
       saveListUser(updatedState);
-
-      return updatedState;
+  
+      return { ...prevState, ...updatedState };
     });
   };
+  
+
+
+
+
+
+
 
   function saveListUser(updatedState) {
     const newTracksUserLibrary = JSON.stringify(updatedState);

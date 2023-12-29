@@ -29,10 +29,6 @@ const Song = ({
     );
 
     setHiaHeart(equal);
-  }, [tracksUserLibrary]);
-
-  useEffect(() => {
-    allDurationSong(track.duration_ms);
   }, []);
 
   const isTrackPlaying = track.id === idPlayState && isPlaying;

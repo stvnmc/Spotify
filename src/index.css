@@ -1029,3 +1029,38 @@ li {
   background-color: #20d660;
   transition: 0.2s;
 }
+
+/*//////////////////////////////// login ////////////////////////////////*/
+
+.login-cont {
+  display: flex;
+}
+.login-text {
+  margin: 4rem 2rem;
+  width: 50vw;
+  height: 100vh;
+}
+
+.login-text h1 {
+  margin-bottom: 1rem;
+}
+
+.login-button {
+  width: 50vw;
+  height: 100vh;
+}
+
+.login-button div {
+  background-color: #90908f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  width: 85px;
+  margin: 50vh 11rem;
+  height: 35px;
+  cursor: pointer;
+}
+.login-button div:hover {
+  background-color: #20d660;
+}

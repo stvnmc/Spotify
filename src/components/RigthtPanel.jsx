@@ -11,6 +11,7 @@ import { useSearch } from "../context/SearchContext";
 
 const RigthtPanel = () => {
   const { spotyCode } = useSearch();
+  console.log(spotyCode)
   const { tracksUserLibrary } = useSerLibrary();
 
   const { albumsArtistIds } = tracksUserLibrary;
@@ -21,9 +22,7 @@ const RigthtPanel = () => {
 
   useEffect(() => {
     SaveList();
-  }, [albumsArtistIds]);
-
-  useEffect(() => {}, []);
+  }, []);
 
   async function SaveList() {
     console.log("saveList");
@@ -42,7 +41,7 @@ const RigthtPanel = () => {
             getInfoAlbum(spotyCode, item.id),
             getInfoArtist(spotyCode, item.id),
           ]);
-
+          console.log(result);
           setInfoSaveList((prevState) => [...prevState, result]);
         } catch (error) {
           console.error("Error fetching data:", error);
