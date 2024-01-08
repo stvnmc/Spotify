@@ -43,7 +43,7 @@ const Collection = () => {
 
   useEffect(() => {
     collectionSongs();
-  }, []);
+  }, [tracksIds]);
 
   const Tracks = () => {
     return (

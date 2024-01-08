@@ -44,11 +44,11 @@ export const getInfoTrack = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
+   
     if (error.response.data.error?.message === "The access token expired") {
       lounge();
     }
-    return error.response.data.error.message;
+    return error.response;
   }
 };
 
@@ -68,7 +68,7 @@ export const getInfoAlbum = async (accessToken, id) => {
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
-    return error.response.data.error.message;
+    return error.response.status;
   }
 };
 
@@ -109,7 +109,7 @@ export const getInfoArtist = async (accessToken, id) => {
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
-    return error.response.data.error.message;
+    return error.response.status;
   }
 };
 

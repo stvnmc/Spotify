@@ -6,12 +6,11 @@ import { AiFillHeart } from "react-icons/ai";
 
 import { Link, useNavigate } from "react-router-dom";
 import { useSerLibrary } from "../context/UserLibraryContext";
-import { getInfoAlbum, getInfoArtist } from "../api/infoArtist";
 import { useSearch } from "../context/SearchContext";
 
 const RigthtPanel = () => {
-  const { spotyCode } = useSearch();
-  console.log(spotyCode)
+  const { infoPageRightPanel } = useSearch();
+
   const { tracksUserLibrary } = useSerLibrary();
 
   const { albumsArtistIds } = tracksUserLibrary;
@@ -22,7 +21,7 @@ const RigthtPanel = () => {
 
   useEffect(() => {
     SaveList();
-  }, []);
+  }, [albumsArtistIds]);
 
   async function SaveList() {
     console.log("saveList");
@@ -37,18 +36,15 @@ const RigthtPanel = () => {
     for (const item of albumsArtistIds) {
       if (!infoSaveList.some((res) => res.id === item.id)) {
         try {
-          const result = await Promise.race([
-            getInfoAlbum(spotyCode, item.id),
-            getInfoArtist(spotyCode, item.id),
-          ]);
-          console.log(result);
+          const result = await infoPageRightPanel(item.id);
+
           setInfoSaveList((prevState) => [...prevState, result]);
         } catch (error) {
           console.error("Error fetching data:", error);
-          // Puedes manejar el error de alguna manera, por ejemplo, mostrando un mensaje de error.
         }
       }
     }
+    console.log(infoSaveList);
   }
 
   const redirectPage = async (site, id) => {

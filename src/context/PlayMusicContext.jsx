@@ -201,9 +201,3 @@ export const PlayMusicProvider = ({ children }) => {
     </PlayMusicContext.Provider>
   );
 };
-
-
-
-
-
-// lo sieguente es arrgelar la lefrt right y mejorar el coolectiong 

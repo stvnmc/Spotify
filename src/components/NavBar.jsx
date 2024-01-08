@@ -14,6 +14,12 @@ const NavBar = () => {
     navigate(1); // Navegar hacia adelante
   };
 
+  const enlaceGithub = "https://github.com/stvnmc";
+
+  const abrirEnlace = () => {
+    window.open(enlaceGithub, "_blank");
+  };
+
   return (
     <section className="navBar">
       <nav>
@@ -26,7 +32,7 @@ const NavBar = () => {
       </nav>
 
       <div className="app-bar">
-        <div className="iconsC">
+        <div className="iconsC" onClick={abrirEnlace}>
           <FaGithub />
         </div>
         <div className="iconsC">

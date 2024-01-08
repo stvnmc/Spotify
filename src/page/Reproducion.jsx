@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { LiaHeart } from "react-icons/lia";
+import { FaHeart } from "react-icons/fa";
 import {
   CgPlayTrackPrev,
   CgPlayTrackNext,
@@ -15,6 +16,7 @@ import {
 import { usePlayMusic } from "../context/PlayMusicContext";
 import LoginPlayState from "../components/LoginPlayState";
 import { useNavigate } from "react-router-dom";
+import { useSerLibrary } from "../context/UserLibraryContext";
 
 const Reproduccion = () => {
   const { playState, isPlaying, setIsPlaying, changePlayState, getInfoPlay } =
@@ -26,7 +28,12 @@ const Reproduccion = () => {
   const [hovered, setHovered] = useState(false);
   const audioRef = useRef(null);
 
+  const [heart, setHiaHeart] = useState(false);
+
   const { name, album, artists, preview_url } = playState || {};
+
+  const { saveUserLibrary, deleteUserLibrary, tracksUserLibrary } =
+    useSerLibrary();
 
   const navigate = useNavigate();
 
@@ -43,6 +50,14 @@ const Reproduccion = () => {
     playPauseHandler();
     getInfoPlay();
   }, [playState]);
+
+  useEffect(() => {
+    const equal = tracksUserLibrary.tracksIds.some(
+      (elemento) => elemento.id === playState?.id
+    );
+
+    setHiaHeart(equal);
+  }, [playState, tracksUserLibrary]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -140,7 +155,14 @@ const Reproduccion = () => {
           </div>
         </div>
         <div className="track-icons">
-          <LiaHeart />
+          {heart ? (
+            <FaHeart
+              className="save"
+              onClick={() => deleteUserLibrary(playState.id, "song")}
+            />
+          ) : (
+            <LiaHeart onClick={() => saveUserLibrary(playState.id, "song")} />
+          )}
         </div>
       </div>
       <div className="audio-player">

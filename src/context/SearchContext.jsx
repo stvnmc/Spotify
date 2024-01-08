@@ -38,6 +38,7 @@ export const SearchProvider = ({ children }) => {
   // page collection
   const [songsCollection, setSongsCollection] = useState([]);
   // access token
+
   const spotyCode = localStorage.getItem("access_token");
 
   async function funcionSearch(value) {
@@ -86,6 +87,23 @@ export const SearchProvider = ({ children }) => {
     }
   }
 
+  async function infoPageRightPanel(id) {
+    const result = await getInfoAlbum(spotyCode, id);
+    if (result !== 404) {
+      return result;
+    }
+
+    const result1 = await getInfoArtist(spotyCode, id);
+    if (result1 !== 404) {
+      return result1;
+    }
+  }
+
+  async function infoPageHome(id) {
+    const result = await getInfoAlbum(spotyCode, id);
+    return result;
+  }
+
   return (
     <SearchContext.Provider
       value={{
@@ -102,7 +120,9 @@ export const SearchProvider = ({ children }) => {
         setLoading,
         infoPageColletion,
         songsCollection,
-        setSongsCollection
+        setSongsCollection,
+        infoPageRightPanel,
+        infoPageHome
       }}
     >
       {children}
