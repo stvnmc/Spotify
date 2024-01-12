@@ -21,7 +21,7 @@ const RigthtPanel = () => {
 
   useEffect(() => {
     SaveList();
-  }, [albumsArtistIds]);
+  }, [albumsArtistIds, tracksUserLibrary]);
 
   async function SaveList() {
     console.log("saveList");
@@ -37,14 +37,13 @@ const RigthtPanel = () => {
       if (!infoSaveList.some((res) => res.id === item.id)) {
         try {
           const result = await infoPageRightPanel(item.id);
-
+          console.log(result);
           setInfoSaveList((prevState) => [...prevState, result]);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
       }
     }
-    console.log(infoSaveList);
   }
 
   const redirectPage = async (site, id) => {

@@ -65,6 +65,7 @@ export const getInfoAlbum = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
+    console.log(error)
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -106,6 +107,7 @@ export const getInfoArtist = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
+    console.log(error)
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }

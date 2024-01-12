@@ -101,7 +101,14 @@ export const SearchProvider = ({ children }) => {
 
   async function infoPageHome(id) {
     const result = await getInfoAlbum(spotyCode, id);
-    return result;
+    if (result !== 404) {
+      return result;
+    }
+
+    const result1 = await getInfoArtist(spotyCode, id);
+    if (result1 !== 404) {
+      return result1;
+    }
   }
 
   return (
@@ -122,7 +129,7 @@ export const SearchProvider = ({ children }) => {
         songsCollection,
         setSongsCollection,
         infoPageRightPanel,
-        infoPageHome
+        infoPageHome,
       }}
     >
       {children}
