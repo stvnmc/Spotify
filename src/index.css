@@ -484,7 +484,7 @@ li {
   font-size: 0.8rem;
 }
 
-/*////////////  Page   Album//////// ///////*/
+/*/ ///////////  Page   Album//////// ///////*/
 /* fisrt part */
 
 .front-album,
@@ -1058,39 +1058,78 @@ li {
   transition: 0.2s;
 }
 
-/*//////////////////////////////// login ////////////////////////////////*/
-
+/*////////////////////////////////  /login///////////////////////////////*/
 .login-cont {
+  width: 100vw;
   display: flex;
-}
-.login-text {
-  margin: 4rem 2rem;
-  width: 50vw;
+  flex-direction: column;
   height: 100vh;
 }
-
-.login-text h1 {
-  margin-bottom: 1rem;
-}
-
-.login-button {
-  width: 50vw;
-  height: 100vh;
-}
-
-.login-button div {
-  background-color: #90908f;
+.logo-container {
+  margin-left: 4vw;
   display: flex;
+  height: 10vh;
+  background-color: #000000;
+  align-items: center;
+}
+
+.logo-container svg {
+  margin-right: 1vw;
+  font-size: 42px;
+}
+
+.logo-container h1 {
+  font-size: 25px;
+}
+
+.login-form-cont {
+  height: 90vh;
+  background-color: #0d0d0d;
+}
+
+.login-form {
+  display: flex;
+  padding: 2rem 4rem 0;
+  border-radius: 10px;
+  height: 81vh;
+  width: 540px;
+  margin: 3vw 20vw 8vw;
+  background-color: #000000;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-form h1 {
+  text-align: center;
+  font-size: 45px;
+  margin-bottom: 15px;
+}
+
+.login-form p {
+  margin: 2rem 4rem;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.buttom-login {
+  height: 3rem;
+  width: 14rem;
+  display: flex;
+  border-radius: 30px;
+  background: #1fd662;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
-  width: 85px;
-  margin: 50vh 11rem;
-  height: 35px;
-  cursor: pointer;
 }
-.login-button div:hover {
-  background-color: #20d660;
+
+.login-cont .line {
+  margin: 5vh 0;
+  width: 83%;
+}
+
+.login-cont h3{
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 26vh;
 }
 
 /*  */
