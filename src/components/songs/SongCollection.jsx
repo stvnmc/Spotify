@@ -88,7 +88,7 @@ function SongCollection({
         className="nameAlbum"
         onClick={() => redirectPage("album", song?.album?.id)}
       >
-        {song.album.name}
+        <p>{song.album.name}</p>
       </div>
       <div className="timeAgo">
         <h1>{timeAgo(tracksIds?.dateAdded)}</h1>

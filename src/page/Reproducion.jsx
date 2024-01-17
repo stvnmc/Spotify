@@ -128,6 +128,7 @@ const Reproduccion = () => {
 
   if (!playState) return <LoginPlayState />;
 
+  console.log(playState);
   return (
     <div className="reproduction">
       <div className="info-reproduction">
@@ -136,6 +137,7 @@ const Reproduccion = () => {
           style={{
             backgroundImage: `url(${album?.images?.[1].url})`,
           }}
+          onClick={() => redirectPage("album", playState?.album.id)}
         ></div>
 
         <div className="nameTrack">

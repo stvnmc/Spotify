@@ -100,6 +100,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 4px;
   background: linear-gradient(to bottom right, #4910ee, #bbe1df);
 }
 .saveList svg {
@@ -154,17 +155,20 @@ main:hover::-webkit-scrollbar-thumb {
 }
 
 .HomeContent {
+  width: 100%;
   display: grid;
-  grid-template-columns: 27vw 27vw 27vw;
+  grid-template-columns: 33% 33% 33%;
   gap: 6px;
 }
 
 .contents {
+  cursor: pointer;
   display: flex;
   align-items: center;
   background: #4c5252;
   height: 6vh;
   border-radius: 4px;
+  justify-content: space-between;
 }
 
 .imgHome {
@@ -176,6 +180,25 @@ main:hover::-webkit-scrollbar-thumb {
 
 .imgHome svg {
   font-size: 23px;
+}
+.contents-name {
+  width: 50%;
+}
+.contents-name h1 {
+  font-size: 16px;
+}
+.contents-icons {
+  width: 25%;
+  position: relative;
+}
+
+.contents-icons .play-music {
+  right: -10px;
+  bottom: -22px;
+  opacity: 1;
+}
+.contents-icons .off {
+  opacity: 0;
 }
 
 /*  navBar */
@@ -611,7 +634,6 @@ li {
 }
 
 .title {
-  width: 62px;
   justify-content: space-between;
 }
 
@@ -728,6 +750,7 @@ li {
   padding: 7px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .track.hover .song-duration,
@@ -738,7 +761,6 @@ li {
 
 .infoTrack {
   display: flex;
-  flex-wrap: wrap;
 }
 
 .trackNumTime {
@@ -786,6 +808,7 @@ li {
 }
 
 .track-icons svg {
+  cursor: pointer;
   font-size: 18px;
 }
 .track-artist h1 {
@@ -823,12 +846,12 @@ li {
 /* collection page */
 .collectionTitle {
   justify-content: normal;
-  align-items: center;
+  width: 98%;
+  display: grid;
+  grid-template-columns: 45% 21% 21% 13%;
 }
 
 .collectionTitle .title {
-  width: 25.5vw;
-
   justify-content: normal;
 }
 .collectionTitle .title h1,
@@ -842,21 +865,15 @@ li {
   font-size: 0.875rem;
 }
 
-.collectionTitle .albumN {
-  width: 22vw;
-}
-.collectionTitle .Date {
-  width: 30vw;
-}
-
 .collection {
-  margin: 0 74px 0 7px;
   justify-content: normal;
+  width: 98%;
+  display: grid;
+  grid-template-columns: 45% 21% 21% 13%;
 }
 
 .trackCollection {
   align-items: center;
-  width: 25.5vw;
 }
 
 .trackCollection > h1:first-child,
@@ -880,7 +897,7 @@ li {
   color: #fff;
 }
 .collectionNameArtists > h1:first-child {
-  font-size: 1rem;
+  font-size: 15px;
   font-weight: 400;
 }
 .collectionNameArtists > h1:nth-child(2) {
@@ -904,7 +921,9 @@ li {
   margin-right: 8px;
   overflow: hidden;
   white-space: nowrap;
-  width: 22vw;
+}
+.nameAlbum p {
+  font-size: 14px;
 }
 .nameAlbum:hover,
 .collectionNameArtists > h1:nth-child(2) span:hover {
@@ -913,9 +932,6 @@ li {
   color: #fcfdfd;
 }
 
-.timeAgo {
-  width: 27vw;
-}
 .timeAgo h1 {
   font-weight: 400;
   font-size: 0.875rem;
@@ -932,6 +948,9 @@ li {
   bottom: 0;
   background-color: #030203;
   z-index: 1;
+}
+.info-reproduction .contImg{
+  cursor: pointer;
 }
 .info-reproduction .contImg {
   min-width: 56px;
@@ -1083,17 +1102,20 @@ li {
 }
 
 .login-form-cont {
+  display: flex;
   height: 90vh;
   background-color: #0d0d0d;
+  align-items: center;
+  justify-content: center;
 }
 
 .login-form {
   display: flex;
-  padding: 2rem 4rem 0;
+  padding: 1rem 3rem 0;
   border-radius: 10px;
   height: 81vh;
   width: 540px;
-  margin: 3vw 20vw 8vw;
+  justify-content: space-around;
   background-color: #000000;
   align-items: center;
   flex-direction: column;
@@ -1106,12 +1128,13 @@ li {
 }
 
 .login-form p {
-  margin: 2rem 4rem;
+  margin: 1rem 3rem 0;
   font-size: 16px;
   font-weight: 400;
 }
 
 .buttom-login {
+  cursor: pointer;
   height: 3rem;
   width: 14rem;
   display: flex;
@@ -1123,13 +1146,14 @@ li {
 
 .login-cont .line {
   margin: 5vh 0;
-  width: 83%;
+  overflow: hidden;
+  width: 70%;
 }
 
-.login-cont h3{
+.login-cont h3 {
   font-size: 14px;
   font-weight: 300;
-  margin-top: 26vh;
+  margin-top: 7vh;
 }
 
 /*  */

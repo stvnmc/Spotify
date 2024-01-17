@@ -35,7 +35,6 @@ export const PlayMusicProvider = ({ children }) => {
   const { tracksUserLibrary } = useSerLibrary();
 
   const saveIdList = (nameAction, trackId) => {
-    console.log("saveIDLis");
     setPlayListState((prevState) => ({
       ...prevState,
       nameList: nameAction,
@@ -46,8 +45,6 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const getInfoPlay = async () => {
-    console.log("getINfo");
-
     const res = await getInfoTrack(spotyCode, idPlayState);
     const res2 = await getInfoAlbum(spotyCode, res?.album?.id);
 
@@ -59,7 +56,7 @@ export const PlayMusicProvider = ({ children }) => {
       const newPlaylistInfo = {
         ...playListState,
         nameList: playListState.nameList,
-        id: idplayListState,
+        id: res?.album?.id,
         tracksId: res2.tracks?.items.map((track) => track.id),
       };
 
@@ -68,27 +65,20 @@ export const PlayMusicProvider = ({ children }) => {
     }
 
     if (playListState.nameList === "artist") {
-      console.log("entreooooo");
       const index = res.artists?.findIndex(
         (artist) => artist.id === idplayListState
       );
-      console.log(index);
-
+      F;
       if (index !== -1) {
-        console.log(index);
         const resTopTracks = await getArtistsTopTracks(
           spotyCode,
           res.artists[index === -1 ? 0 : index]?.id
         );
-        console.log(playListState.track);
 
         const equal = resTopTracks.every(
           (elemento, i) =>
             playListState.tracksId && elemento.id === playListState.tracksId[i]
         );
-
-        console.log(index);
-        console.log("comooo");
 
         if (!equal && res.artists[index]?.id !== playListState.id) {
           const newPlaylistInfo = {
@@ -103,8 +93,6 @@ export const PlayMusicProvider = ({ children }) => {
     }
 
     if (playListState.nameList === "collection") {
-      console.log("entros");
-
       const newPlaylistInfo = {
         nameList: playListState.nameList,
         id: idplayListState,
@@ -122,11 +110,9 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const changePlayState = (action) => {
-    console.log("changePlayState");
     setIsPlaying(false);
     const position = playListState.tracksId.indexOf(idPlayState);
     const numList = playListState.tracksId.length;
-    console.log(position);
 
     const newPosition =
       action === "next"
@@ -137,14 +123,10 @@ export const PlayMusicProvider = ({ children }) => {
   };
 
   const playAlbum = (nameAction, id) => {
-    console.log("playAbum");
-    console.log(nameAction);
-    console.log(idPlayState);
     if (id === "pause") {
       return setIsPlaying(false);
     }
     if (idPlayState === id || idPlayState === null) {
-      console.log("son iguales ");
       saveIdList(nameAction, id);
       setIsPlaying(!isPlaying);
     } else {
@@ -170,7 +152,6 @@ export const PlayMusicProvider = ({ children }) => {
     const newPlaylistInfoJSON = JSON.parse(idListSong);
 
     if (idSong) setIdPlayState(idSong);
-    console.log("se ejecuto el inicio de todo");
 
     if (idListSong) setPlayListState(newPlaylistInfoJSON);
   }, []);

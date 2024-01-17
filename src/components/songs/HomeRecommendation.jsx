@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { AiFillHeart } from "react-icons/ai";
-const HomeRecommendation = ({ item }) => {
-  console.log(item?.images?.[0]?.url);
+import { BiPlay } from "react-icons/bi";
+import { CgPlayPause } from "react-icons/cg";
+
+const HomeRecommendation = ({
+  item,
+  playAlbum,
+  idPlayState,
+  saveIdList,
+  isPlaying,
+  playListState,
+  redirectPage,
+}) => {
+  const [hovered, setHovered] = useState(false);
+
+  const isTrackPlaying = item.id === playListState.id && isPlaying;
+
+  const renderContent = () => {
+    if (hovered) {
+      return isTrackPlaying ? (
+        <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
+      ) : (
+        <BiPlay
+          name="tu-icono"
+          onClick={() => saveIdList("albums", item.tracks?.items[0].id)}
+        />
+      );
+    }
+  };
 
   return (
-    <div className="contents">
+    <div
+      className="contents"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       <div
+        onClick={() => redirectPage("album", item.id)}
         className={`${
           item === "heart" ? "saveList" : "adaptable-background"
         } imgHome`}
@@ -17,11 +48,16 @@ const HomeRecommendation = ({ item }) => {
       >
         {item === "heart" ? <AiFillHeart /> : null}
       </div>
-      <div>
+      <div
+        className="contents-name"
+        onClick={() => redirectPage("album", item.id)}
+      >
         <h1>{item === "heart" ? "Canciones que te gustan" : item.name}</h1>
       </div>
-      <div>
-        
+      <div className="contents-icons">
+        <div className={`${hovered ? "play-music" : "off"}`}>
+          {renderContent()}
+        </div>
       </div>
     </div>
   );
