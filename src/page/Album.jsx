@@ -14,6 +14,7 @@ import { CgPlayPause } from "react-icons/cg";
 import { useSearch } from "../context/SearchContext";
 import ColorThief from "colorthief";
 import { useSerLibrary } from "../context/UserLibraryContext";
+import Loading from "./Loading";
 
 const Album = () => {
   const { spotyCode, infoGetArtist, artists, albums } = useSearch();
@@ -254,7 +255,7 @@ const Album = () => {
   return (
     <section>
       {loading ? (
-        <p>Cargando...</p>
+        <Loading />
       ) : (
         <>
           <AlbumInfo />

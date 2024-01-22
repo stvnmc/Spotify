@@ -6,7 +6,6 @@ import { CgPlayPause } from "react-icons/cg";
 const HomeRecommendation = ({
   item,
   playAlbum,
-  idPlayState,
   saveIdList,
   isPlaying,
   playListState,
@@ -55,7 +54,7 @@ const HomeRecommendation = ({
         <h1>{item === "heart" ? "Canciones que te gustan" : item.name}</h1>
       </div>
       <div className="contents-icons">
-        <div className={`${hovered ? "play-music" : "off"}`}>
+        <div className={`${hovered ? "play-music on" : "play-music off"}`}>
           {renderContent()}
         </div>
       </div>

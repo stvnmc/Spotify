@@ -147,7 +147,7 @@ main:hover::-webkit-scrollbar-thumb {
 /* Home */
 
 .home {
-  margin: 4rem 1.3rem;
+  margin: 4rem 1.3rem 18rem;
 }
 .home > h1:first-child {
   font-size: 26px;
@@ -155,10 +155,8 @@ main:hover::-webkit-scrollbar-thumb {
 }
 
 .HomeContent {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 33% 33% 33%;
-  gap: 6px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .contents {
@@ -166,7 +164,11 @@ main:hover::-webkit-scrollbar-thumb {
   display: flex;
   align-items: center;
   background: #4c5252;
-  height: 6vh;
+  height: 7vh;
+  margin-right: 1vw;
+  margin-bottom: 1vh;
+  width: 29vw;
+  min-width: 274px;
   border-radius: 4px;
   justify-content: space-between;
 }
@@ -174,7 +176,7 @@ main:hover::-webkit-scrollbar-thumb {
 .imgHome {
   border-radius: 4px 0 0px 4px;
   margin-right: 0.7rem;
-  width: 60px;
+  width: 72px;
   height: 100%;
 }
 
@@ -252,6 +254,7 @@ main:hover::-webkit-scrollbar-thumb {
   top: -8px;
   left: 7rem;
   background-color: #242424;
+
   border-radius: 28px;
   border: 2px solid transparent;
 }
@@ -264,6 +267,7 @@ main:hover::-webkit-scrollbar-thumb {
 }
 .inputSearch input {
   border: none;
+  color: #fff;
   background-color: transparent;
 }
 
@@ -445,7 +449,6 @@ main:hover::-webkit-scrollbar-thumb {
 }
 
 .footer-column,
-.footer-column-icons,
 .footer-column-icons {
   display: flex;
   flex-wrap: wrap;
@@ -462,6 +465,7 @@ main:hover::-webkit-scrollbar-thumb {
 
 .footer-column-icons div {
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   height: 2.5rem;
@@ -949,7 +953,7 @@ li {
   background-color: #030203;
   z-index: 1;
 }
-.info-reproduction .contImg{
+.info-reproduction .contImg {
   cursor: pointer;
 }
 .info-reproduction .contImg {
@@ -1120,6 +1124,13 @@ li {
   align-items: center;
   flex-direction: column;
 }
+.info-login {
+  margin-left: 29px;
+}
+
+.info-login h3 {
+  margin: 6px 10px;
+}
 
 .login-form h1 {
   text-align: center;
@@ -1128,8 +1139,7 @@ li {
 }
 
 .login-form p {
-  margin: 1rem 3rem 0;
-  font-size: 16px;
+  font-size: 23px;
   font-weight: 400;
 }
 
@@ -1151,9 +1161,22 @@ li {
 }
 
 .login-cont h3 {
-  font-size: 14px;
-  font-weight: 300;
-  margin-top: 7vh;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-/*  */
+/* Login */
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.dot {
+  background-color: #333; /* Puedes ajustar el color según tus preferencias */
+  border-radius: 50%;
+  margin: 0 5px;
+  transition: all 0.3s ease-in-out;
+}

@@ -14,7 +14,6 @@ import {
   BsFillVolumeOffFill,
 } from "react-icons/bs";
 import { usePlayMusic } from "../context/PlayMusicContext";
-import LoginPlayState from "../components/LoginPlayState";
 import { useNavigate } from "react-router-dom";
 import { useSerLibrary } from "../context/UserLibraryContext";
 
@@ -126,14 +125,13 @@ const Reproduccion = () => {
     return matchingRange ? matchingRange.icon : <BsVolumeMuteFill />;
   };
 
-  if (!playState) return <LoginPlayState />;
+  if (!playState) return <></>;
 
-  console.log(playState);
   return (
     <div className="reproduction">
       <div className="info-reproduction">
         <div
-          className="contImg adaptable-background"
+          className="contImg adaptable-background "
           style={{
             backgroundImage: `url(${album?.images?.[1].url})`,
           }}
@@ -157,13 +155,17 @@ const Reproduccion = () => {
           </div>
         </div>
         <div className="track-icons">
-          {heart ? (
-            <FaHeart
-              className="save"
-              onClick={() => deleteUserLibrary(playState.id, "song")}
-            />
+          {playState.name ? (
+            heart ? (
+              <FaHeart
+                className="save"
+                onClick={() => deleteUserLibrary(playState.id, "song")}
+              />
+            ) : (
+              <LiaHeart onClick={() => saveUserLibrary(playState.id, "song")} />
+            )
           ) : (
-            <LiaHeart onClick={() => saveUserLibrary(playState.id, "song")} />
+            ""
           )}
         </div>
       </div>

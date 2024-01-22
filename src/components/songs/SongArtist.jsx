@@ -21,14 +21,15 @@ const SongArtist = ({
     useSerLibrary();
 
   const [hovered, setHovered] = useState(false);
-  const [heart, setHiaHeart] = useState(false);
+  const [heart, setHeart] = useState(false);
 
   useEffect(() => {
-    const equal = tracksUserLibrary.tracksIds.some(
+    // Verifica si la canción está en la biblioteca del usuario
+    const isTrackInLibrary = tracksUserLibrary.tracksIds.some(
       (elemento) => elemento.id === track.id
     );
 
-    setHiaHeart(equal);
+    setHeart(isTrackInLibrary);
   }, [tracksUserLibrary]);
 
   const isTrackPlaying = track.id === idPlayState && isPlaying;
@@ -38,13 +39,10 @@ const SongArtist = ({
       return isTrackPlaying ? (
         <CgPlayPause onClick={() => playAlbum("artist", "pause")} />
       ) : (
-        <BiPlay
-          name="tu-icono"
-          onClick={() => saveIdList("artist", track.id)}
-        />
+        <BiPlay onClick={() => saveIdList("artist", track.id)} />
       );
     } else if (track.id === idPlayState) {
-      return !isTrackPlaying ? i : <BarsPlaySong />;
+      return isTrackPlaying ? <BarsPlaySong /> : i;
     }
 
     return i;
@@ -74,6 +72,7 @@ const SongArtist = ({
       </div>
       <div className="track-right">
         <div className="track-icons">
+          {/* Ícono del corazón para agregar o quitar de la biblioteca */}
           {heart ? (
             <FaHeart
               className="save"
@@ -81,14 +80,13 @@ const SongArtist = ({
             />
           ) : hovered ? (
             <LiaHeart onClick={() => saveUserLibrary(track.id, "song")} />
-          ) : (
-            ""
-          )}
+          ) : null}
         </div>
         <div className="trackNumTime">
+          {/* Duración de la canción */}
           {allDurationSong("song", track.duration_ms)}
         </div>
-        <div className="track-icons">{hovered ? <RiMoreLine /> : ""}</div>
+        <div className="track-icons">{hovered ? <RiMoreLine /> : null}</div>
       </div>
     </div>
   );

@@ -16,6 +16,7 @@ import {
   getInfoArtist,
 } from "../api/infoArtist";
 import { useSerLibrary } from "../context/UserLibraryContext";
+import Loading from "./Loading";
 
 const Artist = () => {
   const navigate = useNavigate();
@@ -201,7 +202,7 @@ const Artist = () => {
   return (
     <>
       {loading ? (
-        <p>Cargando...</p>
+        <Loading />
       ) : (
         <>
           <div

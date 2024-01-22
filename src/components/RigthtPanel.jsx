@@ -8,7 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useSerLibrary } from "../context/UserLibraryContext";
 import { useSearch } from "../context/SearchContext";
 
-const RigthtPanel = () => {
+const RightPanel = () => {
   const { infoPageRightPanel } = useSearch();
 
   const { tracksUserLibrary } = useSerLibrary();
@@ -20,11 +20,11 @@ const RigthtPanel = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    SaveList();
+    saveList();
   }, [albumsArtistIds, tracksUserLibrary]);
 
-  async function SaveList() {
-    console.log("saveList");
+  // Función para cargar información de las listas guardadas
+  async function saveList() {
     const filteredInfoSaveList = infoSaveList.filter(
       (item) => !albumsArtistIds?.some((album) => album.id === item.id)
     );
@@ -37,7 +37,7 @@ const RigthtPanel = () => {
       if (!infoSaveList.some((res) => res.id === item.id)) {
         try {
           const result = await infoPageRightPanel(item.id);
-          console.log(result);
+
           setInfoSaveList((prevState) => [...prevState, result]);
         } catch (error) {
           console.error("Error fetching data:", error);
@@ -46,6 +46,7 @@ const RigthtPanel = () => {
     }
   }
 
+  // Función para redirigir a la página correspondiente
   const redirectPage = async (site, id) => {
     try {
       navigate(`/${site}/${id}`, { replace: true });
@@ -89,4 +90,5 @@ const RigthtPanel = () => {
   );
 };
 
-export default RigthtPanel;
+export default RightPanel;
+

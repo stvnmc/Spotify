@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useTimeAndDate } from "../../context/TimeAndDateContext";
 import timeAgo from "../functions/TimeAgo";
 
-// icons
+// Icons
 import { RiMoreLine } from "react-icons/ri";
 import { LiaHeart } from "react-icons/lia";
 import { FaHeart } from "react-icons/fa";
-import { useSerLibrary } from "../../context/UserLibraryContext";
 import { BiPlay } from "react-icons/bi";
 import BarsPlaySong from "../animation/BarsPlaySong";
 import { CgPlayPause } from "react-icons/cg";
+import { useSerLibrary } from "../../context/UserLibraryContext";
 
 function SongCollection({
   song,
@@ -23,17 +23,18 @@ function SongCollection({
 }) {
   const { allDurationSong } = useTimeAndDate();
   const [hovered, setHovered] = useState(false);
-  const [heart, setHiaHeart] = useState(false);
+  const [heart, setHeart] = useState(false);
 
   const { saveUserLibrary, tracksUserLibrary, deleteUserLibrary } =
     useSerLibrary();
 
   useEffect(() => {
-    const equal = tracksUserLibrary.tracksIds.some(
+    // Verifica si la canción está en la biblioteca del usuario
+    const isTrackInLibrary = tracksUserLibrary.tracksIds.some(
       (elemento) => elemento.id === song.id
     );
 
-    setHiaHeart(equal);
+    setHeart(isTrackInLibrary);
   }, [tracksUserLibrary]);
 
   const isTrackPlaying = song.id === idPlayState && isPlaying;
@@ -43,13 +44,10 @@ function SongCollection({
       return isTrackPlaying ? (
         <CgPlayPause onClick={() => playAlbum("collection", "pause")} />
       ) : (
-        <BiPlay
-          name="tu-icono"
-          onClick={() => saveIdList("collection", song.id)}
-        />
+        <BiPlay onClick={() => saveIdList("collection", song.id)} />
       );
     } else if (song.id === idPlayState) {
-      return !isTrackPlaying ? song.track_number : <BarsPlaySong />;
+      return isTrackPlaying ? <BarsPlaySong /> : song.track_number;
     }
 
     return i;
@@ -95,6 +93,7 @@ function SongCollection({
       </div>
       <div className="track-right">
         <div className="track-icons">
+          {/* Ícono del corazón para agregar o quitar de la biblioteca */}
           {heart ? (
             <FaHeart
               className="save"
@@ -102,17 +101,17 @@ function SongCollection({
             />
           ) : hovered ? (
             <LiaHeart onClick={() => saveUserLibrary(song.id, "song")} />
-          ) : (
-            ""
-          )}
+          ) : null}
         </div>
         <div className="trackNumTime">
+          {/* Duración de la canción */}
           {allDurationSong("song", song.duration_ms)}
         </div>
-        <div className="track-icons">{hovered ? <RiMoreLine /> : ""}</div>
+        <div className="track-icons">{hovered ? <RiMoreLine /> : null}</div>
       </div>
     </div>
   );
 }
 
 export default SongCollection;
+

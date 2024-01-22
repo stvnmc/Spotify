@@ -7,15 +7,17 @@ export const useTimeAndDate = () => {
   const context = useContext(TimeAndDateContext);
 
   if (!context) {
-    console.error("useSearch must be used within a SearchProvider");
+    console.error("useTimeAndDate must be used within a TimeAndDateProvider");
   }
 
   return context;
 };
 
 export const TimeAndDateProvider = ({ children }) => {
+  // Estado local que controla si el usuario está desplazándose
   const [scroll, setScroll] = useState(true);
 
+  // Función para formatear la duración de las canciones
   function allDurationSong(type, duration_ms) {
     const totalSeconds = Math.floor(duration_ms / 1000);
     const hours = Math.floor(totalSeconds / 3600);
@@ -35,6 +37,7 @@ export const TimeAndDateProvider = ({ children }) => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }
 
+  // Función para limitar la longitud de texto
   function textLimit(type, text) {
     const maxLength = 17;
 
@@ -50,15 +53,13 @@ export const TimeAndDateProvider = ({ children }) => {
     return text;
   }
 
+  // Función para manejar el evento de desplazamiento
   function ScrollNav() {
     setScroll(true);
   }
 
-  // color
-
+  // Estado local y funciones relacionadas con la manipulación de imágenes y colores
   const [imageUrl, setImageUrl] = useState(null);
-
-  // const imageUrl = artistInfoPage?.images[0].url;
   const [backgroundColor, setBackgroundColor] = useState("rgba(0, 0, 0, 1)");
   const [backgroudGrandient, setBackgroudGrandient] =
     useState("rgba(0, 0, 0, 1)");
@@ -90,6 +91,7 @@ export const TimeAndDateProvider = ({ children }) => {
     coloImg();
   }, [imageUrl]);
 
+  // Función para cargar una imagen como objeto Blob
   const loadImageAsBlob = async (url) => {
     const response = await fetch(url);
     const blob = await response.blob();
@@ -105,7 +107,7 @@ export const TimeAndDateProvider = ({ children }) => {
         scroll,
         backgroundColor,
         backgroudGrandient,
-        setImageUrl
+        setImageUrl,
       }}
     >
       {children}

@@ -13,17 +13,20 @@ const CartItemsArtis = ({ artist, redirectPage }) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {/* Contenedor de la imagen del artista */}
       <div
         className="contImg contImgArtis adaptable-background"
         style={{
           backgroundImage: `url(${artist.images[0]?.url || "URL_POR_DEFECTO"})`,
         }}
       >
+        {/* Ícono de reproducción cuando el mouse está sobre la imagen */}
         <div className={`play-music ${hovered ? "on" : "off"}`}>
           <BiPlay />
         </div>
       </div>
 
+      {/* Contenedor de texto del artista */}
       <div className="ContImgText">
         <h1>{textLimit("albums", artist.name)}</h1>
         <h1>Artist</h1>

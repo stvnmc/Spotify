@@ -29,14 +29,15 @@ const CartItemsTrack = ({
 
   const [hovered, setHovered] = useState(false);
 
-  const [heart, setHiaHeart] = useState(false);
+  const [heart, setHeart] = useState(false);
 
   useEffect(() => {
-    const equal = tracksUserLibrary.tracksIds.some(
+    // Verifica si la pista está en la biblioteca del usuario
+    const isTrackInLibrary = tracksUserLibrary.tracksIds.some(
       (elemento) => elemento.id === track.id
     );
 
-    setHiaHeart(equal);
+    setHeart(isTrackInLibrary);
   }, [tracksUserLibrary]);
 
   const isTrackPlaying = track.id === idPlayState && isPlaying;
@@ -46,16 +47,13 @@ const CartItemsTrack = ({
       return isTrackPlaying ? (
         <CgPlayPause onClick={() => playAlbum("albums", "pause")} />
       ) : (
-        <BiPlay
-          name="tu-icono"
-          onClick={() => saveIdList("albums", track.id)}
-        />
+        <BiPlay onClick={() => saveIdList("albums", track.id)} />
       );
     } else if (track.id === idPlayState) {
-      return !isTrackPlaying ? "" : <BarsPlaySong />;
+      return isTrackPlaying ? <BarsPlaySong /> : null;
     }
 
-    return;
+    return null;
   };
 
   return (
@@ -92,6 +90,7 @@ const CartItemsTrack = ({
 
       <div className="track-right">
         <div className="track-icons">
+          {/* Ícono del corazón para agregar o quitar de la biblioteca */}
           {heart ? (
             <FaHeart
               className="save"
@@ -99,14 +98,13 @@ const CartItemsTrack = ({
             />
           ) : hovered ? (
             <LiaHeart onClick={() => saveUserLibrary(track.id, "song")} />
-          ) : (
-            ""
-          )}
+          ) : null}
         </div>
         <div className="trackNumTime">
+          {/* Número de disco y duración de la pista */}
           {track.disc_number}:{String(track.duration_ms).slice(0, 2)}
         </div>
-        <div className="track-icons">{hovered ? <RiMoreLine /> : ""}</div>
+        <div className="track-icons">{hovered ? <RiMoreLine /> : null}</div>
       </div>
     </div>
   );

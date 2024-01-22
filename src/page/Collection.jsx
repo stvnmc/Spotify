@@ -7,9 +7,10 @@ import { HiOutlineClock } from "react-icons/hi";
 import { useSerLibrary } from "../context/UserLibraryContext";
 import SongCollection from "../components/songs/SongCollection";
 import { useSearch } from "../context/SearchContext";
-import Login from "./Login";
+
 import { usePlayMusic } from "../context/PlayMusicContext";
 import { useNavigate } from "react-router-dom";
+import Loading from "./Loading";
 
 const Collection = () => {
   const { tracksUserLibrary } = useSerLibrary();
@@ -81,7 +82,7 @@ const Collection = () => {
     );
   };
 
-  if (!loading) return <Login />;
+  if (loading) return <Loading />;
 
   return (
     <section>

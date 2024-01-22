@@ -3,6 +3,12 @@ import { AiOutlineInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { BsFacebook } from "react-icons/bs";
 
 const Footer = () => {
+  const enlaceInsta = "https://www.instagram.com/cuatrommc";
+
+  const abrirEnlace = () => {
+    window.open(enlaceInsta, "_blank");
+  };
+
   return (
     <section className="footer-section">
       <div className="footer-links">
@@ -34,7 +40,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="footer-column-icons">
-          <div>
+          <div onClick={abrirEnlace}>
             <AiOutlineInstagram />
           </div>
           <div>

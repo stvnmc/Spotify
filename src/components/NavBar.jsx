@@ -3,21 +3,24 @@ import { GoBell, GoChevronLeft, GoChevronRight } from "react-icons/go";
 import { BsPerson } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
+
 const NavBar = () => {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1); // Navegar hacia atrás
+    navigate(-1);
   };
 
   const goForward = () => {
-    navigate(1); // Navegar hacia adelante
+    navigate(1);
   };
 
-  const enlaceGithub = "https://github.com/stvnmc";
+  // Enlace al perfil de GitHub
+  const githubLink = "https://github.com/stvnmc";
 
-  const abrirEnlace = () => {
-    window.open(enlaceGithub, "_blank");
+  // Función para abrir el enlace de GitHub en una nueva pestaña
+  const openGithubLink = () => {
+    window.open(githubLink, "_blank");
   };
 
   return (
@@ -32,7 +35,7 @@ const NavBar = () => {
       </nav>
 
       <div className="app-bar">
-        <div className="iconsC" onClick={abrirEnlace}>
+        <div className="iconsC" onClick={openGithubLink}>
           <FaGithub />
         </div>
         <div className="iconsC">
