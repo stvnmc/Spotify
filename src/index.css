@@ -1127,6 +1127,15 @@ li {
 .info-login {
   margin-left: 29px;
 }
+.info-login span {
+  padding: 0px 8px;
+  background: #1fd662;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-left: 9px;
+  color: black;
+
+}
 
 .info-login h3 {
   margin: 6px 10px;

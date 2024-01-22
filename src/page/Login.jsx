@@ -6,6 +6,12 @@ const Login = () => {
   // Obtén la función de inicio de sesión desde el contexto de autenticación
   const { login } = useAuth();
 
+  const enlaceGit = "https://github.com/stvnmc/Spotify/tree/main";
+
+  const abrirEnlace = () => {
+    window.open(enlaceGit, "_blank");
+  };
+
   return (
     <div className="login-cont">
       <div className="logo-container">
@@ -20,11 +26,12 @@ const Login = () => {
           <div className="info-login">
             <p>Credenciales de Acceso:</p>
             <h3>Correo Electrónico: spotifyapiproyect@gmail.com</h3>
-            <h3>Contraseña: 12345678 </h3>
+            <h3>Contraseña: 123456789!@# </h3>
             <h3>
               Información Adicional: Si deseas obtener más información sobre el
-              uso de esta cuenta, te invitamos a leer más detalles en el
-              siguiente enlace.
+              uso de esta cuenta, te invitamos a leer más en la documentacion de
+              Git.
+              <span onClick={abrirEnlace}>Link</span>
             </h3>
           </div>
 
