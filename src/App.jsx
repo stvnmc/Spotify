@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Album from "./page/Album";
 import { useEffect, useState } from "react";
 import Collection from "./page/Collection";
+import Page404 from "./page/Page404";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -48,6 +49,7 @@ const App = () => {
                 <Route path="/search" element={<Finding />} />
                 <Route path="/album/:id" element={<Album />} />
                 <Route path="/collection" element={<Collection />} />
+                <Route path="/*" element={<Page404 />} />
               </Routes>
               <Footer />
             </main>
