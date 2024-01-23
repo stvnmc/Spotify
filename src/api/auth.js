@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const spotifyAuthUrl = "https://accounts.spotify.com/authorize";
-const clientId = "99294a112b704e1d834d96f6ff85d976";
-const clientSecret = "6f486941aca24d64921fc599bf9fe7d6";
+const clientId = import.meta.env.VITE_CLIENT_ID;
+const clientSecret = import.meta.env.VITE_CLIENT_SECRET;
 const redirectUri = "http://localhost:5173";
 const scope =
   "streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state";
