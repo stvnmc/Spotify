@@ -44,7 +44,7 @@ const App = () => {
               <NavBar />
               {/* Definición de rutas para la aplicación */}
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route path="/Spotify/" element={<HomePage />} />
                 <Route path="/artist/:id" element={<Artist />} />
                 <Route path="/search" element={<Finding />} />
                 <Route path="/album/:id" element={<Album />} />

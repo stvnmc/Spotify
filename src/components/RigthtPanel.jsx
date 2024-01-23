@@ -58,7 +58,7 @@ const RightPanel = () => {
   return (
     <header className="right-panel">
       <nav className="topNav">
-        <Link to="/">
+        <Link to="/Spotify/">
           <GoHome />
         </Link>
         <Link to="/search">
