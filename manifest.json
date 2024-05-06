@@ -1,13 +1,13 @@
 {
   "index.css": {
-    "file": "index-80b63e2d.css",
+    "file": "index-bdba1fb0.css",
     "src": "index.css"
   },
   "index.html": {
     "css": [
-      "index-80b63e2d.css"
+      "index-bdba1fb0.css"
     ],
-    "file": "index-4c7841ba.js",
+    "file": "index-3d3d4e18.js",
     "isEntry": true,
     "src": "index.html"
   }
