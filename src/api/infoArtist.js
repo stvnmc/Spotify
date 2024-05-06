@@ -22,7 +22,6 @@ export const getInfoSearch = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -44,7 +43,6 @@ export const getInfoTrack = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-   
     if (error.response.data.error?.message === "The access token expired") {
       lounge();
     }
@@ -53,6 +51,8 @@ export const getInfoTrack = async (accessToken, id) => {
 };
 
 export const getInfoAlbum = async (accessToken, id) => {
+  
+  console.log(accessToken, id);
   const config = {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -65,7 +65,6 @@ export const getInfoAlbum = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -107,7 +106,6 @@ export const getInfoArtist = async (accessToken, id) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error)
     if (error.response.data.error.message === "The access token expired") {
       lounge();
     }
@@ -126,7 +124,6 @@ export const getArtistsTopTracks = async (accessToken, id) => {
       `https://api.spotify.com/v1/artists/${id}/top-tracks?market=ES`,
       config
     );
-    // console.log(response.data.tracks);
     return response.data.tracks;
   } catch (error) {
     if (error.response.data.error.message === "The access token expired") {
@@ -148,7 +145,6 @@ export const getArtistsRelated = async (accessToken, id) => {
       `https://api.spotify.com/v1/artists/${id}/related-artists?limit=8`,
       config
     );
-    // console.log(response.data.artists.slice(0, 8));
     return response.data.artists.slice(0, 8);
   } catch (error) {
     if (error.response.data.error.message === "The access token expired") {

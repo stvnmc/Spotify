@@ -24,15 +24,9 @@ const Login = () => {
           <h1>Inicia sesión en Spotify</h1>
 
           <div className="info-login">
-            <p>Credenciales de Acceso:</p>
+            <p>Para acceder a este projecto nesecitas usar esta cuenta:</p>
             <h3>Correo Electrónico: spotifyapiproyect@gmail.com</h3>
             <h3>Contraseña: 123456789!@# </h3>
-            <h3>
-              Información Adicional: Si deseas obtener más información sobre el
-              uso de esta cuenta, te invitamos a leer más en la documentacion de
-              Git.
-              <span onClick={abrirEnlace}>Link</span>
-            </h3>
           </div>
 
           <div className="line"></div>
@@ -46,7 +40,8 @@ const Login = () => {
           <h3>¡Disfruta de SpotifyClon!</h3>
           <h3>
             Este sitio web está creado únicamente para practicar con el servicio
-            de API de Spotify.
+            de API de Spotify, mas informacion sobre el projecto
+            <span onClick={abrirEnlace}> Link</span>.
           </h3>
         </div>
       </div>

@@ -30,9 +30,7 @@ export const AuthProvider = ({ children }) => {
     if (!accessToken) {
       try {
         autenticate(storedCode);
-      } catch (error) {
-        console.error("Error during authentication:", error);
-      }
+      } catch (error) {}
     }
   }, []);
 

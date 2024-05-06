@@ -21,10 +21,15 @@ const HomePage = () => {
     "4N1fROq2oeyLGAlQ1C1j18",
   ]);
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    // Cargar información para la lista de la página principal al montar el componente
     addInfoListHome();
   }, []);
+
+  useEffect(() => {
+    console.log(listHome);
+  }, [listHome]);
 
   // Redirige a la página correspondiente (colección o página del sitio) según el sitio y la identificación proporcionados
   const redirectPage = async (site, id) => {
@@ -44,6 +49,7 @@ const HomePage = () => {
     );
 
     setListHome(updatedList);
+    setLoading(true);
   };
 
   return (
@@ -51,18 +57,21 @@ const HomePage = () => {
       <h1>¡Buenas tardes!</h1>
       <div className="HomeContent">
         {/* Renderiza los elementos de la lista de la página principal */}
-        {listHome.map((item, i) => (
-          <HomeRecommendation
-            item={item}
-            key={i}
-            playAlbum={playAlbum}
-            idPlayState={idPlayState}
-            saveIdList={saveIdList}
-            isPlaying={isPlaying}
-            playListState={playListState}
-            redirectPage={redirectPage}
-          />
-        ))}
+
+        {loading
+          ? listHome.map((item, i) => (
+              <HomeRecommendation
+                item={item}
+                key={i}
+                playAlbum={playAlbum}
+                idPlayState={idPlayState}
+                saveIdList={saveIdList}
+                isPlaying={isPlaying}
+                playListState={playListState}
+                redirectPage={redirectPage}
+              />
+            ))
+          : "cargando"}
       </div>
     </section>
   );

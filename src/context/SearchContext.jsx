@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import {
   getArtistsRelated,
   getArtistsTopTracks,
@@ -31,7 +31,6 @@ export const SearchProvider = ({ children }) => {
   const [tracks, setTracks] = useState([]);
   const [artistRelated, setArtistRelated] = useState([]);
 
-  // Estado para almacenar la información de un álbum específico
   const [infoAlbum, setInfoAlbum] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -40,6 +39,7 @@ export const SearchProvider = ({ children }) => {
 
   // Obtener el código de acceso de Spotify desde el almacenamiento local
   const spotyCode = localStorage.getItem("access_token");
+  // if (!spotyCode) lounge();
 
   // Función para realizar una búsqueda
   async function funcionSearch(value) {

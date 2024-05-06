@@ -28,6 +28,5 @@ export const autenticate = (spotyCode) => {
         localStorage.setItem("access_token", res.data.access_token);
       });
   } catch (err) {
-    console.log(err);
   }
 };
